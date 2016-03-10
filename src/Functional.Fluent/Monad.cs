@@ -94,6 +94,12 @@ namespace Functional.Fluent
             return o;
         }
 
+        public static Maybe<TInput> IsNull<TInput>(this Maybe<TInput> o, TInput defaultValue)
+        {
+            if (o == null || !o.HasValue) return new Maybe<TInput>(defaultValue);
+            return o;
+        }
+
         public static Maybe<TOutput> SelectOne<TInput, TOutput>(this Maybe<TInput> o, params Func<Maybe<TInput>, Maybe<TOutput>>[] selectors)
         {
             foreach (var selector in selectors)
@@ -168,6 +174,18 @@ namespace Functional.Fluent
         public static Maybe<T> ToMaybe<T>(this T value)
         {
             return new Maybe<T>(value);
+        }
+     
+        public static Maybe<T> ToMaybe<T>(this T value, T defaultValue)
+        {
+            var m = new Maybe<T>(value);
+            return m.IsNull(defaultValue);
+        }
+
+        public static Maybe<T> ToMaybe<T>(this T value, Func<T> defaultValue)
+        {
+            var m = new Maybe<T>(value);
+            return m.IsNull(defaultValue);
         }
 
         public static Maybe<IEnumerable<T>> ToMaybeNonEmpty<T>(this IEnumerable<T> value)
