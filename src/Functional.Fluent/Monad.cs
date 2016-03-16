@@ -229,6 +229,11 @@ namespace Functional.Fluent
         {
             return new MaybeEnumerable<T>(value);
         }
+
+        public static MaybeEnumerable<T> ToMaybe<T>(this IEnumerable<Maybe<T>> value)
+        {
+            return new MaybeEnumerable<T>(value);
+        }
      
         public static Maybe<T> ToMaybe<T>(this T value, T defaultValue)
         {

@@ -25,7 +25,7 @@ namespace Functional.Fluent
             Value = value.Select(v => new Maybe<T>(v));
             HasValue = value != null;
         }
-
+       
         public MaybeEnumerable(T value)
         {
             Value = new[] { new Maybe<T>(value) };
