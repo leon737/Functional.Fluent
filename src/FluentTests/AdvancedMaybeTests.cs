@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentTests
 {
     [TestClass]
-    public class AdvancedMaybeMonadTests
+    public class AdvancedMaybeTests
     {
 
         class TestFooClass
