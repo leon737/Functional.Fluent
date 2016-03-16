@@ -42,6 +42,9 @@
     <Compile Include="Matcher.cs" />
     <Compile Include="MatcherContext.cs" />
     <Compile Include="Maybe.cs" />
+    <Compile Include="MaybeEnumerable.cs" />
+    <Compile Include="MaybeEnumerableApplicator.cs" />
+    <Compile Include="MaybeEnumerableConditionalApplicator.cs" />
     <Compile Include="Monad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeMatcher.cs" />

@@ -3,9 +3,10 @@ namespace Functional.Fluent
     public class Maybe<T>
     {
         public readonly static Maybe<T> Nothing = new Maybe<T>();
-        public T Value { get; private set; }
-        public bool HasValue { get; private set; }
-        Maybe()
+        public virtual T Value { get; protected set; }
+        public bool HasValue { get; protected set; }
+
+        protected Maybe()
         {
             HasValue = false;
         }
@@ -24,5 +25,6 @@ namespace Functional.Fluent
         {
             return v.Value;
         }
+       
     }
 }

@@ -50,9 +50,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="MaybeMonadTests.cs" />
+    <Compile Include="AdvancedMaybeMonadTests.cs" />
     <Compile Include="PatternMatchingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MaybeEnumerableTests.cs" />
+    <Compile Include="BasicMaybeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Functional.Fluent\Functional.Fluent.csproj">

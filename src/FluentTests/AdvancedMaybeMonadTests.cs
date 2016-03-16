@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Functional.Fluent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentTests
 {
     [TestClass]
-    public class MaybeMonadTests
+    public class AdvancedMaybeMonadTests
     {
 
         class TestFooClass
@@ -86,6 +87,28 @@ namespace FluentTests
                 from x in v.sValue
                 select x.Length;
             Assert.AreEqual(Maybe<int>.Nothing, r, "root object is null");
+        }
+
+        [TestMethod]
+        public void TestIteratingOverMaybeCollection()
+        {
+            var i = Enumerable.Range(1, 10);
+            var m = i.ToMaybe();
+            foreach (var e in m)
+            {
+                Assert.IsTrue(e > 0);
+            }
+        }
+
+        [TestMethod]
+        public void TestIteratingOverMaybeCollectionWithFilter()
+        {
+            var i = Enumerable.Range(1, 10);
+            var m = i.ToMaybe();
+            foreach (var e in m.Where(x => x % 2 == 0))
+            {
+                Assert.IsTrue(e % 2 == 0);
+            }
         }
         
     }
