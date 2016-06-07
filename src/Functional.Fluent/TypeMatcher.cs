@@ -7,11 +7,16 @@ namespace Functional.Fluent
 {
     public class TypeMatcher<TU> : IEnumerable<TU>
     {
-        private readonly List<Tuple<Expression, Expression>> list = new List<Tuple<Expression, Expression>>();
+        private readonly List<Tuple<Expression, Expression, Expression>> list = new List<Tuple<Expression, Expression, Expression>>();
 
         public void Add<TZ>(Expression<Func<object, TZ>> predicate, Expression<Func<TZ, TU>> func)
         {
-            list.Add(Tuple.Create((Expression)predicate, (Expression)func));
+            list.Add(Tuple.Create((Expression)predicate, (Expression)null, (Expression)func));
+        }
+
+        public void Add<TZ>(Expression<Func<object, TZ>> predicate, Expression<Func<TZ, bool>> whenPredicate, Expression<Func<TZ, TU>> func)
+        {
+            list.Add(Tuple.Create((Expression)predicate, (Expression)whenPredicate, (Expression)func));
         }
 
         public TU Match(object value)
@@ -22,9 +27,20 @@ namespace Functional.Fluent
                 var type = predicate.ReturnType;
                 if (type.IsInstanceOfType(value))
                 {
-                    var expression = item.Item2 as LambdaExpression;
-                    var func = expression.Compile();
-                    return (TU) func.DynamicInvoke(value);
+                    bool matched = false;
+                    if (item.Item2 != null)
+                    {
+                        var whenPredicate = item.Item2 as LambdaExpression;
+                        var func = whenPredicate.Compile();
+                        matched = (bool)func.DynamicInvoke(value);
+                    }
+                    else matched = true;
+                    if (matched)
+                    {
+                        var expression = item.Item3 as LambdaExpression;
+                        var func = expression.Compile();
+                        return (TU)func.DynamicInvoke(value);
+                    }
                 }
             }
 
@@ -65,6 +81,12 @@ namespace Functional.Fluent
         public MaybeTypeMatcher<TV, TU> With<TZ>(Expression<Func<object, TZ>> predicate, Expression<Func<TZ, TU>> func)
         {
             Add(predicate, func);
+            return this;
+        }
+
+        public MaybeTypeMatcher<TV, TU> With<TZ>(Expression<Func<object, TZ>> predicate, Expression<Func<TZ, bool>> whenPredicate, Expression<Func<TZ, TU>> func)
+        {
+            Add(predicate, whenPredicate, func);
             return this;
         }
 

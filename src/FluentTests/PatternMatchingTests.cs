@@ -137,7 +137,7 @@ namespace FluentTests
             var test2 = ((object)new StringBuilder("StringBuilder")).ToMaybe().Match(m);
             Assert.AreEqual("StringBuilder", test2.Value);
         }
-
+              
         [TestMethod]
         public void TestMaybeFluentSyntax()
         {
@@ -171,6 +171,18 @@ namespace FluentTests
                 .Else(_ => "that's an object").Do();
 
             Assert.AreEqual("string", test1);
+        }
+
+        [TestMethod]
+        public void TestTypeMatchingMaybeFluentSyntaxWithAdditionalPredicate()
+        {
+            var test1 = ((object)"the long string").ToMaybe().TypeMatch()
+                .With(Case.Is<string>(), s => s.Length > 10, s => s + "!")
+                .With(Case.Is<string>(), s => s)
+                .With(Case.Is<StringBuilder>(), s => s.ToString())
+                .Else(_ => "that's an object").Do();
+
+            Assert.AreEqual("the long string!", test1);
         }
     }
 }

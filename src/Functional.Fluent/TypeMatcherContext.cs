@@ -12,9 +12,15 @@ namespace Functional.Fluent
         {
             this.contextValue = contextValue;
         }
+
         public MaybeTypeMatcher<TV, TU> With<TU, TZ>(Expression<Func<object, TZ>> predicate, Expression<Func<TZ, TU>> func)
         {
             return new MaybeTypeMatcher<TV, TU> (contextValue) { { predicate, func } };
+        }
+
+        public MaybeTypeMatcher<TV, TU> With<TU, TZ>(Expression<Func<object, TZ>> predicate, Expression<Func<TZ, bool>> whenPredicate, Expression<Func<TZ, TU>> func)
+        {
+            return new MaybeTypeMatcher<TV, TU>(contextValue) { { predicate, whenPredicate, func } };
         }
     }
 }
