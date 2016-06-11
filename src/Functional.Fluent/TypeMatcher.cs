@@ -9,6 +9,8 @@ namespace Functional.Fluent
     {
         private readonly List<Tuple<Expression, Expression, Expression>> list = new List<Tuple<Expression, Expression, Expression>>();
 
+        protected Expression elseExpression = null;
+
         public void Add<TZ>(Expression<Func<object, TZ>> predicate, Expression<Func<TZ, TU>> func)
         {
             list.Add(Tuple.Create((Expression)predicate, (Expression)null, (Expression)func));
@@ -42,6 +44,13 @@ namespace Functional.Fluent
                         return (TU)func.DynamicInvoke(value);
                     }
                 }
+            }
+
+            if (elseExpression != null)
+            {
+                var expression = elseExpression as LambdaExpression;
+                var func = expression.Compile();
+                return (TU)func.DynamicInvoke(value);
             }
 
             return default(TU);
@@ -90,9 +99,10 @@ namespace Functional.Fluent
             return this;
         }
 
-        public MaybeTypeMatcher<TV, TU> Else(Expression<Func<object, TU>> func)
+        public MaybeTypeMatcher<TV, TU> Else(Expression<Func<TV, TU>> func)
         {
-            Add(Case.Is<object>(), func);
+            //Add(Case.Is<object>(), func);
+            elseExpression = (Expression)func;
             return this;
         }
 
