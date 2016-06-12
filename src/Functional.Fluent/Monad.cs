@@ -263,6 +263,27 @@ namespace Functional.Fluent
             return new MatcherContext<TV>(v);
         }
 
+        public static ListMatcherContext<TV> Match<TV>(this Maybe<IEnumerable<TV>> v)          
+        {
+            return new ListMatcherContext<TV>(v);
+        }
+
+        public static ListMatcherContext<TV> Match<TV>(this Maybe<List<TV>> v)
+        {
+            return new ListMatcherContext<TV>(v.With(x => x as IEnumerable<TV>));
+        }
+
+        public static ListMatcherContext<TV> Match<TV>(this Maybe<TV[]> v)
+        {
+            return new ListMatcherContext<TV>(v.With(x => x as IEnumerable<TV>));
+        }
+
+
+        public static ListMatcherContext<TV> Match<TV>(this MaybeEnumerable<TV> v)
+        {
+            return new ListMatcherContext<TV>(v.Value.Select(x => x.Value).ToMaybeNonEmpty());
+        }
+
         public static TypeMatcherContext<TV> TypeMatch<TV>(this Maybe<TV> v)
         {
             return new TypeMatcherContext<TV>(v);

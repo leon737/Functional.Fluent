@@ -1,6 +1,9 @@
 ﻿using System.Text;
 using Functional.Fluent;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace FluentTests
 {
@@ -184,5 +187,67 @@ namespace FluentTests
 
             Assert.AreEqual("the long string!", test1);
         }
+
+        [TestMethod]
+        public void TestMatchList()
+        {
+            var list = new [] { "good morning", "good afternoon", "good evening" };
+            var result = list.ToMaybe().Match()
+                .With((h, t) => Tuple.Create(h.ToUpper(), t))
+                .Do();
+            Assert.AreEqual("GOOD MORNING", result.Item1);
+            Assert.AreEqual(2, result.Item2.Count());
+        }
+
+        [TestMethod]
+        public void TestMatchEmptyList()
+        {
+            var list = new List<string>();
+            var result = list.ToMaybe().Match()
+                .With((h, t) => h.ToUpper())
+                .Empty(() => "List is empty")
+                .Do();
+            Assert.AreEqual("List is empty", result);
+        }
+
+        private int factorial(int n) => n.ToMaybe().Match()
+            .With(0, 1, _ => 1)
+            .Else(v => v* factorial(v - 1))
+            .Do();
+
+        [TestMethod]
+        public void TestCalculateFactorial()
+        {
+            int result = factorial(5);
+            Assert.AreEqual(120, result);
+        }
+
+        private int sum(IEnumerable<int> value) => value.ToMaybe().Match()
+            .With((head, tail) => head + sum(tail))
+            .Empty(() => 0)
+            .Do();
+
+        [TestMethod]
+        public void TestCalculateSumInList()
+        {
+            var list = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var result = sum(list);
+            Assert.AreEqual(list.Sum(), result);          
+        }
+
+        private int sum_even(IEnumerable<int> value) => value.ToMaybe().Match()
+           .With(v => v % 2 == 0, (head, tail) => head + sum_even(tail))
+           .With((_, tail) => sum_even(tail))
+           .Empty(() => 0)
+           .Do();
+
+        [TestMethod]
+        public void TestCalculateSumEvensInList()
+        {
+            var list = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var result = sum_even(list);
+            Assert.AreEqual(list.Where(x => x % 2 == 0).Sum(), result);
+        }
+
     }
 }

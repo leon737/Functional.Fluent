@@ -6,9 +6,9 @@ namespace Functional.Fluent
 {
     public class Matcher<TV, TU> : IEnumerable<TU>
     {
-        private readonly List<Tuple<Predicate<TV>, Func<TV, TU>>>  list = new List<Tuple<Predicate<TV>, Func<TV, TU>>>();
+        protected readonly List<Tuple<Predicate<TV>, Func<TV, TU>>>  list = new List<Tuple<Predicate<TV>, Func<TV, TU>>>();
 
-        private Maybe<TV> contextValue;
+        protected Maybe<TV> contextValue;
 
         public Matcher()
         {
@@ -94,7 +94,7 @@ namespace Functional.Fluent
             return Match(contextValue.Value);
         }
 
-        public TU Match(TV value)
+        public virtual TU Match(TV value)
         {
             foreach (var item in list)
             {

@@ -5,8 +5,7 @@ namespace Functional.Fluent
 {
     public class MatcherContext<TV>
     {
-
-        private Maybe<TV> contextValue;
+        protected Maybe<TV> contextValue;
 
         public MatcherContext(Maybe<TV> contextValue )
         {
@@ -47,6 +46,5 @@ namespace Functional.Fluent
         {
             return new Matcher<TV, TU>(contextValue) { { values, func } };
         }
-
     }
 }

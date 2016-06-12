@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ListMatcher.cs" />
+    <Compile Include="ListMatcherContext.cs" />
     <Compile Include="Matcher.cs" />
     <Compile Include="MatcherContext.cs" />
     <Compile Include="Maybe.cs" />
