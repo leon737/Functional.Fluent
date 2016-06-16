@@ -49,6 +49,8 @@
     <Compile Include="MaybeEnumerableConditionalApplicator.cs" />
     <Compile Include="Monad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="ResultExtensions.cs" />
     <Compile Include="TypeMatcher.cs" />
     <Compile Include="TypeMatcherContext.cs" />
     <Compile Include="XMaybe.cs" />
