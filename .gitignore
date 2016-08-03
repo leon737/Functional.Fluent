@@ -13,6 +13,8 @@ TestResults
 *.user
 *.sln.docstates
 
+*.exe
+
 *.pubxml
 
 # Build results
