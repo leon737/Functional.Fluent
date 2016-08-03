@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Disposable.cs" />
     <Compile Include="ListMatcher.cs" />
     <Compile Include="ListMatcherContext.cs" />
     <Compile Include="Matcher.cs" />
