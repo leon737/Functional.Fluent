@@ -10,6 +10,7 @@
     <copyright>Copyright 2016 Leonid Gordo</copyright>  
 	<licenseUrl>http://www.gnu.org/copyleft/lesser.html</licenseUrl>
 	<tags>fluent functional monad maybe pattern matching</tags>
+	<projectUrl>https://github.com/leon737/Functional.Fluent/wiki</projectUrl>
   </metadata>
   <files>
 	<file src="lib/Functional.Fluent.dll" target="lib"/>

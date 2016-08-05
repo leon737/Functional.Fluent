@@ -1,6 +1,6 @@
 # Functional.Fluent
 
-Funtional.Fluent is a set of extension methods and classes to provide 
+Functional.Fluent is a set of extension methods and classes to provide 
 a more flexible and convinient way to write functional style code in C# apps.
 
 The library supports the following:
