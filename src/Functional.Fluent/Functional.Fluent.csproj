@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Disposable.cs" />
+    <Compile Include="Funcs.cs" />
+    <Compile Include="FuncState.cs" />
     <Compile Include="ListMatcher.cs" />
     <Compile Include="ListMatcherContext.cs" />
     <Compile Include="Matcher.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="ResultExtensions.cs" />
     <Compile Include="TypeMatcher.cs" />
     <Compile Include="TypeMatcherContext.cs" />
+    <Compile Include="Void.cs" />
     <Compile Include="XMaybe.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

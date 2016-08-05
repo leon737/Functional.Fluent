@@ -70,6 +70,7 @@
     <Compile Include="MaybeEnumerableTests.cs" />
     <Compile Include="BasicMaybeTests.cs" />
     <Compile Include="ResultTests.cs" />
+    <Compile Include="FuncsConstructorTests.cs" />
     <Compile Include="XMaybeTests.cs" />
   </ItemGroup>
   <ItemGroup>
