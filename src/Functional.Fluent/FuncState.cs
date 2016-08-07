@@ -6,6 +6,8 @@ namespace Functional.Fluent
     {
         public T Invoke(Func<T> func) => func();
 
+        public T Invoke(Action action)  { action(); return default(T);}
+
         public virtual T New<V>() where V : T => NewCore<V>();
 
         protected T NewCore<V>(params object[] parameters) where V : T => (T)Activator.CreateInstance(typeof(V), parameters);
@@ -22,6 +24,8 @@ namespace Functional.Fluent
 
         public T Invoke(Func<T1, T> func) => func(P1);
 
+        public T Invoke(Action<T1> action) { action(P1); return default(T); }
+
         public override T New<V>() => NewCore<V>(P1);
     }
 
@@ -35,6 +39,8 @@ namespace Functional.Fluent
         }
 
         public T Invoke(Func<T1, T2, T> func) => func(P1, P2);
+
+        public T Invoke(Action<T1, T2> action) { action(P1, P2); return default(T); }
 
         public override T New<V>()=> NewCore<V>(P1, P2);
     }
@@ -50,6 +56,8 @@ namespace Functional.Fluent
 
         public T Invoke(Func<T1, T2, T3, T> func) => func(P1, P2, P3);
 
+        public T Invoke(Action<T1, T2, T3> action) { action(P1, P2, P3); return default(T); }
+
         public override T New<V>() => NewCore<V>(P1, P2, P3);
     }
 
@@ -64,6 +72,8 @@ namespace Functional.Fluent
 
         public T Invoke(Func<T1, T2, T3, T4, T> func) => func(P1, P2, P3, P4);
 
+        public T Invoke(Action<T1, T2, T3, T4> action) { action(P1, P2, P3, P4); return default(T); }
+
         public override T New<V>() => NewCore<V>(P1, P2, P3, P4);
     }
 
@@ -77,6 +87,8 @@ namespace Functional.Fluent
         }
 
         public T Invoke(Func<T1, T2, T3, T4, T5, T> func) => func(P1, P2, P3, P4, P5);
+
+        public T Invoke(Action<T1, T2, T3, T4, T5> action) { action(P1, P2, P3, P4, P5); return default(T); }
 
         public override T New<V>() => NewCore<V>(P1, P2, P3, P4, P5);
     }
