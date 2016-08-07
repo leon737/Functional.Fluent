@@ -108,6 +108,17 @@ namespace FluentTests
             Assert.AreEqual("fox can run", s.Value);
         }
 
+        [TestMethod]
+        public void TestFluentSyntax3()
+        {
+            var s = "fox".ToMaybe().Match()
+                .With(x => x == "bird", x => x + " can fly")
+                .With(x => x == "fox", x => x + " can run")
+                .Else(x => x + " can do something else").Do();
+
+            Assert.AreEqual("fox can run", s);
+        }
+
 
         [TestMethod]
         public void TestTypeMatching()
