@@ -1,0 +1,65 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+
+<#+
+
+    public string ListTypes(int c)
+    {
+        StringBuilder sb = new StringBuilder();
+		for (int i = 0; i <= c; ++i)
+        {
+            if (i > 0)
+                sb.Append(", ");
+			sb.Append($"T{i+1}");
+        }
+        return sb.ToString();
+    }
+
+	public string ListParameters(int c)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i <= c; ++i)
+        {
+            if (i > 0)
+                sb.Append(", ");
+			sb.Append($"T{i+1} p{i+1}");
+        }
+        return sb.ToString();
+    }
+
+	public string ListArguments(int c)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i <= c; ++i)
+        {
+            if (i > 0)
+                sb.Append(", ");
+			sb.Append($"p{i+1}");
+        }
+        return sb.ToString();
+    }
+
+    public string ListIndentingFuncs(int c)
+    {
+        string result = "";
+        for (int i = c + 1; i > 0; --i)
+        {
+            if (c == i -1) result = $"T{i}";
+            else
+            {
+                result = $"Func<T{i}, {result}>";
+            }
+        }
+		return result;
+	}
+
+    public string ListLetters(int c, string sep)
+    {
+        return String.Join(sep, Enumerable.Range(1, c).Select(v => (char)(v + 96)));
+    }
+
+
+#>

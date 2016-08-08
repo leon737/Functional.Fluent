@@ -175,46 +175,6 @@ namespace Functional.Fluent
             return x => f(g(x));
         }
 
-        public static Func<T1, Func<T2, T3>> Curry<T1, T2, T3>(this Func<T1, T2, T3> f)
-        {
-            return a => b => f(a, b);
-        }
-
-        public static Func<T1, Func<T2, Func<T3, T4>>> Curry<T1, T2, T3, T4>(this Func<T1, T2, T3, T4> f)
-        {
-            return a => b => c => f(a, b, c);
-        }
-
-        public static Func<T1, Func<T2, Func<T3, Func<T4, T5>>>> Curry<T1, T2, T3, T4, T5>(this Func<T1, T2, T3, T4, T5> f)
-        {
-            return a => b => c => d => f(a, b, c, d);
-        }
-
-        public static Func<T1> ToFunc<T1>(Func<T1> f)
-        {
-            return f;
-        }
-
-        public static Func<T1, T2> ToFunc<T1, T2>(Func<T1, T2> f)
-        {
-            return f;
-        }
-
-        public static Func<T1, T2, T3> ToFunc<T1, T2, T3>(Func<T1, T2, T3> f)
-        {
-            return f;
-        }
-
-        public static Func<T1, T2, T3, T4> ToFunc<T1, T2, T3, T4>(Func<T1, T2, T3, T4> f)
-        {
-            return f;
-        }
-
-        public static Func<T1, T2, T3, T4, T5> ToFunc<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5> f)
-        {
-            return f;
-        }
-
         public static Maybe<T> ToMaybe<T>(this Maybe<T> value)
         {
             return value;
