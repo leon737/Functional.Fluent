@@ -6,12 +6,12 @@
 
 <#+
 
-    public string ListTypes(int c)
+    public string ListTypes(int c, int skip = 0)
     {
         StringBuilder sb = new StringBuilder();
-		for (int i = 0; i <= c; ++i)
+		for (int i = skip; i <= c; ++i)
         {
-            if (i > 0)
+            if (i > skip)
                 sb.Append(", ");
 			sb.Append($"T{i+1}");
         }
@@ -56,9 +56,24 @@
 		return result;
 	}
 
+	public string ListIndentingFuncsRev(int c)
+    {
+        string result = $"T{c+1}";
+        for (int i = 1; i < c + 1; ++i)
+        {
+			result = $"Func<T{i}, {result}>";
+        }
+		return result;
+	}
+
     public string ListLetters(int c, string sep)
     {
         return String.Join(sep, Enumerable.Range(1, c).Select(v => (char)(v + 96)));
+    }
+
+	public string ListLettersRev(int c, string sep)
+    {
+        return String.Join(sep, Enumerable.Range(1, c).Reverse().Select(v => (char)(v + 96)));
     }
 
 
