@@ -260,12 +260,5 @@ namespace Functional.Fluent
             if (v == null || !v.HasValue) return Maybe<TU>.Nothing;
             return matcher.Match(v.Value).ToMaybe();
         }
-
-        public static Func<T2, Func<T1, T3>> RCurry<T1, T2, T3>(this Func<T1, T2, T3> z) => b => a => z(a, b);
-
-        public static Func<T2, T3> Partial<T1, T2, T3>(this Func<T1, T2, T3> z, T1 p) => (a) => z(p, a);
-
-        public static Func<T1, T3> RPartial<T1, T2, T3>(this Func<T1, T2, T3> z, T2 p) => (a) => z(a, p);
-
     }
 }
