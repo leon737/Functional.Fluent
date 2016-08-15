@@ -217,9 +217,5 @@ namespace Functional.Fluent
         {
             return new ListMatcherContext<TV>(v.Value.Select(x => x.Value).ToMaybeNonEmpty());
         }        
-
-        public static Func<T2> Partial<T1, T2>(this Func<T1, T2> z, T1 p) => () => z(p);
-
-        public static Func<T2> RPartial<T1, T2>(this Func<T1, T2> z, T1 p) => () => z(p);
     }
 }
