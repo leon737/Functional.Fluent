@@ -7,6 +7,8 @@ namespace Functional.Fluent
     public static class MonadicValueExtensions
     {
 
+        public static MonadicValue<TResult> Bind<TInput, TResult>(this MonadicValue<TInput> o, Func<TInput, MonadicValue<TResult>> f) => f(o.Value);
+
         public static MonadicValue<TResult> With<TInput, TResult>(this MonadicValue<TInput> o, Func<TInput, TResult> evaluator)
             => new MonadicValue<TResult>(evaluator(o.Value));
         
