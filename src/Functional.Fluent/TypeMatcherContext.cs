@@ -6,9 +6,9 @@ namespace Functional.Fluent
     public class TypeMatcherContext<TV>
     {
 
-        private Maybe<TV> contextValue;
+        private MonadicValue<TV> contextValue;
 
-        public TypeMatcherContext(Maybe<TV> contextValue)
+        public TypeMatcherContext(MonadicValue<TV> contextValue)
         {
             this.contextValue = contextValue;
         }

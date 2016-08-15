@@ -5,7 +5,7 @@ namespace Functional.Fluent
 {
     public class ListMatcherContext<TV> : MatcherContext<IEnumerable<TV>>
     {
-        public ListMatcherContext(Maybe<IEnumerable<TV>> contextValue) : base(contextValue) { }
+        public ListMatcherContext(MonadicValue<IEnumerable<TV>> contextValue) : base(contextValue) { }
 
         public ListMatcher<TV, TU> With<TU>(Func<TV, IEnumerable<TV>, TU> func)
         {

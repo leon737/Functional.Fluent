@@ -51,6 +51,7 @@
     <Compile Include="ListMatcherContext.cs" />
     <Compile Include="Matcher.cs" />
     <Compile Include="MatcherContext.cs" />
+    <Compile Include="MonadicValue.cs" />
     <Compile Include="Maybe.cs" />
     <Compile Include="MaybeEnumerable.cs" />
     <Compile Include="MaybeEnumerableApplicator.cs" />
@@ -65,7 +66,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Monad.cs" />
+    <Compile Include="MonadicValueExtensions.cs" />
+    <Compile Include="MaybeMonadExtensions.cs" />
     <Compile Include="Monad1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

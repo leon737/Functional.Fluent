@@ -8,14 +8,14 @@ namespace Functional.Fluent
     {
         protected readonly List<Tuple<Predicate<TV>, Func<TV, TU>>>  list = new List<Tuple<Predicate<TV>, Func<TV, TU>>>();
 
-        protected Maybe<TV> contextValue;
+        protected MonadicValue<TV> contextValue;
 
         public Matcher()
         {
             contextValue = null;
         }
 
-        public Matcher(Maybe<TV> contextValue )
+        public Matcher(MonadicValue<TV> contextValue )
         {
             this.contextValue = contextValue;
         }

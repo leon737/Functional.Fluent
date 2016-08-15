@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Functional.Fluent
 {
-    public static class Monad
+    public static class MaybeMonadExtensions
     {
 
         public static Maybe<TResult> Select<T, TResult>(this Maybe<T> o, Func<T, TResult> evaluator)
@@ -169,12 +169,7 @@ namespace Functional.Fluent
         {
             return !v.HasValue ? Enumerable.Empty<Maybe<T>>() : v.Value;
         }
-
-        public static Func<T, V> Compose<T, U, V>(this Func<U, V> f, Func<T, U> g)
-        {
-            return x => f(g(x));
-        }
-
+        
         public static Maybe<T> ToMaybe<T>(this Maybe<T> value)
         {
             return value;
@@ -217,49 +212,11 @@ namespace Functional.Fluent
         {
             return mapFunc(v).ToMaybe();
         }
-
-        public static MatcherContext<TV> Match<TV>(this Maybe<TV> v)
-        {
-            return new MatcherContext<TV>(v);
-        }
-
-        public static ListMatcherContext<TV> Match<TV>(this Maybe<IEnumerable<TV>> v)          
-        {
-            return new ListMatcherContext<TV>(v);
-        }
-
-        public static ListMatcherContext<TV> Match<TV>(this Maybe<List<TV>> v)
-        {
-            return new ListMatcherContext<TV>(v.With(x => x as IEnumerable<TV>));
-        }
-
-        public static ListMatcherContext<TV> Match<TV>(this Maybe<TV[]> v)
-        {
-            return new ListMatcherContext<TV>(v.With(x => x as IEnumerable<TV>));
-        }
-
-
+        
         public static ListMatcherContext<TV> Match<TV>(this MaybeEnumerable<TV> v)
         {
             return new ListMatcherContext<TV>(v.Value.Select(x => x.Value).ToMaybeNonEmpty());
-        }
-
-        public static TypeMatcherContext<TV> TypeMatch<TV>(this Maybe<TV> v)
-        {
-            return new TypeMatcherContext<TV>(v);
-        }
-
-        public static Maybe<TU> Match<TV, TU>(this Maybe<TV> v, Matcher<TV, TU> matcher)
-        {
-            if (v == null || !v.HasValue) return Maybe<TU>.Nothing;
-            return matcher.Match(v.Value).ToMaybe();
-        }
-
-        public static Maybe<TU> Match<TV, TU>(this Maybe<TV> v, TypeMatcher<TU> matcher)
-        {
-            if (v == null || !v.HasValue) return Maybe<TU>.Nothing;
-            return matcher.Match(v.Value).ToMaybe();
-        }
+        }        
 
         public static Func<T2> Partial<T1, T2>(this Func<T1, T2> z, T1 p) => () => z(p);
 

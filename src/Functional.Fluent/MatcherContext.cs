@@ -5,9 +5,9 @@ namespace Functional.Fluent
 {
     public class MatcherContext<TV>
     {
-        protected Maybe<TV> contextValue;
+        protected MonadicValue<TV> contextValue;
 
-        public MatcherContext(Maybe<TV> contextValue )
+        public MatcherContext(MonadicValue<TV> contextValue )
         {
             this.contextValue = contextValue;
         }

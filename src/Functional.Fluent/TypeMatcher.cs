@@ -80,9 +80,9 @@ namespace Functional.Fluent
 
     public class MaybeTypeMatcher<TV, TU> : TypeMatcher<TU>
     {
-        private Maybe<TV> contextValue;
+        private MonadicValue<TV> contextValue;
 
-        public MaybeTypeMatcher(Maybe<TV> contextValue )
+        public MaybeTypeMatcher(MonadicValue<TV> contextValue )
         {
             this.contextValue = contextValue;
         }

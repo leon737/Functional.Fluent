@@ -8,7 +8,7 @@ namespace Functional.Fluent
     {
         public ListMatcher() : base() { }
 
-        public ListMatcher(Maybe<IEnumerable<TV>> contextValue) : base(contextValue) {  }
+        public ListMatcher(MonadicValue<IEnumerable<TV>> contextValue) : base(contextValue) {  }
 
         public void Add(Func<TV, IEnumerable<TV>, TU> func)
         {
