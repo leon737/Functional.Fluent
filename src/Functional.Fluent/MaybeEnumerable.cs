@@ -6,8 +6,7 @@ namespace Functional.Fluent
 {
     public class MaybeEnumerable<T> : Maybe<IEnumerable<Maybe<T>>>, IEnumerable<Maybe<T>>
     {
-
-        public readonly static MaybeEnumerable<T> Empty = new MaybeEnumerable<T>();
+        public static readonly MaybeEnumerable<T> Empty = new MaybeEnumerable<T>();
 
         internal MaybeEnumerable()
         {
@@ -16,19 +15,19 @@ namespace Functional.Fluent
 
         public MaybeEnumerable(IEnumerable<Maybe<T>> value)
         {
-            Value = value;
+            WrappedValue = value;
             HasValue = value != null;
         }
 
         public MaybeEnumerable(IEnumerable<T> value)
         {
-            Value = value.Select(v => new Maybe<T>(v));
+            WrappedValue = value.Select(v => new Maybe<T>(v));
             HasValue = value != null;
         }
        
         public MaybeEnumerable(T value)
         {
-            Value = new[] { new Maybe<T>(value) };
+            WrappedValue = new[] { new Maybe<T>(value) };
             HasValue = value != null;
         }
 

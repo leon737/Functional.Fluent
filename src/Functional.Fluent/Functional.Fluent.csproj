@@ -47,6 +47,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="FuncState.cs" />
+    <Compile Include="IResult.cs" />
     <Compile Include="ListMatcher.cs" />
     <Compile Include="ListMatcherContext.cs" />
     <Compile Include="Matcher.cs" />

@@ -2,16 +2,15 @@ namespace Functional.Fluent
 {
     public class MonadicValue<T>
     {
-        public virtual T Value { get; protected set; }
+        protected T WrappedValue;
 
-        protected MonadicValue()
-        {
+        public virtual T Value => WrappedValue;
 
-        }
+        protected MonadicValue() { }
         
         public MonadicValue(T value)
         {
-            Value = value;
+            WrappedValue = value;
         }
 
         public static implicit operator MonadicValue<T>(T v) => new MonadicValue<T>(v);

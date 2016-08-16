@@ -2,7 +2,7 @@ namespace Functional.Fluent
 {
     public class Maybe<T> : MonadicValue<T>
     {
-        public readonly static Maybe<T> Nothing = new Maybe<T>();
+        public static readonly Maybe<T> Nothing = new Maybe<T>();
         public bool HasValue { get; protected set; }
 
         protected Maybe()
@@ -12,7 +12,7 @@ namespace Functional.Fluent
 
         public Maybe(T value)
         {
-            Value = value;
+            WrappedValue = value;
             HasValue = value != null;
         }
 

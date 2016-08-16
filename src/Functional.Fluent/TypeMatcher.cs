@@ -57,30 +57,21 @@ namespace Functional.Fluent
         }
 
 
-        public static implicit operator Func<object, TU>(TypeMatcher<TU> matcher)
-        {
-            return matcher.Match;
-        }
+        public static implicit operator Func<object, TU>(TypeMatcher<TU> matcher) => matcher.Match;
 
-        public Func<object, TU> ToFunc()
-        {
-            return Match;
-        }
+        public Func<object, TU> ToFunc() => Match;
 
         public IEnumerator<TU> GetEnumerator()
         {
             throw new InvalidOperationException();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     public class MaybeTypeMatcher<TV, TU> : TypeMatcher<TU>
     {
-        private MonadicValue<TV> contextValue;
+        private readonly MonadicValue<TV> contextValue;
 
         public MaybeTypeMatcher(MonadicValue<TV> contextValue )
         {
@@ -101,23 +92,15 @@ namespace Functional.Fluent
 
         public MaybeTypeMatcher<TV, TU> Else(Expression<Func<TV, TU>> func)
         {
-            //Add(Case.Is<object>(), func);
-            elseExpression = (Expression)func;
+            elseExpression = func;
             return this;
         }
 
-        public TU Do()
-        {
-            return Match(contextValue.Value);
-        }
+        public TU Do() => Match(contextValue.Value);
     }
 
     public class Case
     {
-        public static Expression<Func<object, T>> Is<T>()
-            where T : class
-        {
-            return v => v as T;
-        }
+        public static Expression<Func<object, T>> Is<T>() where T : class => v => v as T;
     }
 }

@@ -6,10 +6,8 @@ namespace Functional.Fluent
 {
     public static class XMaybe
     {
-        public static Maybe<XElement> Element(this Maybe<XElement> o, string name)
-        {
-            return o.With(x => x.Element(name));
-        }
+        public static Maybe<XElement> Element(this Maybe<XElement> o, string name) => 
+            o.With(x => x.Element(name));
 
         public static IEnumerable<Maybe<XElement>> Elements(this Maybe<XElement> o, string name)
         {

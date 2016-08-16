@@ -7,10 +7,7 @@ namespace Functional.Fluent
     public static class MaybeMonadExtensions
     {
 
-        public static Maybe<TResult> Select<T, TResult>(this Maybe<T> o, Func<T, TResult> evaluator)
-        {
-            return With(o, evaluator);
-        }
+        public static Maybe<TResult> Select<T, TResult>(this Maybe<T> o, Func<T, TResult> evaluator) => With(o, evaluator);
 
         public static Maybe<TResult> SelectMany<T, T2, TResult>(this Maybe<T> a, Func<T, Maybe<T2>> func, Func<T, T2, TResult> select)
         {
@@ -28,58 +25,41 @@ namespace Functional.Fluent
             return select(a.Value, f).ToMaybe();
         }
 
+        public static Maybe<TResult> With<TInput, TResult>(this Maybe<TInput> o, Func<TInput, TResult> evaluator) => 
+            o == null || !o.HasValue ? Maybe<TResult>.Nothing : new Maybe<TResult>(evaluator(o.Value));
 
-        public static Maybe<TResult> With<TInput, TResult>(this Maybe<TInput> o, Func<TInput, TResult> evaluator)
-        {
-            if (o == null || !o.HasValue) return Maybe<TResult>.Nothing;
-            return new Maybe<TResult>(evaluator(o.Value));
-        }
-
-        public static MaybeEnumerable<TResult> With<TInput, TResult>(this MaybeEnumerable<TInput> o, Func<TInput, TResult> evaluator)
-        {
-            if (o == null || !o.HasValue) return MaybeEnumerable<TResult>.Empty;
-            return new MaybeEnumerableApplicator<TInput, TResult>(o, evaluator);
-        }
+        public static MaybeEnumerable<TResult> With<TInput, TResult>(this MaybeEnumerable<TInput> o, Func<TInput, TResult> evaluator) => 
+            o == null || !o.HasValue
+            ? MaybeEnumerable<TResult>.Empty
+            : new MaybeEnumerableApplicator<TInput, TResult>(o, evaluator);
 
         public static Maybe<TResult> Return<TInput, TResult>(this Maybe<TInput> o,
-            Func<TInput, TResult> evaluator, TResult failureValue)
-        {
-            if (o == null || !o.HasValue) return new Maybe<TResult>(failureValue);
-            return new Maybe<TResult>(evaluator(o.Value));
-        }
+            Func<TInput, TResult> evaluator, TResult failureValue) => 
+            o == null || !o.HasValue ? new Maybe<TResult>(failureValue) : new Maybe<TResult>(evaluator(o.Value));
 
         public static MaybeEnumerable<TResult> Return<TInput, TResult>(this MaybeEnumerable<TInput> o,
-            Func<TInput, TResult> evaluator, TResult failureValue)
-        {
-            if (o == null || !o.HasValue) return MaybeEnumerable<TResult>.Empty;
-            return new MaybeEnumerableApplicator<TInput, TResult>(o, evaluator, () => failureValue);
-        }
+            Func<TInput, TResult> evaluator, TResult failureValue) => 
+            o == null || !o.HasValue
+                ? MaybeEnumerable<TResult>.Empty
+                : new MaybeEnumerableApplicator<TInput, TResult>(o, evaluator, () => failureValue);
 
         public static Maybe<TResult> Return<TInput, TResult>(this Maybe<TInput> o,
-            Func<TInput, TResult> evaluator, Func<TResult> failureValue)
-        {
-            if (o == null || !o.HasValue) return new Maybe<TResult>(failureValue());
-            return new Maybe<TResult>(evaluator(o.Value));
-        }
+            Func<TInput, TResult> evaluator, Func<TResult> failureValue) => 
+            o == null || !o.HasValue
+                ? new Maybe<TResult>(failureValue())
+                : new Maybe<TResult>(evaluator(o.Value));
 
         public static MaybeEnumerable<TResult> Return<TInput, TResult>(this MaybeEnumerable<TInput> o,
-            Func<TInput, TResult> evaluator, Func<TResult> failureValue)
-        {
-            if (o == null || !o.HasValue) return MaybeEnumerable<TResult>.Empty;
-            return new MaybeEnumerableApplicator<TInput, TResult>(o, evaluator, failureValue);
-        }
+            Func<TInput, TResult> evaluator, Func<TResult> failureValue) => 
+            o == null || !o.HasValue
+                ? MaybeEnumerable<TResult>.Empty
+                : new MaybeEnumerableApplicator<TInput, TResult>(o, evaluator, failureValue);
 
-        public static Maybe<TInput> If<TInput>(this Maybe<TInput> o, Func<TInput, bool> evaluator)
-        {
-            if (o == null || !o.HasValue) return Maybe<TInput>.Nothing;
-            return evaluator(o.Value) ? o : Maybe<TInput>.Nothing;
-        }
+        public static Maybe<TInput> If<TInput>(this Maybe<TInput> o, Func<TInput, bool> evaluator) => 
+            o == null || !o.HasValue ? Maybe<TInput>.Nothing : (evaluator(o.Value) ? o : Maybe<TInput>.Nothing);
 
-        public static Maybe<TInput> Unless<TInput>(this Maybe<TInput> o, Func<TInput, bool> evaluator)
-        {
-            if (o == null || !o.HasValue) return Maybe<TInput>.Nothing;
-            return evaluator(o.Value) ? Maybe<TInput>.Nothing : o;
-        }
+        public static Maybe<TInput> Unless<TInput>(this Maybe<TInput> o, Func<TInput, bool> evaluator) => 
+            o == null || !o.HasValue ? Maybe<TInput>.Nothing : (evaluator(o.Value) ? Maybe<TInput>.Nothing : o);
 
         public static Maybe<TInput> Do<TInput>(this Maybe<TInput> o, Action<TInput> action)
         {
@@ -113,41 +93,31 @@ namespace Functional.Fluent
             return o;
         }
 
-        public static Maybe<TInput> ApplyIf<TInput>(this Maybe<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TInput> action)
-        {
-            if (o == null || !o.HasValue) return Maybe<TInput>.Nothing;
-            return evaluator(o.Value) ? new Maybe<TInput>(action(o.Value)) : o;
-        }
+        public static Maybe<TInput> ApplyIf<TInput>(this Maybe<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TInput> action) => 
+            o == null || !o.HasValue
+            ? Maybe<TInput>.Nothing
+            : (evaluator(o.Value) ? new Maybe<TInput>(action(o.Value)) : o);
 
-        public static MaybeEnumerable<TInput> ApplyIf<TInput>(this MaybeEnumerable<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TInput> action)
-        {
-            if (o == null || !o.HasValue) return MaybeEnumerable<TInput>.Empty;
-            return new MaybeEnumerableConditionalApplicator<TInput>(o, evaluator, action);
-        }
+        public static MaybeEnumerable<TInput> ApplyIf<TInput>(this MaybeEnumerable<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TInput> action) => 
+            o == null || !o.HasValue
+            ? MaybeEnumerable<TInput>.Empty
+            : new MaybeEnumerableConditionalApplicator<TInput>(o, evaluator, action);
 
-        public static Maybe<TInput> ApplyUnless<TInput>(this Maybe<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TInput> action)
-        {
-            if (o == null || !o.HasValue) return Maybe<TInput>.Nothing;
-            return evaluator(o.Value) ? o : new Maybe<TInput>(action(o.Value));
-        }
+        public static Maybe<TInput> ApplyUnless<TInput>(this Maybe<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TInput> action) => 
+            o == null || !o.HasValue
+            ? Maybe<TInput>.Nothing
+            : (evaluator(o.Value) ? o : new Maybe<TInput>(action(o.Value)));
 
-        public static MaybeEnumerable<TInput> ApplyUnless<TInput>(this MaybeEnumerable<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TInput> action)
-        {
-            if (o == null || !o.HasValue) return MaybeEnumerable<TInput>.Empty;
-            return new MaybeEnumerableConditionalApplicator<TInput>(o, evaluator, action, true);
-        }
+        public static MaybeEnumerable<TInput> ApplyUnless<TInput>(this MaybeEnumerable<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TInput> action) 
+            => o == null || !o.HasValue
+            ? MaybeEnumerable<TInput>.Empty
+            : new MaybeEnumerableConditionalApplicator<TInput>(o, evaluator, action, true);
 
-        public static Maybe<TInput> IsNull<TInput>(this Maybe<TInput> o, Func<TInput> func)
-        {
-            if (o == null || !o.HasValue) return new Maybe<TInput>(func());
-            return o;
-        }
+        public static Maybe<TInput> IsNull<TInput>(this Maybe<TInput> o, Func<TInput> func) => 
+            o == null || !o.HasValue ? new Maybe<TInput>(func()) : o;
 
-        public static Maybe<TInput> IsNull<TInput>(this Maybe<TInput> o, TInput defaultValue)
-        {
-            if (o == null || !o.HasValue) return new Maybe<TInput>(defaultValue);
-            return o;
-        }
+        public static Maybe<TInput> IsNull<TInput>(this Maybe<TInput> o, TInput defaultValue) => 
+            o == null || !o.HasValue ? new Maybe<TInput>(defaultValue) : o;
 
         public static Maybe<TOutput> SelectOne<TInput, TOutput>(this Maybe<TInput> o, params Func<Maybe<TInput>, Maybe<TOutput>>[] selectors)
         {
@@ -160,48 +130,27 @@ namespace Functional.Fluent
             return Maybe<TOutput>.Nothing;
         }
 
-        public static IEnumerable<Maybe<T>> Lift<T>(this Maybe<IEnumerable<T>> v)
-        {
-            return !v.HasValue ? Enumerable.Empty<Maybe<T>>() : v.Value.Select(z => z.ToMaybe());
-        }
+        public static IEnumerable<Maybe<T>> Lift<T>(this Maybe<IEnumerable<T>> v) => 
+            !v.HasValue ? Enumerable.Empty<Maybe<T>>() : v.Value.Select(z => z.ToMaybe());
 
-        public static IEnumerable<Maybe<T>> Lift<T>(this Maybe<IEnumerable<Maybe<T>>> v)
-        {
-            return !v.HasValue ? Enumerable.Empty<Maybe<T>>() : v.Value;
-        }
+        public static IEnumerable<Maybe<T>> Lift<T>(this Maybe<IEnumerable<Maybe<T>>> v) => 
+            !v.HasValue ? Enumerable.Empty<Maybe<T>>() : v.Value;
+
+        public static Maybe<T> ToMaybe<T>(this Maybe<T> value) => value;
+
+        public static Maybe<T> ToMaybe<T>(this T value) => new Maybe<T>(value);
+
+        public static MaybeEnumerable<T> ToMaybe<T>(this IEnumerable<T> value) => new MaybeEnumerable<T>(value);
+
+        public static MaybeEnumerable<T> ToMaybe<T>(this IEnumerable<Maybe<T>> value) => new MaybeEnumerable<T>(value);
+
+        public static Maybe<T> ToMaybe<T>(this T value, T defaultValue) => new Maybe<T>(value).IsNull(defaultValue);
+
+        public static Maybe<T> ToMaybe<T>(this T value, Func<T> defaultValue) => new Maybe<T>(value).IsNull(defaultValue);
+
+        public static Result<T> ToResult<T>(this Maybe<T> value)
+            => value?.HasValue ?? false ? Result.Success(value.Value) : Result.Fail<T>();
         
-        public static Maybe<T> ToMaybe<T>(this Maybe<T> value)
-        {
-            return value;
-        }
-
-        public static Maybe<T> ToMaybe<T>(this T value)
-        {
-            return new Maybe<T>(value);
-        }
-
-        public static MaybeEnumerable<T> ToMaybe<T>(this IEnumerable<T> value)
-        {
-            return new MaybeEnumerable<T>(value);
-        }
-
-        public static MaybeEnumerable<T> ToMaybe<T>(this IEnumerable<Maybe<T>> value)
-        {
-            return new MaybeEnumerable<T>(value);
-        }
-     
-        public static Maybe<T> ToMaybe<T>(this T value, T defaultValue)
-        {
-            var m = new Maybe<T>(value);
-            return m.IsNull(defaultValue);
-        }
-
-        public static Maybe<T> ToMaybe<T>(this T value, Func<T> defaultValue)
-        {
-            var m = new Maybe<T>(value);
-            return m.IsNull(defaultValue);
-        }
-
         public static Maybe<IEnumerable<T>> ToMaybeNonEmpty<T>(this IEnumerable<T> value)
         {
             if (value == null || !value.Any()) return Maybe<IEnumerable<T>>.Nothing;

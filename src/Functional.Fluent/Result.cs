@@ -3,57 +3,57 @@ using System.Linq;
 
 namespace Functional.Fluent
 {
-    public class Result
+    public static class Result
     {
-        public bool IsSucceed { get; }
+        
+        public static Result<T> Success<T>(T value) => new Result<T>(true, value);
 
-        public bool IsFailed => !IsSucceed;
-
-        protected Result(bool isSucceed)
-        {
-            IsSucceed = isSucceed;
-        }
-
-        public static Result<T> Success<T>(T Value) => new Result<T>(true, Value);
+        public static Result<T> Success<T>(MonadicValue<T> value) => new Result<T>(true, value.Value);
 
         public static Result<T> Fail<T>() => new Result<T>(false, default(T));
-
-        public static Result<T> SuccessIfNotNull<T>(T Value) => new Result<T>(Value != null, Value);
+        
+        public static Result<T> SuccessIfNotNull<T>(T value) => new Result<T>(value != null, value);
 
         public static Result<T> Eval<T>(Func<T> f, params Type[] safeExceptions)
         {
             try
             {
-                return Result.Success(f());
+                return Success(f());
             }
             catch (Exception e) when (safeExceptions.Any(x => x == e.GetType()))
             {
-                return Result.Fail<T>();
+                return Fail<T>();
             }
         }
 
-        public static Result Combine(params Result[] results) => new Result(results.All(x => x.IsSucceed));
-        
+        public static IResult Combine(params IResult[] results) => new Result<Void>(results.All(x => x.IsSucceed));
     }
 
-    public class Result<T> : Result
+    public class Result<T> : MonadicValue<T>, IResult
     {
 
-        private T value;
+        internal Result(bool isSucceed)
+        {
+            IsSucceed = isSucceed;
+        }
 
-        public T Value
+        internal Result(bool isSucceed, T value) : this(isSucceed)
+        {
+            WrappedValue = value;
+        }
+
+        public bool IsSucceed { get; }
+
+        public bool IsFailed => !IsSucceed;
+
+        public override T Value
         {
             get
             {
                 if (IsSucceed)
-                    return value;
+                    return WrappedValue;
                 throw new ApplicationException("Cannot obtain value for not succeed result");
             }
-        }
-
-        internal Result(bool isSucceed, T value) : base(isSucceed)
-        {
-            this.value = value;
         }
     }
 }
