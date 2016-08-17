@@ -138,6 +138,11 @@ namespace Functional.Fluent
 
         public static Maybe<T> ToMaybe<T>(this Maybe<T> value) => value;
 
+        public static Maybe<T> ToMaybe<T>(this MonadicValue<T> value) => new Maybe<T>(value.Value);
+
+        public static Maybe<T> ToMaybe<T>(this Result<T> value) => 
+            value.IsSucceed ? new Maybe<T>(value.Value) : Maybe<T>.Nothing;
+
         public static Maybe<T> ToMaybe<T>(this T value) => new Maybe<T>(value);
 
         public static MaybeEnumerable<T> ToMaybe<T>(this IEnumerable<T> value) => new MaybeEnumerable<T>(value);
