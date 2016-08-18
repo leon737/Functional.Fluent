@@ -87,13 +87,24 @@ namespace FluentTests
         }
 
         [TestMethod]
-        public void TestUseOfFuncStateWithSimplePatternMatchingUsingCompose()
+        public void TestUseOfFuncStateWithSimplePatternMatchingUsingRCompose()
         {
             var result = F((FuncState<int, int> s) => "multiply".ToM().Match()
                 .With("add", _ => s.Invoke(F((int x) => x + 2)))
                 .With("multiply", _ => s.Invoke(F((int x) => x * 3)))
-                .Do()).Compose(F((int v) => Funcs.Get<int>().With(v)))(5);
+                .Do()).RCompose(F((int v) => Funcs.Get<int>().With(v)))(5);
 
+            Assert.AreEqual(15, result);
+        }
+
+        [TestMethod]
+        public void TestUseOfFuncStateWithSimplePatternMatchingUsingCompose()
+        {
+            var result = F((int v) => Funcs.Get<int>().With(v))
+                .Compose(F((FuncState<int, int> s) => "multiply".ToM().Match()
+               .With("add", _ => s.Invoke(F((int x) => x + 2)))
+               .With("multiply", _ => s.Invoke(F((int x) => x * 3)))
+               .Do()))(5);
             Assert.AreEqual(15, result);
         }
 

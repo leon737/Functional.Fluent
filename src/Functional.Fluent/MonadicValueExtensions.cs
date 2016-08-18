@@ -71,6 +71,8 @@ namespace Functional.Fluent
 
         public static Func<T2> RPartial<T1, T2>(this Func<T1, T2> z, T1 p) => () => z(p);
 
-        public static Func<T, V> Compose<T, U, V>(this Func<U, V> f, Func<T, U> g) => x => f(g(x));
+        public static Func<T, V> RCompose<T, U, V>(this Func<U, V> f, Func<T, U> g) => x => f(g(x));
+
+        public static Func<T, V> Compose<T, U, V>(this Func<T, U> f, Func<U, V> g) => x => g(f(x));
     }
 }
