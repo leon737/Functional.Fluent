@@ -89,10 +89,10 @@ namespace FluentTests
         [TestMethod]
         public void TestUseOfFuncStateWithSimplePatternMatchingUsingRCompose()
         {
-            var result = F((FuncState<int, int> s) => "multiply".ToM().Match()
-                .With("add", _ => s.Invoke(F((int x) => x + 2)))
-                .With("multiply", _ => s.Invoke(F((int x) => x * 3)))
-                .Do()).RCompose(F((int v) => Funcs.Get<int>().With(v)))(5);
+            var result = F((FuncState<int, int> v) => "multiply".ToM().Match()
+                .With("add", _ => v.Invoke((int x) => x + 2))
+                .With("multiply", _ => v.Invoke((int x) => x * 3))
+                .Do()).RCompose((int v) => Funcs.Get<int>().With(v))(5);
 
             Assert.AreEqual(15, result);
         }
@@ -101,21 +101,32 @@ namespace FluentTests
         public void TestUseOfFuncStateWithSimplePatternMatchingUsingCompose()
         {
             var result = F((int v) => Funcs.Get<int>().With(v))
-                .Compose(F((FuncState<int, int> s) => "multiply".ToM().Match()
-               .With("add", _ => s.Invoke(F((int x) => x + 2)))
-               .With("multiply", _ => s.Invoke(F((int x) => x * 3)))
-               .Do()))(5);
+                .Compose((FuncState<int, int> v) => "multiply".ToM().Match()
+               .With("add", _ => v.Invoke(F((int x) => x + 2)))
+               .With("multiply", _ => v.Invoke(F((int x) => x * 3)))
+               .Do())(5);
+            Assert.AreEqual(15, result);
+        }
+
+        [TestMethod]
+        public void TestUseOfFuncStateWithSimplePatternMatchingUsingCall()
+        {
+            var result = F((Func<Func<int, int>, int> v) => "multiply".ToM().Match()
+                .With("add", _ => v((int x) => x + 2))
+                .With("multiply", _ => v((int x) => x * 3))
+                .Do())(F((int v) => Funcs.Get<int>().With(v).Func)(5));
+
             Assert.AreEqual(15, result);
         }
 
         [TestMethod]
         public void TestUseOfFuncStateWithSimplePatternMatchingUsingMatchConstructor()
         {
-            var result = Funcs.Get<int>().With(5).With(z =>
+            var result = Funcs.Get<int>().With(5).With(v =>
                 new Matcher<string, int>()
                 {
-                    { "add", _ => z.Invoke(F((int x) => x + 2)) },
-                    { "multiply", _ => z.Invoke(F((int x) => x * 3)) }
+                    { "add", _ => v.Invoke((int x) => x + 2) },
+                    { "multiply", _ => v.Invoke((int x) => x * 3) }
                 }).Value.Match("multiply");
 
             Assert.AreEqual(15, result);
@@ -124,10 +135,10 @@ namespace FluentTests
         [TestMethod]
         public void TestUseOfFuncStateWithSimplePatternMatchingUsingMatchConstructorAndFluent()
         {
-            var result = Funcs.Get<int>().With(5).With(z =>
+            var result = Funcs.Get<int>().With(5).With(v =>
                 new Matcher<string, int>()
-                    .With("add", _ => z.Invoke(F((int x) => x + 2)))
-                    .With("multiply", _ => z.Invoke(F((int x) => x * 3))))
+                    .With("add", _ => v.Invoke((int x) => x + 2))
+                    .With("multiply", _ => v.Invoke((int x) => x * 3)))
                     .Value.Match("multiply");
 
             Assert.AreEqual(15, result);

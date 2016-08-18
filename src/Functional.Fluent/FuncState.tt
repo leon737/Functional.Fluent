@@ -29,6 +29,10 @@ namespace Functional.Fluent
         public <#= $"T{i + 1}" #> Invoke(Action<<#= ListTypes(i - 1) #>> action) { action(<#= ListArguments(i - 1).ToUpper() #>); return default(<#= $"T{i + 1}" #>); }
 
         public override <#= $"T{i + 1}" #> New<V>() => NewCore<V>(<#= ListArguments(i - 1).ToUpper() #>);
+
+		public new Func<Func<<#= ListTypes(i) #>>, <#= $"T{i + 1}" #>> ToFunc() => (Func<<#= ListTypes(i) #>> func) => Invoke(func);
+
+		public new Func<Func<<#= ListTypes(i) #>>, <#= $"T{i + 1}" #>> Func => ToFunc();
     }
 
 

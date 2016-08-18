@@ -12,5 +12,9 @@ namespace Functional.Fluent
 
         protected T NewCore<V>(params object[] parameters) where V : T => (T)Activator.CreateInstance(typeof(V), parameters);
 
+        public virtual Func<Func<T>, T> ToFunc() => (Func<T> func) => Invoke(func);
+
+        public virtual Func<Func<T>, T> Func => ToFunc();
+
     }
 }

@@ -21,6 +21,10 @@ namespace Functional.Fluent
         public T2 Invoke(Action<T1> action) { action(P1); return default(T2); }
 
         public override T2 New<V>() => NewCore<V>(P1);
+
+		public new Func<Func<T1, T2>, T2> ToFunc() => (Func<T1, T2> func) => Invoke(func);
+
+		public new Func<Func<T1, T2>, T2> Func => ToFunc();
     }
 
 
@@ -41,6 +45,10 @@ namespace Functional.Fluent
         public T3 Invoke(Action<T1, T2> action) { action(P1, P2); return default(T3); }
 
         public override T3 New<V>() => NewCore<V>(P1, P2);
+
+		public new Func<Func<T1, T2, T3>, T3> ToFunc() => (Func<T1, T2, T3> func) => Invoke(func);
+
+		public new Func<Func<T1, T2, T3>, T3> Func => ToFunc();
     }
 
 
@@ -61,6 +69,10 @@ namespace Functional.Fluent
         public T4 Invoke(Action<T1, T2, T3> action) { action(P1, P2, P3); return default(T4); }
 
         public override T4 New<V>() => NewCore<V>(P1, P2, P3);
+
+		public new Func<Func<T1, T2, T3, T4>, T4> ToFunc() => (Func<T1, T2, T3, T4> func) => Invoke(func);
+
+		public new Func<Func<T1, T2, T3, T4>, T4> Func => ToFunc();
     }
 
 
@@ -81,6 +93,10 @@ namespace Functional.Fluent
         public T5 Invoke(Action<T1, T2, T3, T4> action) { action(P1, P2, P3, P4); return default(T5); }
 
         public override T5 New<V>() => NewCore<V>(P1, P2, P3, P4);
+
+		public new Func<Func<T1, T2, T3, T4, T5>, T5> ToFunc() => (Func<T1, T2, T3, T4, T5> func) => Invoke(func);
+
+		public new Func<Func<T1, T2, T3, T4, T5>, T5> Func => ToFunc();
     }
 
 
@@ -101,6 +117,10 @@ namespace Functional.Fluent
         public T6 Invoke(Action<T1, T2, T3, T4, T5> action) { action(P1, P2, P3, P4, P5); return default(T6); }
 
         public override T6 New<V>() => NewCore<V>(P1, P2, P3, P4, P5);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6>, T6> ToFunc() => (Func<T1, T2, T3, T4, T5, T6> func) => Invoke(func);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6>, T6> Func => ToFunc();
     }
 
 
@@ -121,6 +141,10 @@ namespace Functional.Fluent
         public T7 Invoke(Action<T1, T2, T3, T4, T5, T6> action) { action(P1, P2, P3, P4, P5, P6); return default(T7); }
 
         public override T7 New<V>() => NewCore<V>(P1, P2, P3, P4, P5, P6);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6, T7>, T7> ToFunc() => (Func<T1, T2, T3, T4, T5, T6, T7> func) => Invoke(func);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6, T7>, T7> Func => ToFunc();
     }
 
 
@@ -141,6 +165,10 @@ namespace Functional.Fluent
         public T8 Invoke(Action<T1, T2, T3, T4, T5, T6, T7> action) { action(P1, P2, P3, P4, P5, P6, P7); return default(T8); }
 
         public override T8 New<V>() => NewCore<V>(P1, P2, P3, P4, P5, P6, P7);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6, T7, T8>, T8> ToFunc() => (Func<T1, T2, T3, T4, T5, T6, T7, T8> func) => Invoke(func);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6, T7, T8>, T8> Func => ToFunc();
     }
 
 
@@ -161,6 +189,10 @@ namespace Functional.Fluent
         public T9 Invoke(Action<T1, T2, T3, T4, T5, T6, T7, T8> action) { action(P1, P2, P3, P4, P5, P6, P7, P8); return default(T9); }
 
         public override T9 New<V>() => NewCore<V>(P1, P2, P3, P4, P5, P6, P7, P8);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6, T7, T8, T9>, T9> ToFunc() => (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9> func) => Invoke(func);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6, T7, T8, T9>, T9> Func => ToFunc();
     }
 
 
@@ -181,6 +213,10 @@ namespace Functional.Fluent
         public T10 Invoke(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> action) { action(P1, P2, P3, P4, P5, P6, P7, P8, P9); return default(T10); }
 
         public override T10 New<V>() => NewCore<V>(P1, P2, P3, P4, P5, P6, P7, P8, P9);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>, T10> ToFunc() => (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> func) => Invoke(func);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>, T10> Func => ToFunc();
     }
 
 
@@ -201,6 +237,10 @@ namespace Functional.Fluent
         public T11 Invoke(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> action) { action(P1, P2, P3, P4, P5, P6, P7, P8, P9, P10); return default(T11); }
 
         public override T11 New<V>() => NewCore<V>(P1, P2, P3, P4, P5, P6, P7, P8, P9, P10);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>, T11> ToFunc() => (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> func) => Invoke(func);
+
+		public new Func<Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>, T11> Func => ToFunc();
     }
 
 
