@@ -1,3 +1,5 @@
+using System;
+
 namespace Functional.Fluent
 {
     public class MonadicValue<T>
@@ -16,6 +18,8 @@ namespace Functional.Fluent
         public static implicit operator MonadicValue<T>(T v) => new MonadicValue<T>(v);
 
         public static implicit operator T(MonadicValue<T> v) => v.Value;
+
+        public virtual Type WrappedType => typeof(T);
 
     }
 }

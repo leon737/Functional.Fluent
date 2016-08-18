@@ -36,4 +36,16 @@ namespace Functional.Fluent
     }
 	#>
 
+	public partial class FuncState<T>
+    {
+
+	<# for (int i = 1; i <= 10; ++i) {	#>
+
+	public FuncState<<#= ListTypes(i - 1) #>, T> With<<#= ListTypes(i - 1) #>>(<#= ListParameters(i - 1) #>) => new FuncState<<#= ListTypes(i - 1) #>, T>(<#= ListArguments(i - 1) #>);
+
+	<# } #>
+
+
+	}
+
 }

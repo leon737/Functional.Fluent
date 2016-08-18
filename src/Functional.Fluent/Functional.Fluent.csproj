@@ -41,12 +41,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Disposable.cs" />
+    <Compile Include="Funcs.cs" />
     <Compile Include="FuncState1.cs">
       <DependentUpon>FuncState.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="FuncState.cs" />
+    <Content Include="FuncStateExtensions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FuncStateExtensions.cs</LastGenOutput>
+    </Content>
+    <Compile Include="FuncStateExtensions.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FuncStateExtensions.tt</DependentUpon>
+    </Compile>
     <Compile Include="IResult.cs" />
     <Compile Include="ListMatcher.cs" />
     <Compile Include="ListMatcherContext.cs" />
@@ -79,7 +89,7 @@
     <Compile Include="ResultExtensions.cs" />
     <Compile Include="TypeMatcher.cs" />
     <Compile Include="TypeMatcherContext.cs" />
-    <Compile Include="Void.cs" />
+    <Compile Include="Unit.cs" />
     <Compile Include="XMaybe.cs" />
   </ItemGroup>
   <ItemGroup>

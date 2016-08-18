@@ -5,7 +5,7 @@ using System;
 
 namespace Functional.Fluent
 {
-	public static class MonadExtensions
+	public static class FuncExtensions
     {
 
 	    
@@ -90,34 +90,34 @@ namespace Functional.Fluent
 	public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T11> RPartial<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> z, T10 p) => (a , b , c , d , e , f , g , h , i) => z(a, b, c, d, e, f, g, h, i, p);
 
 	
-	public static Func<T1> ToFunc<T1>(Func<T1> f) => f;
+	public static Func<T1> F<T1>(Func<T1> f) => f;
 
 	
-	public static Func<T1, T2> ToFunc<T1, T2>(Func<T1, T2> f) => f;
+	public static Func<T1, T2> F<T1, T2>(Func<T1, T2> f) => f;
 
 	
-	public static Func<T1, T2, T3> ToFunc<T1, T2, T3>(Func<T1, T2, T3> f) => f;
+	public static Func<T1, T2, T3> F<T1, T2, T3>(Func<T1, T2, T3> f) => f;
 
 	
-	public static Func<T1, T2, T3, T4> ToFunc<T1, T2, T3, T4>(Func<T1, T2, T3, T4> f) => f;
+	public static Func<T1, T2, T3, T4> F<T1, T2, T3, T4>(Func<T1, T2, T3, T4> f) => f;
 
 	
-	public static Func<T1, T2, T3, T4, T5> ToFunc<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5> f) => f;
+	public static Func<T1, T2, T3, T4, T5> F<T1, T2, T3, T4, T5>(Func<T1, T2, T3, T4, T5> f) => f;
 
 	
-	public static Func<T1, T2, T3, T4, T5, T6> ToFunc<T1, T2, T3, T4, T5, T6>(Func<T1, T2, T3, T4, T5, T6> f) => f;
+	public static Func<T1, T2, T3, T4, T5, T6> F<T1, T2, T3, T4, T5, T6>(Func<T1, T2, T3, T4, T5, T6> f) => f;
 
 	
-	public static Func<T1, T2, T3, T4, T5, T6, T7> ToFunc<T1, T2, T3, T4, T5, T6, T7>(Func<T1, T2, T3, T4, T5, T6, T7> f) => f;
+	public static Func<T1, T2, T3, T4, T5, T6, T7> F<T1, T2, T3, T4, T5, T6, T7>(Func<T1, T2, T3, T4, T5, T6, T7> f) => f;
 
 	
-	public static Func<T1, T2, T3, T4, T5, T6, T7, T8> ToFunc<T1, T2, T3, T4, T5, T6, T7, T8>(Func<T1, T2, T3, T4, T5, T6, T7, T8> f) => f;
+	public static Func<T1, T2, T3, T4, T5, T6, T7, T8> F<T1, T2, T3, T4, T5, T6, T7, T8>(Func<T1, T2, T3, T4, T5, T6, T7, T8> f) => f;
 
 	
-	public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9> ToFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9> f) => f;
+	public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9> F<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9> f) => f;
 
 	
-	public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> ToFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> f) => f;
+	public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> F<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> f) => f;
 
 	
 	}

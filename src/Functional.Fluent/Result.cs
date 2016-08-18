@@ -26,7 +26,7 @@ namespace Functional.Fluent
             }
         }
 
-        public static IResult Combine(params IResult[] results) => new Result<Void>(results.All(x => x.IsSucceed));
+        public static IResult Combine(params IResult[] results) => new Result<Unit>(results.All(x => x.IsSucceed));
     }
 
     public class Result<T> : MonadicValue<T>, IResult

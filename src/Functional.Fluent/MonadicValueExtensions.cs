@@ -23,7 +23,15 @@ namespace Functional.Fluent
             foreach (var action in actions)
                 action(o.Value);
             return o;
-        }    
+        }
+
+        public static MonadicValue<TInput> Map<TInput>(this MonadicValue<TInput> o, params Func<TInput, TInput>[] funcs)
+        {
+            var result = o;
+            foreach (var func in funcs)
+                result = func(result);
+            return result;
+        }
 
         public static MonadicValue<TInput> ApplyIf<TInput>(this MonadicValue<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TInput> action)
             => evaluator(o.Value) ? new Maybe<TInput>(action(o.Value)) : o;

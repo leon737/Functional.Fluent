@@ -71,6 +71,8 @@
     <Compile Include="BasicMaybeTests.cs" />
     <Compile Include="ResultTests.cs" />
     <Compile Include="FuncsConstructorTests.cs" />
+    <Compile Include="FuncStateTests.cs" />
+    <Compile Include="MonadicValueTests.cs" />
     <Compile Include="XMaybeTests.cs" />
   </ItemGroup>
   <ItemGroup>

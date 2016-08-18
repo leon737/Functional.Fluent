@@ -7,7 +7,7 @@ using System;
 
 namespace Functional.Fluent
 {
-	public static class MonadExtensions
+	public static class FuncExtensions
     {
 
 	<# for (int i = 2; i <= 10; ++i)
@@ -29,7 +29,7 @@ namespace Functional.Fluent
     {
     #>
 
-	public static Func<<#= ListTypes(i) #>> ToFunc<<#= ListTypes(i) #>>(Func<<#= ListTypes(i) #>> f) => f;
+	public static Func<<#= ListTypes(i) #>> F<<#= ListTypes(i) #>>(Func<<#= ListTypes(i) #>> f) => f;
 
 	<#
     }

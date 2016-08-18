@@ -10,7 +10,7 @@ namespace Functional.Fluent
 	public static partial class Funcs
     {
 
-	public static Func<Void> ToVoid(this Action v) => () => { v(); return new Void(); };
+	public static Func<Unit> ToUnit(this Action v) => () => { v(); return new Unit(); };
 
 
 	<# for (int i = 1; i <= 10; ++i)
@@ -19,7 +19,7 @@ namespace Functional.Fluent
     
 	
 	public static FuncState<<#= ListTypes(i) #>> Get<<#= ListTypes(i) #>>(<#= ListParameters(i - 1) #>) => new FuncState<<#= ListTypes(i) #>>(<#= ListArguments(i - 1) #>);
-
+	
 
 	<#
     }
@@ -30,7 +30,7 @@ namespace Functional.Fluent
 	#>
     
 	
-	public static Func<<#= ListTypes(i) #>, Void> ToVoid<<#= ListTypes(i) #>>(this Action<<#= ListTypes(i) #>> v) => (<#= ListArguments(i) #>) => { v(<#= ListArguments(i) #>); return new Void(); };
+	public static Func<<#= ListTypes(i) #>, Unit> ToUnit<<#= ListTypes(i) #>>(this Action<<#= ListTypes(i) #>> v) => (<#= ListArguments(i) #>) => { v(<#= ListArguments(i) #>); return new Unit(); };
 
 
 	<#

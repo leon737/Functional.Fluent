@@ -2,7 +2,7 @@
 
 namespace Functional.Fluent
 {
-    public class FuncState<T>
+    public partial class FuncState<T> : MonadicValue<T>
     {
         public T Invoke(Func<T> func) => func();
 
@@ -11,5 +11,6 @@ namespace Functional.Fluent
         public virtual T New<V>() where V : T => NewCore<V>();
 
         protected T NewCore<V>(params object[] parameters) where V : T => (T)Activator.CreateInstance(typeof(V), parameters);
+
     }
 }
