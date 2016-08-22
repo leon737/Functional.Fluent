@@ -15,11 +15,6 @@ namespace Functional.Fluent
         public virtual Func<Func<T>, T> ToFunc() => (Func<T> func) => Invoke(func);
 
         public virtual Func<Func<T>, T> Func => ToFunc();
-
-        public virtual Matcher<TV, TU> Match<TV, TU>(MonadicValue<TV> value, Func<MatcherContext<TV>, Func<Func<T>, T>, Matcher<TV, TU>> f) =>
-            f(value.Match(), Func);
-
-        public virtual MaybeTypeMatcher<TV, T> TypeMatch<TV>(MonadicValue<TV> value, Func<TypeMatcherContext<TV>, Func<Func<T>, T>, MaybeTypeMatcher<TV, T>> f) =>
-            f(value.TypeMatch(), Func);
+       
     }
 }
