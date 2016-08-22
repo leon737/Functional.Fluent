@@ -14,7 +14,7 @@ namespace FluentTests
         public void TestApplyIf()
         {
             var s = "fox";
-            var r = s.ToMaybe()
+            var r = s.ToM()
                 .ApplyIf(x => x == "bird", x => x + " can fly")
                 .ApplyIf(x => x == "fox", x => x + " can run");
             Assert.AreEqual("fox can run", r.Value);
@@ -24,7 +24,7 @@ namespace FluentTests
         public void TestApplyIfForValueTypes()
         {
             var i = 4;
-            var r = i.ToMaybe()
+            var r = i.ToM()
                 .ApplyIf(x => x < 10, x => x * 2)
                 .ApplyIf(x => x >= 10, x => x / 5);
             Assert.AreEqual(8, r.Value);
@@ -86,7 +86,7 @@ namespace FluentTests
         [TestMethod]
         public void TestFluentSyntax()
         {
-            var s = "fox".ToMaybe();
+            var s = "fox".ToM();
             var r = new Matcher<string, string>
             {
                 {x => x == "bird", x => x + " can fly"},
@@ -99,7 +99,7 @@ namespace FluentTests
         [TestMethod]
         public void TestFluentSyntax2()
         {
-            var s = "fox".ToMaybe().Match(new Matcher<string, string>
+            var s = "fox".ToM().Match(new Matcher<string, string>
             {
                 {x => x == "bird", x => x + " can fly"},
                 {x => x == "fox", x => x + " can run"},
@@ -111,7 +111,7 @@ namespace FluentTests
         [TestMethod]
         public void TestFluentSyntax3()
         {
-            var s = "fox".ToMaybe().Match()
+            var s = "fox".ToM().Match()
                 .With(x => x == "bird", x => x + " can fly")
                 .With(x => x == "fox", x => x + " can run")
                 .Else(x => x + " can do something else").Do();
@@ -145,17 +145,17 @@ namespace FluentTests
                 { Case.Is<StringBuilder>(), s => s.ToString()}
             };
 
-            var test1 = ((object)"string").ToMaybe().Match(m);
+            var test1 = ((object)"string").ToM().Match(m);
             Assert.AreEqual("string", test1.Value);
 
-            var test2 = ((object)new StringBuilder("StringBuilder")).ToMaybe().Match(m);
+            var test2 = ((object)new StringBuilder("StringBuilder")).ToM().Match(m);
             Assert.AreEqual("StringBuilder", test2.Value);
         }
               
         [TestMethod]
         public void TestMaybeFluentSyntax()
         {
-            var s = "fox".ToMaybe().Match()
+            var s = "fox".ToM().Match()
                 .With(x => x == "bird", x => x + " can fly")
                 .With(x => x == "fox", x => x + " can run")
                 .Else(x => x + " can do something else")
@@ -167,7 +167,7 @@ namespace FluentTests
         [TestMethod]
         public void TestMaybeFluentSyntaxWithExact()
         {
-            var s = "fox".ToMaybe().Match()
+            var s = "fox".ToM().Match()
                 .With("bird", x => x + " can fly")
                 .With("fox", x => x + " can run")
                 .Else(x => x + " can do something else")
@@ -179,7 +179,7 @@ namespace FluentTests
         [TestMethod]
         public void TestTypeMatchingMaybeFluentSyntax()
         {
-            var test1 = ((object) "string").ToMaybe().TypeMatch()
+            var test1 = ((object) "string").ToM().TypeMatch()
                 .With(Case.Is<string>(), s => s)
                 .With(Case.Is<StringBuilder>(), s => s.ToString())
                 .Else(_ => "that's an object").Do();
@@ -190,7 +190,7 @@ namespace FluentTests
         [TestMethod]
         public void TestTypeMatchingMaybeFluentSyntaxWithAdditionalPredicate()
         {
-            var test1 = ((object)"the long string").ToMaybe().TypeMatch()
+            var test1 = ((object)"the long string").ToM().TypeMatch()
                 .With(Case.Is<string>(), s => s.Length > 10, s => s + "!")
                 .With(Case.Is<string>(), s => s)
                 .With(Case.Is<StringBuilder>(), s => s.ToString())
@@ -203,7 +203,7 @@ namespace FluentTests
         public void TestMatchList()
         {
             var list = new [] { "good morning", "good afternoon", "good evening" };
-            var result = list.ToMaybe().Match()
+            var result = list.ToM().Match()
                 .With((h, t) => Tuple.Create(h.ToUpper(), t))
                 .Do();
             Assert.AreEqual("GOOD MORNING", result.Item1);
@@ -214,14 +214,14 @@ namespace FluentTests
         public void TestMatchEmptyList()
         {
             var list = new List<string>();
-            var result = list.ToMaybe().Match()
+            var result = list.ToM().Match()
                 .With((h, t) => h.ToUpper())
                 .Empty(() => "List is empty")
                 .Do();
             Assert.AreEqual("List is empty", result);
         }
 
-        private int factorial(int n) => n.ToMaybe().Match()
+        private int factorial(int n) => n.ToM().Match()
             .With(0, 1, _ => 1)
             .Else(v => v* factorial(v - 1))
             .Do();
@@ -233,7 +233,7 @@ namespace FluentTests
             Assert.AreEqual(120, result);
         }
 
-        private int sum(IEnumerable<int> value) => value.ToMaybe().Match()
+        private int sum(IEnumerable<int> value) => value.ToM().Match()
             .With((head, tail) => head + sum(tail))
             .Empty(() => 0)
             .Do();
@@ -246,7 +246,7 @@ namespace FluentTests
             Assert.AreEqual(list.Sum(), result);          
         }
 
-        private int sum_even(IEnumerable<int> value) => value.ToMaybe().Match()
+        private int sum_even(IEnumerable<int> value) => value.ToM().Match()
            .With(v => v % 2 == 0, (head, tail) => head + sum_even(tail))
            .With((_, tail) => sum_even(tail))
            .Empty(() => 0)

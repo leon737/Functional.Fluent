@@ -143,5 +143,26 @@ namespace FluentTests
 
             Assert.AreEqual(15, result);
         }
+
+        [TestMethod]
+        public void TestUseOfFuncStateWithSimplePatternMatchingUsingMathExtension()
+        {
+            var result = Funcs.Get<int>().With(5).Match("multiply".ToM(), (m, v) => m
+                    .With("add", _ => v((int x) => x + 2))
+                    .With("multiply", _ => v((int x) => x * 3))).Do();            
+
+            Assert.AreEqual(15, result);
+        }
+
+        [TestMethod]
+        public void TestUseOfFuncStateWithSimpleTypePatternMatchingUsingMathExtension()
+        {
+            var result = Funcs.Get<int>().With(5).TypeMatch(((object)"the long string").ToM(), (m, v) => m
+                    .With(Case.Is<string>(), _ => v((int x) => x * 3))
+                    .With(Case.Is<string>(), _ => v((int x) => x + 2))
+                    .Else(_ => v((int x) => x))).Do();
+
+            Assert.AreEqual(15, result);
+        }
     }
 }
