@@ -101,6 +101,6 @@ namespace Functional.Fluent
 
     public class Case
     {
-        public static Expression<Func<object, T>> Is<T>() where T : class => v => v as T;
+        public static Expression<Func<object, T>> Is<T>() => _ => default(T);
     }
 }
