@@ -22,6 +22,16 @@ namespace Functional.Fluent.AutoValues
                 .With(Case.Is<Tuple<long, long>>(), v => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueLongRandomGenerator(v.Item1, v.Item2)))
                 .With(Case.Is<Tuple<ulong, ulong>>(), v => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueULongRandomGenerator(v.Item1, v.Item2)))
                 .Do();
+
+        public static AutoValue<T> Seq<T>() =>
+            default(T).ToM().TypeMatch()
+                .With(Case.Is<int>(), _ => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueIntegerSequenceGenerator()))
+                .Do();
+
+        public static AutoValue<T> Seq<T>(T initial, T min, T max, T step, bool loop) =>
+            Tuple.Create(initial, min, max, step, loop).ToM().TypeMatch()
+                .With(Case.Is<Tuple<int, int, int, int, bool>>(), v => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueIntegerSequenceGenerator(v.Item1, v.Item2, v.Item3, v.Item4, v.Item5)))
+                .Do();
     }
 
     public class AutoValue<T> : MonadicValue<T>

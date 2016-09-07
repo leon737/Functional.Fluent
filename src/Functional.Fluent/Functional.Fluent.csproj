@@ -42,9 +42,10 @@
   <ItemGroup>
     <Compile Include="AutoValues\AutoValue.cs" />
     <Compile Include="AutoValues\AutoValueIntegerRandomGenerator.cs" />
+    <Compile Include="AutoValues\AutoValueIntegerSequenceGenerator.cs" />
     <Compile Include="AutoValues\AutoValueLongRandomGenerator.cs" />
     <Compile Include="AutoValues\AutoValueNumericRandomGenerator.cs" />
-    <Compile Include="AutoValues\AutoValueRandomGenerator.cs" />
+    <Compile Include="AutoValues\AutoValueNumericSequenceGenerator.cs" />
     <Compile Include="AutoValues\AutoValueUIntegerRandomGenerator.cs" />
     <Compile Include="AutoValues\AutoValueULongRandomGenerator.cs" />
     <Compile Include="AutoValues\IAutoValueGenerator.cs" />

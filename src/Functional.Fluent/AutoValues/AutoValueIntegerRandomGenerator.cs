@@ -1,5 +1,3 @@
-using System;
-
 namespace Functional.Fluent.AutoValues
 {
     public class AutoValueIntegerRandomGenerator : AutoValueNumericRandomGenerator<int>

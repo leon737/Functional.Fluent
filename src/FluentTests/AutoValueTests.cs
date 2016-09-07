@@ -58,5 +58,20 @@ namespace FluentTests
             }
         }
 
+        [TestCase(0, -10, 10, 1, false, 1)]
+        [TestCase(10, -10, 10, 1, true, -10)]
+        [TestCase(0, -10, 10, -1, false, -1)]
+        [TestCase(-10, -10, 10, -1, true, 10)]
+        [TestCase(int.MaxValue, int.MinValue, int.MaxValue, 1, true, int.MinValue)]
+        [TestCase(int.MinValue, int.MinValue, int.MaxValue, -1, true, int.MaxValue)]
+        public void TestGetSeqInteger(int initial, int from, int to, int step, bool loop, int expected)
+        {
+            var value = AutoValue.Seq(initial, from, to, step, loop);
+            var result1 = value.Value;
+            var result2 = value.Value;
+            Assert.AreEqual(initial, result1);
+            Assert.AreEqual(expected, result2);
+        }
+
     }
 }
