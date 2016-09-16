@@ -18,6 +18,18 @@
         return sb.ToString();
     }
 
+	public string ListResultTypes(int c, int skip = 0)
+    {
+        StringBuilder sb = new StringBuilder();
+		for (int i = skip; i <= c; ++i)
+        {
+            if (i > skip)
+                sb.Append(", ");
+			sb.Append($"Result<T{i+1}>");
+        }
+        return sb.ToString();
+    }
+
 	public string ListParameters(int c)
     {
         StringBuilder sb = new StringBuilder();

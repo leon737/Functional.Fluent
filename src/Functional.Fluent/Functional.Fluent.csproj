@@ -96,10 +96,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="ResultExtensions.cs" />
+    <Compile Include="ResultExtensions1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResultExtensions.tt</DependentUpon>
+    </Compile>
     <Compile Include="TypeMatcher.cs" />
     <Compile Include="TypeMatcherContext.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="XMaybe.cs" />
+    <Content Include="ResultExtensions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ResultExtensions1.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Core.tt">

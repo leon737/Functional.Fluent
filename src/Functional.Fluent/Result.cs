@@ -1,12 +1,48 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Functional.Fluent
 {
-    public static class Result
+    public static partial class Result
     {
         
         public static Result<T> Success<T>(T value) => new Result<T>(true, value);
+
+        public static Result<Unit> Success() => new Result<Unit>(true, new Unit());
+
+        internal static AggregateCollectionResult Combine<T1, T2, T3, T4, T5, T6, T7, T8>(AggregateResult<T1, T2, T3, T4, T5, T6, T7> result, Result<T8> other) => 
+            new AggregateCollectionResult(result.IsSucceed && other.IsSucceed, new IResult[]
+            {
+                result.Value.Item1,
+                result.Value.Item2,
+                result.Value.Item3,
+                result.Value.Item4,
+                result.Value.Item5,
+                result.Value.Item6,
+                result.Value.Item7,
+                other
+            });
+
+        internal static AggregateCollectionResult CombineByOr<T1, T2, T3, T4, T5, T6, T7, T8>(AggregateResult<T1, T2, T3, T4, T5, T6, T7> result, Result<T8> other) =>
+            new AggregateCollectionResult(result.IsSucceed || other.IsSucceed, new IResult[]
+            {
+                result.Value.Item1,
+                result.Value.Item2,
+                result.Value.Item3,
+                result.Value.Item4,
+                result.Value.Item5,
+                result.Value.Item6,
+                result.Value.Item7,
+                other
+            });
+
+        internal static AggregateCollectionResult Combine<T>(AggregateCollectionResult result, Result<T> other) =>
+           new AggregateCollectionResult(result.IsSucceed && other.IsSucceed, result.Value.Concat(new IResult[] { other }));
+
+        internal static AggregateCollectionResult CombineByOr<T>(AggregateCollectionResult result, Result<T> other ) =>
+           new AggregateCollectionResult(result.IsSucceed || other.IsSucceed, result.Value.Concat(new IResult[] { other }));
 
         public static Result<T> Success<T>(MonadicValue<T> value) => new Result<T>(true, value.Value);
 
@@ -54,6 +90,27 @@ namespace Functional.Fluent
                     return WrappedValue;
                 throw new ApplicationException("Cannot obtain value for not succeed result");
             }
+        }
+    }
+
+    public class AggregateCollectionResult : Result<IEnumerable<IResult>>, IEnumerable<IResult>
+    {
+        internal AggregateCollectionResult(bool isSucceed) : base(isSucceed)
+        {
+        }
+
+        internal AggregateCollectionResult(bool isSucceed, IEnumerable<IResult> value) : base(isSucceed, value)
+        {
+        }
+
+        public IEnumerator<IResult> GetEnumerator()
+        {
+            return Value.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
