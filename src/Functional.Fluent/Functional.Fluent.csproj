@@ -50,6 +50,8 @@
     <Compile Include="AutoValues\AutoValueULongRandomGenerator.cs" />
     <Compile Include="AutoValues\IAutoValueGenerator.cs" />
     <Compile Include="Disposable.cs" />
+    <Compile Include="Either.cs" />
+    <Compile Include="EitherExtensions.cs" />
     <Compile Include="Funcs.cs" />
     <Compile Include="FuncState1.cs">
       <DependentUpon>FuncState.tt</DependentUpon>
