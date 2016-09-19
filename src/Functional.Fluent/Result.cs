@@ -113,4 +113,33 @@ namespace Functional.Fluent
             return GetEnumerator();
         }
     }
+
+    public class Result<V, U> : MonadicValue<Either<U, V>>, IResult
+    {
+        private Result(Either<U, V> e)
+        {
+            WrappedValue = e;
+        }
+
+        internal Result(V value)
+        {
+            WrappedValue = () => value;
+        }
+
+        internal Result(U value)
+        {
+            WrappedValue = () => value;
+        }
+
+        public bool IsSucceed => !WrappedValue.HasLeft() && WrappedValue.HasRight();
+
+        public bool IsFailed => !IsSucceed;
+
+        public override Either<U, V> Value => WrappedValue;
+
+        public V SuccessValue => WrappedValue.Right();
+
+        public U ErrorValue => WrappedValue.Left();
+
+    }
 }
