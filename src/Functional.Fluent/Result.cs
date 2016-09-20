@@ -116,17 +116,17 @@ namespace Functional.Fluent
 
     public class Result<V, U> : MonadicValue<Either<U, V>>, IResult
     {
-        private Result(Either<U, V> e)
+        public Result(Either<U, V> e)
         {
             WrappedValue = e;
         }
 
-        internal Result(V value)
+        public Result(V value)
         {
             WrappedValue = () => value;
         }
 
-        internal Result(U value)
+        public Result(U value)
         {
             WrappedValue = () => value;
         }
