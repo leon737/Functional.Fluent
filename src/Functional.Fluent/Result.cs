@@ -63,6 +63,10 @@ namespace Functional.Fluent
         }
 
         public static IResult Combine(params IResult[] results) => new Result<Unit>(results.All(x => x.IsSucceed));
+
+        public static ResultBuilderForSucceeded<T> For<T>(T value) => new ResultBuilderForSucceeded<T>(value);
+
+        public static ResultBuilderForFailed<T> For<T>() => new ResultBuilderForFailed<T>();
     }
 
     public class Result<T> : MonadicValue<T>, IResult
@@ -142,4 +146,39 @@ namespace Functional.Fluent
         public U ErrorValue => WrappedValue.Left();
 
     }
+
+    public abstract class ResultBuilder<T>
+    {
+        protected T _value;
+
+        protected bool _success;
+
+        protected ResultBuilder(bool success)
+        {
+            _success = success;
+        }
+
+        protected ResultBuilder(T value) : this(true)
+        {
+            _value = value;
+        }
+
+    }
+
+    public class ResultBuilderForSucceeded<T> : ResultBuilder<T>
+    {
+
+        internal ResultBuilderForSucceeded(T value) : base(value) { }
+
+        public Result<T, U> And<U>() => new Result<T, U>(_value);
+    }
+
+    public class ResultBuilderForFailed<T> : ResultBuilder<T>
+    {
+
+        internal ResultBuilderForFailed () : base(false) { }
+
+        public Result<T, U> And<U>(U value) => new Result<T, U>(value);
+    }
+
 }
