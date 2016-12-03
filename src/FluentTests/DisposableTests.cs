@@ -1,15 +1,15 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Functional.Fluent;
+using Functional.Fluent.Helpers;
+using NUnit.Framework;
 
 namespace FluentTests
 {
-    [TestClass]
+    [TestFixture]
     public class DisposableTests
     {
         
-        [TestMethod]
+        [Test]
         public void TestDisposable()
         {
             var disposableMock = new Mock<IDisposable>();
@@ -18,7 +18,25 @@ namespace FluentTests
             disposableMock.Verify(v => v.Dispose());
         }
 
-        [TestMethod]
+        [Test]
+        public void TestDisposableWithExpression()
+        {
+            var disposableMock = new Mock<IDisposable>();
+            var result = Disposable.UsingExpression(() => disposableMock.Object, d => d.ToString());
+            Assert.IsNotNull(result);
+            disposableMock.Verify(v => v.Dispose(), Times.Never);
+        }
+
+        [Test]
+        public void TestDisposableWithExpressionMaterialized()
+        {
+            var disposableMock = new Mock<IDisposable>();
+            var result = Disposable.UsingExpression(() => disposableMock.Object, d => d.ToString()).Compile()();
+            Assert.IsNotNull(result);
+            disposableMock.Verify(v => v.Dispose(), Times.Once);
+        }
+
+        [Test]
         public void TestDisposableShouldDisposeEvenAfterExceptionThrown()
         {
             var disposableMock = new Mock<IDisposable>();

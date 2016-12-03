@@ -1,0 +1,30 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ include file="../Core.tt"  #>
+
+using System;
+using Functional.Fluent.MonadicTypes;
+
+namespace Functional.Fluent.Extensions
+{
+	public static class FuncsExt
+    {
+
+	public static Func<Unit> ToUnit(this Action v) => () => { v(); return new Unit(); };
+
+
+	<# for (int i = 1; i <= 10; ++i)
+	{
+	#>
+    
+	
+	public static Func<<#= ListTypes(i) #>, Unit> ToUnit<<#= ListTypes(i) #>>(this Action<<#= ListTypes(i) #>> v) => (<#= ListArguments(i) #>) => { v(<#= ListArguments(i) #>); return new Unit(); };
+
+
+	<#
+    }
+	#>
+
+	}
+}

@@ -1,0 +1,32 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ include file="../Core.tt"  #>
+
+using System;
+using Functional.Fluent.MonadicTypes;
+
+namespace Functional.Fluent.Helpers
+{
+	
+	public static partial class Result
+    {
+
+	<# for (int i = 2; i <= 7; ++i)
+	{
+	#>
+    
+	internal static AggregateResult<<#= ListTypes(i - 1) #>> Success<<#= ListTypes(i - 1) #>>(Tuple<<#= ListResultTypes(i - 1) #>> value) => new AggregateResult<<#= ListTypes(i - 1) #>>(true, value);
+
+	internal static AggregateResult<<#= ListTypes(i - 1) #>> Fail<<#= ListTypes(i - 1) #>>(Tuple<<#= ListResultTypes(i - 1) #>> value) => new AggregateResult<<#= ListTypes(i - 1) #>>(false, value);
+	
+
+	<#
+    }
+	#>
+
+	}
+
+	
+	
+}

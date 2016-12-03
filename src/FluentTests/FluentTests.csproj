@@ -71,6 +71,8 @@
     <Compile Include="AutoValueTests.cs" />
     <Compile Include="DisposableTests.cs" />
     <Compile Include="EitherTests.cs" />
+    <Compile Include="EnumerableExtensionsTests.cs" />
+    <Compile Include="OutParamsHelperTests.cs" />
     <Compile Include="PatternMatchingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MaybeEnumerableTests.cs" />

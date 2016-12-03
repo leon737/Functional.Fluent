@@ -1,4 +1,5 @@
-﻿using Functional.Fluent;
+﻿using Functional.Fluent.Extensions;
+using Functional.Fluent.Helpers;
 using NUnit.Framework;
 
 namespace FluentTests

@@ -49,67 +49,124 @@
     <Compile Include="AutoValues\AutoValueUIntegerRandomGenerator.cs" />
     <Compile Include="AutoValues\AutoValueULongRandomGenerator.cs" />
     <Compile Include="AutoValues\IAutoValueGenerator.cs" />
-    <Compile Include="Disposable.cs" />
-    <Compile Include="Either.cs" />
-    <Compile Include="EitherExtensions.cs" />
-    <Compile Include="Funcs.cs" />
-    <Compile Include="FuncState1.cs">
+    <Compile Include="Extensions\BoolExtensions.cs" />
+    <Compile Include="Helpers\AggregateCollectionResult.cs" />
+    <Compile Include="Helpers\Disposable.cs" />
+    <Compile Include="Helpers\Either.cs" />
+    <Compile Include="Extensions\EitherExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\GuidExtensions.cs" />
+    <Compile Include="Extensions\NumericExtensions.cs" />
+    <Compile Include="Extensions\MemoExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Helpers\Funcs.cs" />
+    <Compile Include="Helpers\Funcs1.cs">
+      <DependentUpon>Funcs.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Helpers\ResultBuilder.cs" />
+    <Compile Include="Helpers\ResultBuilderForFailed.cs" />
+    <Compile Include="Helpers\ResultBuilderForSucceeded.cs" />
+    <Compile Include="Helpers\Result1.cs">
+      <DependentUpon>Result.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="MonadicTypes\FuncState1.cs">
       <DependentUpon>FuncState.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="FuncState.cs" />
-    <Content Include="FuncStateExtensions.tt">
+    <Compile Include="MonadicTypes\FuncState.cs" />
+    <Content Include="Extensions\FuncStateExtensions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FuncStateExtensions.cs</LastGenOutput>
     </Content>
-    <Compile Include="FuncStateExtensions.cs">
+    <Compile Include="Extensions\FuncStateExtensions.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FuncStateExtensions.tt</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\OutParamsHelper.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OutParamsHelper.tt</DependentUpon>
+    </Compile>
     <Compile Include="IResult.cs" />
-    <Compile Include="ListMatcher.cs" />
-    <Compile Include="ListMatcherContext.cs" />
-    <Compile Include="Matcher.cs" />
-    <Compile Include="MatcherContext.cs" />
-    <Compile Include="MonadicValue.cs" />
-    <Compile Include="Maybe.cs" />
-    <Compile Include="MaybeEnumerable.cs" />
-    <Compile Include="MaybeEnumerableApplicator.cs" />
-    <Compile Include="MaybeEnumerableConditionalApplicator.cs" />
+    <Compile Include="MonadicTypes\Result.cs" />
+    <Compile Include="MonadicTypes\Result1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Result.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Pattern\ListMatcher1.cs">
+      <DependentUpon>ListMatcher.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Pattern\ListMatcher.cs" />
+    <Compile Include="Pattern\ListMatcherContext.cs" />
+    <Compile Include="Pattern\Matcher.cs" />
+    <Compile Include="Pattern\MatcherContext.cs" />
+    <Compile Include="MonadicTypes\Memo.cs" />
+    <Compile Include="MonadicTypes\MemoBuilder.cs" />
+    <Compile Include="MonadicTypes\MonadicValue.cs" />
+    <Compile Include="MonadicTypes\Maybe.cs" />
+    <Compile Include="MonadicTypes\MaybeEnumerable.cs" />
+    <Compile Include="MonadicTypes\MaybeEnumerableApplicator.cs" />
+    <Compile Include="MonadicTypes\MaybeEnumerableConditionalApplicator.cs" />
     <Compile Include="Core.cs">
       <DependentUpon>Core.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Funcs1.cs">
+    <Compile Include="Extensions\Funcs1.cs">
       <DependentUpon>Funcs.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="MonadicValueExtensions.cs" />
-    <Compile Include="MaybeMonadExtensions.cs" />
-    <Compile Include="Monad1.cs">
+    <Compile Include="Extensions\MonadicValueExtensions.cs" />
+    <Compile Include="Extensions\MaybeMonadExtensions.cs" />
+    <Compile Include="Extensions\Monad1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Monad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pattern\MaybeTypeMatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Result.cs" />
-    <Compile Include="ResultExtensions.cs" />
-    <Compile Include="ResultExtensions1.cs">
+    <Compile Include="PropertyEqualityComparer.cs" />
+    <Compile Include="Helpers\Result.cs" />
+    <Compile Include="Extensions\ResultExtensions.cs" />
+    <Compile Include="Extensions\ResultExtensions1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ResultExtensions.tt</DependentUpon>
     </Compile>
-    <Compile Include="TypeMatcher.cs" />
-    <Compile Include="TypeMatcherContext.cs" />
+    <Compile Include="Pattern\TypeMatcher.cs" />
+    <Compile Include="Pattern\TypeMatcherContext.cs" />
     <Compile Include="Unit.cs" />
-    <Compile Include="XMaybe.cs" />
-    <Content Include="ResultExtensions.tt">
+    <Compile Include="Extensions\XMaybeExtensions.cs" />
+    <Content Include="Helpers\Funcs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Funcs1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Helpers\OutParamsHelper.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OutParamsHelper.cs</LastGenOutput>
+    </Content>
+    <Content Include="Extensions\ResultExtensions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ResultExtensions1.cs</LastGenOutput>
+    </Content>
+    <Content Include="MonadicTypes\Result.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Result1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Pattern\ListMatcher.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ListMatcher1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -117,15 +174,19 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Core.cs</LastGenOutput>
     </Content>
-    <Content Include="FuncState.tt">
+    <Content Include="Helpers\Result.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Result1.cs</LastGenOutput>
+    </Content>
+    <Content Include="MonadicTypes\FuncState.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FuncState1.cs</LastGenOutput>
     </Content>
-    <Content Include="Funcs.tt">
+    <Content Include="Extensions\Funcs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Funcs1.cs</LastGenOutput>
     </Content>
-    <Content Include="Monad.tt">
+    <Content Include="Extensions\Monad.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Monad1.cs</LastGenOutput>
     </Content>

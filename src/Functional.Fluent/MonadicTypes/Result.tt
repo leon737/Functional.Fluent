@@ -1,0 +1,55 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ include file="../Core.tt"  #>
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Functional.Fluent.MonadicTypes
+{
+	
+
+	<# for (int i = 2; i <= 7; ++i)
+	{
+	#>
+
+	public class AggregateResult<<#= ListTypes(i - 1) #>> : Result<Tuple<<#= ListResultTypes(i - 1) #>>>, IEnumerable<IResult>
+	{
+
+		public AggregateResult(bool isSucceed) : base(isSucceed)
+	    {
+	    }
+
+	    public AggregateResult(bool isSucceed, Tuple<<#= ListResultTypes(i - 1) #>> value) : base(isSucceed, value)
+	    {
+	    }
+
+	    public IEnumerator<IResult> GetEnumerator()
+	    {
+			<# for (int j = 1; j <= i; ++j) { #>
+				yield return Value.Item<#= j #>;
+			<# } #>
+	    }
+
+	    IEnumerator IEnumerable.GetEnumerator()
+	    {
+	        return GetEnumerator();
+	    }
+
+		public Tuple<<#= ListTypes(i - 1) #>> AggregateValue
+        {
+            get
+            {
+                if (IsSucceed)
+                    return Tuple.Create(<# for (int j = 1; j <= i; ++j) { #>WrappedValue.Item<#= j #>.Value <# if (j < i) { #> , <# } #><# } #>);
+                throw new ApplicationException("Cannot obtain value for not succeed result");
+            }
+        }
+	
+	}
+	<#
+    }
+	#>
+}

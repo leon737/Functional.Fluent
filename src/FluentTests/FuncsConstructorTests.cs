@@ -1,10 +1,11 @@
-﻿using System;
-using Functional.Fluent;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Functional.Fluent.Extensions;
+using Functional.Fluent.Helpers;
+using Functional.Fluent.Pattern;
+using NUnit.Framework;
 
 namespace FluentTests
 {
-    [TestClass]
+    [TestFixture]
     public class FuncsConstructorTests
     {
 
@@ -37,7 +38,7 @@ namespace FluentTests
             public int Foo() => _v * 3;
         }
 
-        [TestMethod]
+        [Test]
         public void TestSimpleConstructors()
         {
             var func = Funcs.Get<int, ISomeInterface>(5);
@@ -52,7 +53,7 @@ namespace FluentTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void TestSimpleConstructorsUsingMatching()
         {
             var f = Funcs.Get<int, ISomeInterface>(5).ToMaybe().With(v =>

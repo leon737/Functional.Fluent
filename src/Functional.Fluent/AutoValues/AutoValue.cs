@@ -1,4 +1,7 @@
 ﻿using System;
+using Functional.Fluent.Extensions;
+using Functional.Fluent.MonadicTypes;
+using Functional.Fluent.Pattern;
 
 namespace Functional.Fluent.AutoValues
 {

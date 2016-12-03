@@ -1,0 +1,55 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ include file="../Core.tt"  #>
+
+using System;
+
+namespace Functional.Fluent.MonadicTypes
+{
+
+	<# for (int i = 1; i <= 10; ++i)
+	{
+	#>
+    
+	
+	public class FuncState<<#= ListTypes(i) #>> : FuncState<<#= ListTypes(i - 2) #> <#= i > 1 ? $", T{i + 1}" : $"T{i + 1}"  #>>
+    {
+        protected <#=$"T{i} P{i}"#>;
+
+        public FuncState(<#= ListParameters(i - 1)  #>) <# if (i > 1) { #> : base(<#= ListArguments(i - 2)  #>)
+
+		<# } #>
+        {
+            <#=$"P{i} = p{i}"#>;
+        }
+
+        public <#= $"T{i + 1}" #> Invoke(Func<<#= ListTypes(i) #>> func) => func(<#= ListArguments(i - 1).ToUpper() #>);
+
+        public <#= $"T{i + 1}" #> Invoke(Action<<#= ListTypes(i - 1) #>> action) { action(<#= ListArguments(i - 1).ToUpper() #>); return default(<#= $"T{i + 1}" #>); }
+
+        public override <#= $"T{i + 1}" #> New<V>() => NewCore<V>(<#= ListArguments(i - 1).ToUpper() #>);
+
+		public new Func<Func<<#= ListTypes(i) #>>, <#= $"T{i + 1}" #>> ToFunc() => (Func<<#= ListTypes(i) #>> func) => Invoke(func);
+
+		public new Func<Func<<#= ListTypes(i) #>>, <#= $"T{i + 1}" #>> Func => ToFunc();
+    }
+
+
+	<#
+    }
+	#>
+
+	public partial class FuncState<T>
+    {
+
+	<# for (int i = 1; i <= 10; ++i) {	#>
+
+	public FuncState<<#= ListTypes(i - 1) #>, T> With<<#= ListTypes(i - 1) #>>(<#= ListParameters(i - 1) #>) => new FuncState<<#= ListTypes(i - 1) #>, T>(<#= ListArguments(i - 1) #>);
+
+	<# } #>
+
+
+	}
+
+}

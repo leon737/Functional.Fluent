@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
-using Functional.Fluent;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Functional.Fluent.Extensions;
+using NUnit.Framework;
 
 namespace FluentTests
 {
-    [TestClass]
+    [TestFixture]
     public class XMaybeTests
     {
 
@@ -19,7 +19,7 @@ namespace FluentTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestElement()
         {
             var m = GetTestElement().ToMaybe();
@@ -31,7 +31,7 @@ namespace FluentTests
             Assert.AreEqual("", result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestElements()
         {
             var m = GetTestElement().ToMaybe();
@@ -43,7 +43,7 @@ namespace FluentTests
             Assert.AreEqual(0, result.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void TestAttribute()
         {
             var m = GetTestElement().ToMaybe();
@@ -58,7 +58,7 @@ namespace FluentTests
             Assert.AreEqual("", result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestGetValue()
         {
             var m = GetTestElement().ToMaybe();
@@ -71,7 +71,7 @@ namespace FluentTests
             Assert.IsNotNull(result.Value());
         }
 
-        [TestMethod]
+        [Test]
         public void TestGetValueForAttributes()
         {
             var m = GetTestElement().ToMaybe();
@@ -84,7 +84,7 @@ namespace FluentTests
             Assert.IsNotNull(result.Value());
         }
 
-        [TestMethod]
+        [Test]
         public void TestGetValueWithLambda()
         {
             var m = GetTestElement().ToMaybe();
@@ -96,7 +96,7 @@ namespace FluentTests
             Assert.AreEqual(-1, result.Value(x => x.Length, -1));
         }
 
-        [TestMethod]
+        [Test]
         public void TestGetValueForAtttributesWithLambda()
         {
             var m = GetTestElement().ToMaybe();

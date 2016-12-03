@@ -1,0 +1,82 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ include file="../Core.tt"  #>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Functional.Fluent.Pattern
+{
+	public partial class ListMatcher<TV, TU> : Matcher<IEnumerable<TV>, TU>
+    {
+
+
+	<# for (int i = 2; i <= 11; ++i)
+	{
+	#>
+		
+		public void Add(Func<<#= Repeat("TV", i, ",")#>, IEnumerable<TV>, TU> func)
+        {
+            list.Add(new Tuple<Predicate<IEnumerable<TV>>, Func<IEnumerable<TV>, TU>>(x => x != null && x.Any(), 
+                v => func(<# for (int j = 0; j < i; ++j) { #>v.ElementAt(<#= j #>), <# } #>v.Skip(<#= i  #>)))); 
+        }
+				
+
+		public void Add(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? "," : ""); #> Predicate<TV> predicate<#= j  #>  <# } #>, Func<<#= Repeat("TV", i, ", ")#>, IEnumerable<TV>, TU> func)
+        {
+            list.Add(new Tuple<Predicate<IEnumerable<TV>>, Func<IEnumerable<TV>, TU>>(
+                x => x != null && x.Any() && <# for (int j = 0; j < i; ++j) { Write(j > 0 ? "&&" : ""); #>  predicate<#= j  #> (x.ElementAt(<#= j #>))<# } #>,
+                v => func(<# for (int j = 0; j < i; ++j) { #>v.ElementAt(<#= j #>), <# } #>v.Skip(<#= i  #>))));
+        }
+
+		public ListMatcher<TV, TU> With(Func<<#= Repeat("TV", i, ",") #>, IEnumerable<TV>, TU> func)
+        {
+            Add(func);
+            return this;
+        }
+
+		public ListMatcher<TV, TU> With(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? "," : ""); #> Predicate<TV> predicate<#= j  #>  <# } #>, Func<<#= Repeat("TV", i, ", ")#>, IEnumerable<TV>, TU> func)
+        {
+            Add(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? "," : ""); #>predicate<#= j  #> <# } #>, func);
+            return this;
+        }
+
+
+		public ListMatcher<TV, TU> With(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> Predicate<TV> predicate<#= j  #><# } #>, TU returnValue)
+        {
+            Add(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? "," : ""); #>predicate<#= j  #><# } #>, (<#= ListArguments(i)  #>) => returnValue);
+            return this;
+        }
+		
+
+	<#
+    }
+	#>
+
+	}
+
+	public partial class  ListMatcherContext<TV> : MatcherContext<IEnumerable<TV>>
+    {
+
+	<# for (int i = 2; i <= 11; ++i)
+	{
+	#>
+		
+		public ListMatcher<TV, TU> With<TU>(Func<<#= Repeat("TV", i, ",")#>, IEnumerable<TV>, TU> func) => 
+            new ListMatcher<TV, TU>(contextValue) { { func } };
+
+		public ListMatcher<TV, TU> With<TU>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? "," : ""); #> Predicate<TV> predicate<#= j  #>  <# } #>, Func<<#= Repeat("TV", i, ",")#>, IEnumerable<TV>, TU> func) => 
+            new ListMatcher<TV, TU>(contextValue) { { <# for (int j = 0; j < i; ++j) { Write(j > 0 ? "," : ""); #>predicate<#= j  #> <# } #>, func } };
+
+
+		public ListMatcher<TV, TU> With<TU>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? "," : ""); #> Predicate<TV> predicate<#= j  #>  <# } #>, TU returnValue) =>
+            new ListMatcher<TV, TU>(contextValue) { { <# for (int j = 0; j < i; ++j) { Write(j > 0 ? "," : ""); #>predicate<#= j  #><# } #>, (<#= ListArguments(i)  #>) => returnValue } };
+
+	<#
+    }
+	#>
+
+	}
+}

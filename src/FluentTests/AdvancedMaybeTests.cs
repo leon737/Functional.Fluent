@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Functional.Fluent;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Functional.Fluent.Extensions;
+using Functional.Fluent.MonadicTypes;
+using NUnit.Framework;
 
 namespace FluentTests
 {
-    [TestClass]
+    [TestFixture]
     public class AdvancedMaybeTests
     {
 
@@ -15,7 +15,7 @@ namespace FluentTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestLifMethod()
         {
             var list = new[]
@@ -25,19 +25,19 @@ namespace FluentTests
 
             var maybes = list.Select(v => v.ToMaybe());
             var lifted = maybes.ToMaybe().Lift();
-            Assert.IsInstanceOfType(lifted.ElementAt(0), typeof(Maybe<int>));
+            Assert.IsInstanceOf<Maybe<int>>(lifted.ElementAt(0));
         }
 
-        [TestMethod]
+        [Test]
         public void TestMonadMultiplication()
         {
             var o = new object();
             var m = o.ToMaybe();
             var m2 = m.ToMaybe();
-            Assert.IsInstanceOfType(m2, typeof(Maybe<object>));
+            Assert.IsInstanceOf<Maybe<object>>(m2);
         }
 
-        [TestMethod]
+        [Test]
         public void TestLinqSyntax()
         {
             var o = new TestFooClass() { sValue = "test"};
@@ -63,7 +63,7 @@ namespace FluentTests
             Assert.AreEqual(Maybe<int>.Nothing, r, "root object is null");
         }
 
-        [TestMethod]
+        [Test]
         public void TestLinqSyntax2()
         {
             var o = new TestFooClass() { sValue = "test" };
@@ -89,7 +89,7 @@ namespace FluentTests
             Assert.AreEqual(Maybe<int>.Nothing, r, "root object is null");
         }
 
-        [TestMethod]
+        [Test]
         public void TestIteratingOverMaybeCollection()
         {
             var i = Enumerable.Range(1, 10);
@@ -100,7 +100,7 @@ namespace FluentTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestIteratingOverMaybeCollectionWithFilter()
         {
             var i = Enumerable.Range(1, 10);

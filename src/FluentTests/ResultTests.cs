@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Functional.Fluent;
+using Functional.Fluent.Extensions;
+using Functional.Fluent.Helpers;
+using Functional.Fluent.MonadicTypes;
+using NUnit.Framework;
 
 namespace FluentTests
 {
-    [TestClass]
+    [TestFixture]
     public class ResultTests
     {
-        [TestMethod]
+        [Test]
         public void TestEvalWithNullReferenceException()
         {
             Func<string> someFunc = () => { throw new NullReferenceException(); };
@@ -16,15 +18,18 @@ namespace FluentTests
             Assert.IsTrue(result.IsFailed);
         }
 
-        [TestMethod, ExpectedException(typeof(ApplicationException))]
+        [Test]
         public void TestValueIsProtectedForFailedResult()
         {
             Func<Result<string>> someFunc = () => Result.Fail<string>();
             var result = someFunc();
-            var value = result.Value;
+            Assert.Throws<ApplicationException>(() =>
+            {
+                var resultValue = result.Value; 
+            });
         }
 
-        [TestMethod]
+        [Test]
         public void TestTwoResultsAreSucceeded()
         {
             var resultA = Result.Success("result A");
@@ -33,7 +38,7 @@ namespace FluentTests
             Assert.AreEqual("ok", result.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestTwoResultsOneSucceededOneFailed()
         {
             bool flag = false;
@@ -49,7 +54,7 @@ namespace FluentTests
             Assert.IsTrue(flag);
         }
 
-        [TestMethod]
+        [Test]
         public void TestTwoResultsOneSucceededOneFailedByOr()
         {
             bool flag = false;
@@ -65,7 +70,7 @@ namespace FluentTests
             Assert.IsTrue(flag);
         }
 
-        [TestMethod]
+        [Test]
         public void TestCombineResults()
         {
             var intResult = Result.Success(1);
@@ -75,9 +80,9 @@ namespace FluentTests
             var aggregateResult = intResult.And(stringResult).And(datetimeResult);
 
             // use of implicit cast from Result<T> to T
-            Assert.AreEqual(1, aggregateResult.Value.Item1);
-            Assert.AreEqual("hello", aggregateResult.Value.Item2);
-            Assert.AreEqual(new DateTime(2010, 1, 1), aggregateResult.Value.Item3);
+            Assert.AreEqual(1, (int)aggregateResult.Value.Item1);
+            Assert.AreEqual("hello", (string)aggregateResult.Value.Item2);
+            Assert.AreEqual(new DateTime(2010, 1, 1), (DateTime)aggregateResult.Value.Item3);
 
             // use of distinct AgregateValue property 
             Assert.AreEqual(1, aggregateResult.AggregateValue.Item1);
@@ -93,7 +98,7 @@ namespace FluentTests
             Assert.AreEqual(new DateTime(2010, 1, 1), result3.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestCombineResultsToCollectionAggregateResult()
         {
             var intResult = Result.Success(1);

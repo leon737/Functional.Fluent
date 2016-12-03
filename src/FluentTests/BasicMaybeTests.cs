@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-using Functional.Fluent;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Functional.Fluent.Extensions;
+using NUnit.Framework;
 
 namespace FluentTests
 {
-    [TestClass]
+    [TestFixture]
     public class BasicMaybeTests
     {
 
@@ -17,7 +16,7 @@ namespace FluentTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestWith()
         {
             var result = new MyClass {StringField = "hello"}.ToMaybe().With(x => x.StringField).With(x => x.Length).Value;
@@ -26,7 +25,7 @@ namespace FluentTests
             Assert.AreEqual(0, result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestReturn()
         {
             var result = new MyClass { StringField = "hello" }.ToMaybe().With(x => x.StringField).Return(x => x.Length, -1).Value;
@@ -35,7 +34,7 @@ namespace FluentTests
             Assert.AreEqual(-1, result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestReturnWithLambda()
         {
             var result = new MyClass { StringField = "hello" }.ToMaybe().With(x => x.StringField).Return(x => x.Length, () => -1).Value;
@@ -44,7 +43,7 @@ namespace FluentTests
             Assert.AreEqual(-1, result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestIf()
         {
             var result = new MyClass {StringField = "hello", IntField = 10}.ToMaybe().
@@ -55,7 +54,7 @@ namespace FluentTests
             Assert.AreEqual("", result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestUnless()
         {
             var result = new MyClass { StringField = "hello", IntField = 10 }.ToMaybe().
@@ -66,7 +65,7 @@ namespace FluentTests
             Assert.AreEqual("", result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestDo()
         {
             int result = 0;
@@ -82,7 +81,7 @@ namespace FluentTests
             Assert.AreEqual(0, result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestDoMultipleActions()
         {
             int result = 0;
@@ -102,7 +101,7 @@ namespace FluentTests
             Assert.AreEqual("", s);
         }
 
-        [TestMethod]
+        [Test]
         public void TestApplyIf()
         {
             var result = new MyClass {StringField = "hello"}.ToMaybe().
@@ -124,7 +123,7 @@ namespace FluentTests
             Assert.AreEqual("", result.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestApplyUnless()
         {
             var result = new MyClass { StringField = "hello" }.ToMaybe().
@@ -146,7 +145,7 @@ namespace FluentTests
             Assert.AreEqual("", result.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestIsNull()
         {
             var result = new MyClass { StringField = "hello" }.ToMaybe().
@@ -160,7 +159,7 @@ namespace FluentTests
             Assert.AreEqual("default", result.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestIsNullWithLambda()
         {
             var result = new MyClass { StringField = "hello" }.ToMaybe().
@@ -174,7 +173,7 @@ namespace FluentTests
             Assert.AreEqual("default", result.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestSelectOne()
         {
             var result = new MyClass {StringField = "hello", StringField2 = "world"}.ToMaybe()
@@ -196,6 +195,32 @@ namespace FluentTests
                 .SelectOne(x => x.With(z => z.StringField), x => x.With(z => z.StringField2))
                 .IsNull("default");
             Assert.AreEqual("default", result.Value);
+        }
+
+        [Test]
+        public void TestRefToMaybe()
+        {
+            string value = "hello";
+            string nothing = null;
+
+            var maybeValue = value.ToMaybe();
+            var maybeNothing = nothing.ToMaybe();
+
+            Assert.IsTrue(maybeValue.HasValue, "maybeValue.HasValue");
+            Assert.IsFalse(maybeNothing.HasValue, "maybeNothing.HasValue");
+        }
+
+        [Test]
+        public void TestValToMaybe()
+        {
+            int? value = 1;
+            int? nothing = null;
+
+            var maybeValue = value.ToMaybe();
+            var maybeNothing = nothing.ToMaybe();
+
+            Assert.IsTrue(maybeValue.HasValue, "maybeValue.HasValue");
+            Assert.IsFalse(maybeNothing.HasValue, "maybeNothing.HasValue");
         }
     }
 }

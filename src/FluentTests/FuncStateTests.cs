@@ -1,11 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Functional.Fluent;
-using static Functional.Fluent.FuncExtensions;
+using Functional.Fluent.Extensions;
+using Functional.Fluent.Helpers;
+using Functional.Fluent.MonadicTypes;
+using Functional.Fluent.Pattern;
+using NUnit.Framework;
+using static Functional.Fluent.Helpers.Funcs;
 
 namespace FluentTests
 {
-    [TestClass]
+    [TestFixture]
     public class FuncStateTests
     {
 
@@ -55,7 +58,7 @@ namespace FluentTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestUseOfFuncStateWithTypePatternMatching()
         {
             IMyInterface v = new A();
@@ -71,7 +74,7 @@ namespace FluentTests
             Assert.AreEqual(100, result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestUseOfFuncStateWithSimplePatternMatching()
         {
             var add2 = F((int x) => x + 2);
@@ -86,81 +89,147 @@ namespace FluentTests
             Assert.AreEqual(15, result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestUseOfFuncStateWithSimplePatternMatchingUsingRCompose()
         {
             var result = F((FuncState<int, int> v) => "multiply".ToM().Match()
-                .With("add", _ => v.Invoke((int x) => x + 2))
-                .With("multiply", _ => v.Invoke((int x) => x * 3))
+                .With("add", _ => v.Invoke(x => x + 2))
+                .With("multiply", _ => v.Invoke(x => x * 3))
                 .Do()).RCompose((int v) => Funcs.Get<int>().With(v))(5);
 
             Assert.AreEqual(15, result);
         }
 
-        [TestMethod]
+        [Test]
+        public void TestUseOfFuncStateWithSimplePatternMatchingUsingRComposeNoLambda()
+        {
+            var result = F((FuncState<int, int> v) => "multiply".ToM().Match()
+                .With("add", v.Invoke(x => x + 2))
+                .With("multiply", v.Invoke(x => x * 3))
+                .Do()).RCompose((int v) => Funcs.Get<int>().With(v))(5);
+
+            Assert.AreEqual(15, result);
+        }
+
+        [Test]
         public void TestUseOfFuncStateWithSimplePatternMatchingUsingCompose()
         {
             var result = F((int v) => Funcs.Get<int>().With(v))
-                .Compose((FuncState<int, int> v) => "multiply".ToM().Match()
+                .Compose(v => "multiply".ToM().Match()
                .With("add", _ => v.Invoke(F((int x) => x + 2)))
                .With("multiply", _ => v.Invoke(F((int x) => x * 3)))
                .Do())(5);
             Assert.AreEqual(15, result);
         }
 
-        [TestMethod]
+        [Test]
+        public void TestUseOfFuncStateWithSimplePatternMatchingUsingComposeNoLambda()
+        {
+            var result = F((int v) => Funcs.Get<int>().With(v))
+                .Compose(v => "multiply".ToM().Match()
+               .With("add", v.Invoke(F((int x) => x + 2)))
+               .With("multiply", v.Invoke(F((int x) => x * 3)))
+               .Do())(5);
+            Assert.AreEqual(15, result);
+        }
+
+        [Test]
         public void TestUseOfFuncStateWithSimplePatternMatchingUsingCall()
         {
             var result = F((Func<Func<int, int>, int> v) => "multiply".ToM().Match()
-                .With("add", _ => v((int x) => x + 2))
-                .With("multiply", _ => v((int x) => x * 3))
+                .With("add", _ => v(x => x + 2))
+                .With("multiply", _ => v(x => x * 3))
                 .Do())(F((int v) => Funcs.Get<int>().With(v).Func)(5));
 
             Assert.AreEqual(15, result);
         }
 
-        [TestMethod]
+        [Test]
+        public void TestUseOfFuncStateWithSimplePatternMatchingUsingCallNoLambda()
+        {
+            var result = F((Func<Func<int, int>, int> v) => "multiply".ToM().Match()
+                .With("add", v(x => x + 2))
+                .With("multiply", v(x => x * 3))
+                .Do())(F((int v) => Funcs.Get<int>().With(v).Func)(5));
+
+            Assert.AreEqual(15, result);
+        }
+
+        [Test]
         public void TestUseOfFuncStateWithSimplePatternMatchingUsingMatchConstructor()
         {
             var result = Funcs.Get<int>().With(5).With(v =>
                 new Matcher<string, int>()
                 {
-                    { "add", _ => v.Invoke((int x) => x + 2) },
-                    { "multiply", _ => v.Invoke((int x) => x * 3) }
+                    { "add", _ => v.Invoke(x => x + 2) },
+                    { "multiply", _ => v.Invoke(x => x * 3) }
                 }).Value.Match("multiply");
 
             Assert.AreEqual(15, result);
         }
 
-        [TestMethod]
+        [Test]
         public void TestUseOfFuncStateWithSimplePatternMatchingUsingMatchConstructorAndFluent()
         {
             var result = Funcs.Get<int>().With(5).With(v =>
                 new Matcher<string, int>()
-                    .With("add", _ => v.Invoke((int x) => x + 2))
-                    .With("multiply", _ => v.Invoke((int x) => x * 3)))
+                    .With("add", _ => v.Invoke(x => x + 2))
+                    .With("multiply", _ => v.Invoke(x => x * 3)))
                     .Value.Match("multiply");
 
             Assert.AreEqual(15, result);
         }
 
-        [TestMethod]
-        public void TestUseOfFuncStateWithSimplePatternMatchingUsingMathExtension()
+        [Test]
+        public void TestUseOfFuncStateWithSimplePatternMatchingUsingMatchConstructorAndFluentNoLambda()
         {
-            var result = Funcs.Get<int>().With(5).Match("multiply".ToM(), (m, v) => m
-                    .With("add", _ => v((int x) => x + 2))
-                    .With("multiply", _ => v((int x) => x * 3))).Do();            
+            var result = Funcs.Get<int>().With(5).With(v =>
+                new Matcher<string, int>()
+                    .With("add", v.Invoke(x => x + 2))
+                    .With("multiply", v.Invoke(x => x * 3)))
+                    .Value.Match("multiply");
 
             Assert.AreEqual(15, result);
         }
 
-        [TestMethod]
+        [Test]
+        public void TestUseOfFuncStateWithSimplePatternMatchingUsingMathExtension()
+        {
+            var result = Funcs.Get<int>().With(5).Match("multiply".ToM(), (m, v) => m
+                    .With("add", _ => v(x => x + 2))
+                    .With("multiply", _ => v(x => x * 3))).Do();
+
+            Assert.AreEqual(15, result);
+        }
+
+        [Test]
+        public void TestUseOfFuncStateWithSimplePatternMatchingUsingMathExtensionNoLambda()
+        {
+            var result = Funcs.Get<int>().With(5).Match("multiply".ToM(), (m, v) => m
+                    .With("add", v(x => x + 2))
+                    .With("multiply", v(x => x * 3))).Do();
+
+            Assert.AreEqual(15, result);
+        }
+
+        [Test]
         public void TestUseOfFuncStateWithSimpleTypePatternMatchingUsingMathExtension()
         {
             var result = Funcs.Get<int>().With(5).TypeMatch(((object)"the long string").ToM(), (m, v) => m
-                    .With(Case.Is<string>(), _ => v((int x) => x * 3))
-                    .With(Case.Is<string>(), _ => v((int x) => x + 2))
-                    .Else(_ => v((int x) => x))).Do();
+                    .With(Case.Is<string>(), _ => v(x => x * 3))
+                    .With(Case.Is<string>(), _ => v(x => x + 2))
+                    .Else(_ => v(x => x))).Do();
+
+            Assert.AreEqual(15, result);
+        }
+
+        [Test]
+        public void TestUseOfFuncStateWithSimpleTypePatternMatchingUsingMathExtensionNoLambda()
+        {
+            var result = Funcs.Get<int>().With(5).TypeMatch(((object)"the long string").ToM(), (m, v) => m
+                    .With(Case.Is<string>(), v(x => x * 3))
+                    .With(Case.Is<string>(), v(x => x + 2))
+                    .Else(v(x => x))).Do();
 
             Assert.AreEqual(15, result);
         }

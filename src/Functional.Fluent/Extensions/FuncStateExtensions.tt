@@ -1,0 +1,31 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ include file="../Core.tt"  #>
+
+using System;
+using Functional.Fluent.MonadicTypes;
+using Functional.Fluent.Pattern;
+
+namespace Functional.Fluent.Extensions
+{
+
+	public static class FuncStateExtensions
+    {
+
+	<# for (int i = 1; i <= 10; ++i) {	#>
+
+	public static MonadicValue<T> With<<#= ListTypes(i)#>, T>(this FuncState<<#= ListTypes(i) #>> s, Func<FuncState<<#= ListTypes(i)#>>, T> f) => new MonadicValue<T>(f(s));
+
+	public static Matcher<TV, TU> Match<TV, TU, <#= ListTypes(i)#>>(this FuncState<<#= ListTypes(i) #>> s, 
+		MonadicValue<TV> value, Func<MatcherContext<TV>, Func<Func<<#= ListTypes(i) #>>, <#= $"T{i + 1}" #>>, Matcher<TV, TU>> f) =>  f(value.Match(), s.Func);
+
+	public static MaybeTypeMatcher<TV, <#= $"T{i + 1}" #>> TypeMatch<TV, <#= ListTypes(i)#>>(this FuncState<<#= ListTypes(i) #>> s, 
+		MonadicValue<TV> value, Func<TypeMatcherContext<TV>, Func<Func<<#= ListTypes(i) #>>, <#= $"T{i + 1}" #>>, MaybeTypeMatcher<TV, <#= $"T{i + 1}" #>>> f) =>  f(value.TypeMatch(), s.Func);
+
+	<# } #>
+
+
+	}
+
+}

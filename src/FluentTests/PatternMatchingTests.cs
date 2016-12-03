@@ -1,16 +1,17 @@
 ﻿using System.Text;
-using Functional.Fluent;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Functional.Fluent.Extensions;
+using Functional.Fluent.Pattern;
+using NUnit.Framework;
 
 namespace FluentTests
 {
-    [TestClass]
+    [TestFixture]
     public class PatternMatchingTests
     {
-        [TestMethod]
+        [Test]
         public void TestApplyIf()
         {
             var s = "fox";
@@ -20,7 +21,7 @@ namespace FluentTests
             Assert.AreEqual("fox can run", r.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestApplyIfForValueTypes()
         {
             var i = 4;
@@ -30,7 +31,7 @@ namespace FluentTests
             Assert.AreEqual(8, r.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestMatchingForIntValues()
         {
             var i = 4;
@@ -44,7 +45,7 @@ namespace FluentTests
             Assert.AreEqual("4 is even", r);
         }
 
-        [TestMethod]
+        [Test]
         public void TestMatchingForIntExactValues()
         {
             var i = 4;
@@ -60,7 +61,7 @@ namespace FluentTests
             Assert.AreEqual("4 is four", r);
         }
 
-        [TestMethod]
+        [Test]
         public void TestMatchingForIntExactValueCollections()
         {
             var i = 4;
@@ -75,7 +76,7 @@ namespace FluentTests
             Assert.AreEqual("4 is two or four or six", r);
         }
 
-        [TestMethod]
+        [Test]
         public void TestNullMaybe()
         {
             string s = null;
@@ -83,7 +84,7 @@ namespace FluentTests
             Assert.IsFalse(r.HasValue);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFluentSyntax()
         {
             var s = "fox".ToM();
@@ -96,7 +97,7 @@ namespace FluentTests
             Assert.AreEqual("fox can run", r);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFluentSyntax2()
         {
             var s = "fox".ToM().Match(new Matcher<string, string>
@@ -108,7 +109,7 @@ namespace FluentTests
             Assert.AreEqual("fox can run", s.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFluentSyntax3()
         {
             var s = "fox".ToM().Match()
@@ -120,7 +121,7 @@ namespace FluentTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestTypeMatching()
         {
             var m = new TypeMatcher<string>
@@ -136,7 +137,7 @@ namespace FluentTests
             Assert.AreEqual("StringBuilder", m.Match(test2));
         }
 
-        [TestMethod]
+        [Test]
         public void TestTypeMatchingFluentSyntax()
         {
             var m = new TypeMatcher<string>
@@ -152,7 +153,7 @@ namespace FluentTests
             Assert.AreEqual("StringBuilder", test2.Value);
         }
               
-        [TestMethod]
+        [Test]
         public void TestMaybeFluentSyntax()
         {
             var s = "fox".ToM().Match()
@@ -164,7 +165,7 @@ namespace FluentTests
             Assert.AreEqual("fox can run", s);
         }
 
-        [TestMethod]
+        [Test]
         public void TestMaybeFluentSyntaxWithExact()
         {
             var s = "fox".ToM().Match()
@@ -176,7 +177,7 @@ namespace FluentTests
             Assert.AreEqual("fox can run", s);
         }
 
-        [TestMethod]
+        [Test]
         public void TestTypeMatchingMaybeFluentSyntax()
         {
             var test1 = ((object) "string").ToM().TypeMatch()
@@ -187,7 +188,7 @@ namespace FluentTests
             Assert.AreEqual("string", test1);
         }
 
-        [TestMethod]
+        [Test]
         public void TestTypeMatchingMaybeFluentSyntaxWithAdditionalPredicate()
         {
             var test1 = ((object)"the long string").ToM().TypeMatch()
@@ -199,7 +200,7 @@ namespace FluentTests
             Assert.AreEqual("the long string!", test1);
         }
 
-        [TestMethod]
+        [Test]
         public void TestMatchList()
         {
             var list = new [] { "good morning", "good afternoon", "good evening" };
@@ -210,7 +211,7 @@ namespace FluentTests
             Assert.AreEqual(2, result.Item2.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void TestMatchEmptyList()
         {
             var list = new List<string>();
@@ -226,7 +227,7 @@ namespace FluentTests
             .Else(v => v* factorial(v - 1))
             .Do();
 
-        [TestMethod]
+        [Test]
         public void TestCalculateFactorial()
         {
             int result = factorial(5);
@@ -238,7 +239,7 @@ namespace FluentTests
             .Empty(() => 0)
             .Do();
 
-        [TestMethod]
+        [Test]
         public void TestCalculateSumInList()
         {
             var list = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -252,12 +253,61 @@ namespace FluentTests
            .Empty(() => 0)
            .Do();
 
-        [TestMethod]
+        [Test]
         public void TestCalculateSumEvensInList()
         {
             var list = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             var result = sum_even(list);
             Assert.AreEqual(list.Where(x => x % 2 == 0).Sum(), result);
+        }
+
+        [Test]
+        public void TestNullReferencePassedToMatcher()
+        {
+            string value = null;
+            var result = value.ToM().Match()
+                .With("one", 1)
+                .With("two", 2)
+                .Else(-1)
+                .Do();
+            Assert.AreEqual(-1, result);
+        }
+
+        [Test]
+        public void TestNullReferencePassedToTypeMatcher()
+        {
+            string value = null;
+            var result = value.ToM().TypeMatch()
+                .With(Case.Is<string>(), "string")
+                .With(Case.Is<int>(), "integer")
+                .Else("something else")
+                .Do();
+            Assert.AreEqual("something else", result);
+        }
+
+        [Test]
+        public void TestNullReferencePassedToListMatcher()
+        {
+            int[] list = null;
+            var result = list.ToM().Match()
+                .With((h, t) => h * 2)
+                .Empty(-1)
+                .Do();
+            Assert.AreEqual(-1, result);
+        }
+
+       private Tuple<int, int> sum_both (IEnumerable<int> list ) => list.ToM().Match()
+            .With((a, b, tail) =>sum_both(tail).ToM().With(v => Tuple.Create(a + v.Item1, b + v.Item2)).Value)
+            .Empty(Tuple.Create(0, 0))
+            .Do();
+
+        [Test]
+        public void TestSumOddAndEven()
+        {
+            var list = new[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+            var result = sum_both(list);
+            Assert.AreEqual(25, result.Item1);
+            Assert.AreEqual(30, result.Item2);
         }
 
     }

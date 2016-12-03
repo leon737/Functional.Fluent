@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Functional.Fluent;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Functional.Fluent.Extensions;
+using NUnit.Framework;
 
 namespace FluentTests
 {
-    [TestClass]
+    [TestFixture]
     public class MaybeEnumerableTests
     {
-        [TestMethod]
+        [Test]
         public void TestWith()
         {
             var i = (IEnumerable<string>)new[]{"hello", null, "world!"};
@@ -20,7 +19,7 @@ namespace FluentTests
             Assert.AreEqual(6, r.ElementAt(1).Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestReturn()
         {
             var i = (IEnumerable<string>)new[] { "hello", null, "world!" };
@@ -32,7 +31,7 @@ namespace FluentTests
             Assert.AreEqual(6, r.ElementAt(2).Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestReturnWithLambda()
         {
             var i = (IEnumerable<string>)new[] { "hello", null, "world!" };
@@ -44,7 +43,7 @@ namespace FluentTests
             Assert.AreEqual(6, r.ElementAt(2).Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestDo()
         {
             var i = (IEnumerable<string>)new[] { "hello", null, "world!" };
@@ -54,7 +53,7 @@ namespace FluentTests
             Assert.AreEqual(11,cnt);
         }
 
-        [TestMethod]
+        [Test]
         public void TestDoMultipleActions()
         {
             var i = (IEnumerable<string>)new[] { "hello", null, "world!" };
@@ -66,7 +65,7 @@ namespace FluentTests
             Assert.AreEqual("helloworld!", s);
         }
 
-        [TestMethod]
+        [Test]
         public void TestApplyIf()
         {
             var i = (IEnumerable<string>)new[] { "hello", null, "world!" };
@@ -76,7 +75,7 @@ namespace FluentTests
             Assert.AreEqual("WORLD!", r.ElementAt(1).Value);
         }
 
-        [TestMethod]
+        [Test]
         public void TestApplyUnless()
         {
             var i = (IEnumerable<string>)new[] { "hello", null, "world!" };

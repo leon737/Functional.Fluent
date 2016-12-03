@@ -1,13 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Functional.Fluent;
+﻿using Functional.Fluent.Extensions;
+using NUnit.Framework;
 
 namespace FluentTests
 {
-    [TestClass]
+    [TestFixture]
     public class MonadicValueTests
     {
-        [TestMethod]
+        [Test]
         public void TestMapFunction()
         {
             var m = 5.ToM();
@@ -16,7 +15,7 @@ namespace FluentTests
             Assert.AreEqual(typeof(double), n.WrappedType);
         }
 
-        [TestMethod]
+        [Test]
         public void TestMapFunctions()
         {
             var m = 5.ToM();
