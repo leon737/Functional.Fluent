@@ -23,7 +23,15 @@ namespace Functional.Fluent.Pattern
 
         public void Add(Predicate<TV> predicate, Func<TV, TU> func)
         {
-            list.Add(Tuple.Create(predicate, func));
+            Add(predicate, func, true);
+        }
+
+        protected void Add(Predicate<TV> predicate, Func<TV, TU> func, bool nullSafe)
+        {
+            var finalPredicate = nullSafe && contextValue is Maybe<TV>
+                ? v => v != null && predicate(v)
+                : predicate;
+            list.Add(Tuple.Create(finalPredicate, func));
         }
 
         public void Add(TV value, Func<TV, TU> func)
@@ -128,13 +136,13 @@ namespace Functional.Fluent.Pattern
 
         public Matcher<TV, TU> Else(Func<TV, TU> func)
         {
-            Add(x => true, func);
+            Add(x => true, func, false);
             return this;
         }
 
         public Matcher<TV, TU> Else(TU resultValue)
         {
-            Add(x => true, _ => resultValue);
+            Add(x => true, _ => resultValue, false);
             return this;
         }
 

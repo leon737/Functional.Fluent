@@ -50,13 +50,13 @@ namespace Functional.Fluent.Pattern
 
         public ListMatcher<TV, TU> Empty(Func<TU> func)
         {
-            Add(x => true, _ => func());
+            Add(x => true, _ => func(), false);
             return this;
         }
 
         public ListMatcher<TV, TU> Empty(TU returnValue)
         {
-            Add(x => true, _ => returnValue);
+            Add(x => true, _ => returnValue, false);
             return this;
         }
     }
