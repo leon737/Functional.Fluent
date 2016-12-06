@@ -95,6 +95,7 @@
       <DependentUpon>OutParamsHelper.tt</DependentUpon>
     </Compile>
     <Compile Include="IResult.cs" />
+    <Compile Include="MonadicTypes\IMaybe.cs" />
     <Compile Include="MonadicTypes\Result.cs" />
     <Compile Include="MonadicTypes\Result1.cs">
       <AutoGen>True</AutoGen>

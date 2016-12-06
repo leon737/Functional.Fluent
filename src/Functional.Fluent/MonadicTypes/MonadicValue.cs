@@ -2,7 +2,7 @@ using System;
 
 namespace Functional.Fluent.MonadicTypes
 {
-    public class MonadicValue<T>
+    public class MonadicValue<T> 
     {
         protected T WrappedValue;
 

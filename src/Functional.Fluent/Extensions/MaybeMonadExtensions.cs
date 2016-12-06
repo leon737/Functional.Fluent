@@ -179,9 +179,17 @@ namespace Functional.Fluent.Extensions
             value.HasValue && value.Value.HasValue
                 ? value.Value
                 : Maybe<T>.Nothing;
-
-        public static Maybe<T> IsNull<T>(this Maybe<T> value, Maybe<T> defaultValue) => (!value?.HasValue ?? true) ? defaultValue : value;
-
+        
         public static Maybe<T> IsNull<T>(this Maybe<T> value, Func<Maybe<T>> func) => (!value?.HasValue ?? true) ? func() : value;
+
+        public static IMaybe<T> Interface<T>(this Maybe<T> value) => value;
+
+        public static MaybeEnumerable<T> AsMaybeEnumerable<T>(this IMaybe<IEnumerable<T>> value)
+        {
+            if (value == null || !value.HasValue)
+                return MaybeEnumerable<T>.Empty;
+
+            return new MaybeEnumerable<T>(value.Value);
+        }
     }
 }

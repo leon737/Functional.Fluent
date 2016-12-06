@@ -1,6 +1,6 @@
 namespace Functional.Fluent.MonadicTypes
 {
-    public class Maybe<T> : MonadicValue<T>
+    public class Maybe<T> : MonadicValue<T>, IMaybe<T>
     {
         public static readonly Maybe<T> Nothing = new Maybe<T>();
         public bool HasValue { get; protected set; }
@@ -18,5 +18,5 @@ namespace Functional.Fluent.MonadicTypes
 
         public static implicit operator Maybe<T>(T v) => new Maybe<T>(v);
 
-    }    
+    }
 }
