@@ -136,6 +136,7 @@
       <DependentUpon>Monad.tt</DependentUpon>
     </Compile>
     <Compile Include="Pattern\MaybeTypeMatcher.cs" />
+    <Compile Include="Pattern\PartiaMatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyEqualityComparer.cs" />
     <Compile Include="Helpers\Result.cs" />

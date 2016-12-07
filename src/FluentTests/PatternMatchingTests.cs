@@ -310,5 +310,44 @@ namespace FluentTests
             Assert.AreEqual(30, result.Item2);
         }
 
+        [Test]
+        public void TestPartials()
+        {
+            var value = "test";
+
+            var result = value.ToM().Match()
+                .Partial<string, int>((a, b) => b.Length == a)
+                .With(4, "four")
+                .With(5, "five")
+                .Do();
+            Assert.AreEqual("four", result);
+
+            value.ToM().Match()
+                .Partial((a, b) => b.Length == a, 4, "four")
+                .With(5, "five")
+                .Do();
+            Assert.AreEqual("four", result);
+
+            var result2 = value.ToM().Match()
+                .Partial<int, string>((a, b) => b.StartsWith(a))
+                .With("he", 1)
+                .With("te", 2)
+                .Do();
+            Assert.AreEqual(2, result2);
+
+            result2 = value.ToM().Match()
+                .Partial((a, b) => b.StartsWith(a), "he", 1)
+                .With("te", 2)
+                .Do();
+            Assert.AreEqual(2, result2);
+
+           result2 = value.ToM().Match()
+                .Partial((a, b, c) => c.StartsWith(a) && c.Length == b, "he", 5, 1)
+                .With("te", 4, 2)
+                .Do();
+
+            Assert.AreEqual(2, result2);
+        }
+
     }
 }
