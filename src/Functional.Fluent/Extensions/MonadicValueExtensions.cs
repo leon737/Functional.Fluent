@@ -53,13 +53,19 @@ namespace Functional.Fluent.Extensions
 
         /// matcher
 
+        public static MatcherContext<TV> Match<TV>(this TV v) => new MatcherContext<TV>(v);
+
         public static MatcherContext<TV> Match<TV>(this MonadicValue<TV> v) => new MatcherContext<TV>(v);
+
+        public static ListMatcherContext<TV> Match<TV>(this IEnumerable<TV> v) => new ListMatcherContext<TV>(new MonadicValue<IEnumerable<TV>>(v));
 
         public static ListMatcherContext<TV> Match<TV>(this MonadicValue<IEnumerable<TV>> v) => new ListMatcherContext<TV>(v);
 
         public static ListMatcherContext<TV> Match<TV>(this MonadicValue<List<TV>> v) => new ListMatcherContext<TV>(v.With(x => x as IEnumerable<TV>));
 
         public static ListMatcherContext<TV> Match<TV>(this MonadicValue<TV[]> v) => new ListMatcherContext<TV>(v.With(x => x as IEnumerable<TV>));
+
+        public static TypeMatcherContext<TV> TypeMatch<TV>(this TV v) => new TypeMatcherContext<TV>(v);
 
         public static TypeMatcherContext<TV> TypeMatch<TV>(this MonadicValue<TV> v) => new TypeMatcherContext<TV>(v);
 

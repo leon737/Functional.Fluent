@@ -56,6 +56,18 @@ namespace Functional.Fluent.Pattern
             return this;
         }
 
+        public Matcher<TV, TU> WithThrow<TE>(Predicate<TV> predicate) where TE : Exception, new() =>
+           With(predicate, _ =>
+           {
+               throw new TE();
+           });
+
+        public Matcher<TV, TU> WithThrow<TE>(Predicate<TV> predicate, TE exception) where TE : Exception =>
+            With(predicate, _ =>
+            {
+                throw exception;
+            });
+
         public Matcher<TV, TU> With(Predicate<TV> predicate, TU resultValue)
         {
             Add(predicate, _ => resultValue);
@@ -73,6 +85,18 @@ namespace Functional.Fluent.Pattern
             Add(value, _ => resultValue);
             return this;
         }
+
+        public Matcher<TV, TU> WithThrow<TE>(TV value, TE exception) where TE : Exception =>
+            With(value, _ =>
+            {
+                throw exception;
+            });
+
+        public Matcher<TV, TU> WithThrow<TE>(TV value) where TE : Exception, new() =>
+           With(value, _ =>
+           {
+               throw new TE();
+           });
 
         public Matcher<TV, TU> With(TV value, TV value2, Func<TV, TU> func)
         {
@@ -139,10 +163,28 @@ namespace Functional.Fluent.Pattern
             Add(x => true, func, false);
             return this;
         }
-
+        
         public Matcher<TV, TU> Else(TU resultValue)
         {
             Add(x => true, _ => resultValue, false);
+            return this;
+        }
+
+        public Matcher<TV, TU> ElseThrow<TE>() where TE : Exception, new()
+        {
+            Add(x => true, _ =>
+            {
+                throw new TE();
+            }, false);
+            return this;
+        }
+
+        public Matcher<TV, TU> ElseThrow<TE>(TE exception) where TE : Exception
+        {
+            Add(x => true, _ =>
+            {
+                throw exception;
+            }, false);
             return this;
         }
 

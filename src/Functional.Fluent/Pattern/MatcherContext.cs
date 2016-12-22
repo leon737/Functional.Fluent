@@ -19,11 +19,35 @@ namespace Functional.Fluent.Pattern
         public Matcher<TV, TU> With<TU>(Predicate<TV> predicate, TU resultValue) =>
             With(predicate, _ => resultValue);
 
+        public Matcher<TV, TU> WithThrow<TU, TE>(Predicate<TV> predicate) where TE : Exception, new() =>
+            With<TU>(predicate, _ =>
+            {
+                throw new TE();
+            });
+
+        public Matcher<TV, TU> WithThrow<TU, TE>(Predicate<TV> predicate, TE exception) where TE : Exception =>
+            With<TU>(predicate, _ =>
+            {
+                throw exception;
+            });
+
         public Matcher<TV, TU> With<TU>(TV value, Func<TV, TU> func) =>
             new Matcher<TV, TU>(contextValue) { { value, func } };
 
         public Matcher<TV, TU> With<TU>(TV value, TU resultValue) =>
             With(value, _ => resultValue);
+
+        public Matcher<TV, TU> WithThrow<TU, TE>(TV value) where TE : Exception, new() =>
+            With<TU>(value, _ =>
+            {
+                throw new TE();
+            });
+
+        public Matcher<TV, TU> WithThrow<TU, TE>(TV value, TE exception) where TE : Exception =>
+            With<TU>(value, _ =>
+            {
+                throw exception;
+            });
 
         public Matcher<TV, TU> With<TU>(TV value, TV value2, Func<TV, TU> func) =>
             new Matcher<TV, TU>(contextValue) { { new[] { value, value2 }, func } };

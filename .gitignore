@@ -117,3 +117,5 @@ TestResults/
 *.vsmdi
 *.testsettings
 *.nupkg
+
+Version.cs

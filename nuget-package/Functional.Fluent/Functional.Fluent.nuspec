@@ -9,7 +9,7 @@
     <description>Provides a functional fluent syntax for C# based apps</description>
     <copyright>Copyright 2016 Leonid Gordo</copyright>  
 	<licenseUrl>http://www.gnu.org/copyleft/lesser.html</licenseUrl>
-	<tags>fluent functional monad maybe pattern matching</tags>
+	<tags>fluent functional monad maybe pattern matching state result memo </tags>
 	<projectUrl>https://github.com/leon737/Functional.Fluent/wiki</projectUrl>
   </metadata>
   <files>
