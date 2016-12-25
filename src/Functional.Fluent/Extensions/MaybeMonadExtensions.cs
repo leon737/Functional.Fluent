@@ -191,5 +191,50 @@ namespace Functional.Fluent.Extensions
 
             return new MaybeEnumerable<T>(value.Value);
         }
+
+        public static Maybe<T> First<T>(this IEnumerable<Maybe<T>> value, Func<T, bool> predicate)
+        {
+            foreach (var item in value)
+            {
+                if (item.HasValue && predicate(item.Value))
+                    return item;
+            }
+            return Maybe<T>.Nothing;
+        }
+
+        public static Maybe<T> Last<T>(this IEnumerable<Maybe<T>> value, Func<T, bool> predicate)
+        {
+            var list = value as IList<Maybe<T>>;
+            
+            if (list != null)
+            {
+                int count = list.Count;
+                if (count > 0)
+                    for (int i = count - 1; i > 0; --i)
+                    {
+                        var item = list[i];
+                        if (item.HasValue && predicate(item))
+                            return item;
+                    }
+                return Maybe<T>.Nothing;
+            }
+
+            using (var e = value.GetEnumerator())
+                while (e.MoveNext())
+                {
+                    var item = e.Current;
+                    if (!item.HasValue || !predicate(item)) continue;
+
+                    while (e.MoveNext())
+                    {
+                        var element = e.Current;
+                        if (element.HasValue && predicate(element))
+                            item = element;
+                    }
+                    return item;
+                }
+            return Maybe<T>.Nothing;
+        }
+
     }
 }
