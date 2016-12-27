@@ -53,6 +53,7 @@
     <Compile Include="AutoValues\AutoValueULongRandomGenerator.cs" />
     <Compile Include="AutoValues\IAutoValueGenerator.cs" />
     <Compile Include="Extensions\BoolExtensions.cs" />
+    <Compile Include="Extensions\PatternMatchingExtensions.cs" />
     <Compile Include="Helpers\AggregateCollectionResult.cs" />
     <Compile Include="Helpers\Disposable.cs" />
     <Compile Include="Helpers\Either.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Functional.Fluent.Extensions;
 using NUnit.Framework;
@@ -11,7 +12,7 @@ namespace FluentTests
         [Test]
         public void TestWith()
         {
-            var i = (IEnumerable<string>)new[]{"hello", null, "world!"};
+            var i = (IEnumerable<string>)new[] { "hello", null, "world!" };
             var m = i.ToMaybe();
             var r = m.With(x => x.Length);
             Assert.AreEqual(2, r.Count());
@@ -49,8 +50,8 @@ namespace FluentTests
             var i = (IEnumerable<string>)new[] { "hello", null, "world!" };
             var m = i.ToMaybe();
             int cnt = 0;
-            var r = m.Do(x => cnt+=x.Length);
-            Assert.AreEqual(11,cnt);
+            var r = m.Do(x => cnt += x.Length);
+            Assert.AreEqual(11, cnt);
         }
 
         [Test]
@@ -83,6 +84,47 @@ namespace FluentTests
             var r = m.ApplyUnless(x => x.Length > 5, x => x.ToUpper());
             Assert.AreEqual("HELLO", r.ElementAt(0).Value);
             Assert.AreEqual("world!", r.ElementAt(1).Value);
+        }
+
+        [Test]
+        public void TestFirst()
+        {
+            var list = new[] { 1, 3, 5, 7, 9 }.AsEnumerable().ToMaybe();
+
+            var result = list.First(x => x % 2 == 0);
+            Assert.IsFalse(result.HasValue);
+
+            result = list.First(x => x % 2 != 0);
+            Assert.IsTrue(result.HasValue);
+            Assert.AreEqual(1, result.Value);
+        }
+
+        [Test]
+        public void TestLast()
+        {
+            var list = new[] { 1, 3, 5, 7, 9 }.AsEnumerable().ToMaybe();
+
+            var result = list.Last(x => x % 2 == 0);
+            Assert.IsFalse(result.HasValue);
+
+            result = list.Last(x => x % 2 != 0);
+            Assert.IsTrue(result.HasValue);
+            Assert.AreEqual(9, result.Value);
+        }
+
+        [Test]
+        public void TestSingle()
+        {
+            var list = new[] { 1, 3, 5, 7, 9 }.AsEnumerable().ToMaybe();
+
+            var result = list.Single(x => x % 5 == 0);
+            Assert.IsTrue(result.HasValue);
+            Assert.AreEqual(5, result.Value);
+
+            Assert.Throws<InvalidOperationException>(() => list.Single(x => x % 3 == 0));
+
+            result = list.Single(x => x % 2 == 0);
+            Assert.IsFalse(result.HasValue);
         }
     }
 }

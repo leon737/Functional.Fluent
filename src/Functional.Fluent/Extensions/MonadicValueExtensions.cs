@@ -51,29 +51,7 @@ namespace Functional.Fluent.Extensions
 
         public static MonadicValue<TU> Map<TV, TU>(this MonadicValue<TV> v, Func<MonadicValue<TV>, TU> mapFunc) => mapFunc(v).ToM();
 
-        /// matcher
-
-        public static MatcherContext<TV> Match<TV>(this TV v) => new MatcherContext<TV>(v);
-
-        public static MatcherContext<TV> Match<TV>(this MonadicValue<TV> v) => new MatcherContext<TV>(v);
-
-        public static ListMatcherContext<TV> Match<TV>(this IEnumerable<TV> v) => new ListMatcherContext<TV>(new MonadicValue<IEnumerable<TV>>(v));
-
-        public static ListMatcherContext<TV> Match<TV>(this MonadicValue<IEnumerable<TV>> v) => new ListMatcherContext<TV>(v);
-
-        public static ListMatcherContext<TV> Match<TV>(this MonadicValue<List<TV>> v) => new ListMatcherContext<TV>(v.With(x => x as IEnumerable<TV>));
-
-        public static ListMatcherContext<TV> Match<TV>(this MonadicValue<TV[]> v) => new ListMatcherContext<TV>(v.With(x => x as IEnumerable<TV>));
-
-        public static TypeMatcherContext<TV> TypeMatch<TV>(this TV v) => new TypeMatcherContext<TV>(v);
-
-        public static TypeMatcherContext<TV> TypeMatch<TV>(this MonadicValue<TV> v) => new TypeMatcherContext<TV>(v);
-
-        public static MonadicValue<TU> Match<TV, TU>(this MonadicValue<TV> v, Matcher<TV, TU> matcher) => matcher.Match(v.Value).ToM();
-
-        public static MonadicValue<TU> Match<TV, TU>(this MonadicValue<TV> v, TypeMatcher<TU> matcher) => matcher.Match(v.Value).ToM();
-
-        // funcs composition and partial application
+       // funcs composition and partial application
 
         public static Func<T2> Partial<T1, T2>(this Func<T1, T2> z, T1 p) => () => z(p);
 

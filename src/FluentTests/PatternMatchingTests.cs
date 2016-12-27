@@ -132,6 +132,40 @@ namespace FluentTests
         }
 
         [Test]
+        public void TestFluentSyntaxSimpleValues2()
+        {
+            var s = "fox".Match()
+                .With("bird", x => x + " can fly")
+                .With("fox", x => x + " can run")
+                .Else(x => x + " can do something else").Do();
+
+            Assert.AreEqual("fox can run", s);
+        }
+
+        [Test]
+        public void TestFluentSyntaxMaybeValues()
+        {
+            var s = "fox".ToMaybe().Match()
+                .With("bird", x => x + " can fly")
+                .With("fox", x => x + " can run")
+                .Else(x => x + " can do something else").Do();
+
+            Assert.AreEqual("fox can run", s);
+        }
+
+        [Test]
+        public void TestFluentSyntaxMValues()
+        {
+            var s = "fox".ToM().Match()
+                .With("bird", x => x + " can fly")
+                .With("fox", x => x + " can run")
+                .Else(x => x + " can do something else").Do();
+
+            Assert.AreEqual("fox can run", s);
+        }
+
+
+        [Test]
         public void TestWithThrowExceptionByParam()
         {
             var m = "fox".Match()

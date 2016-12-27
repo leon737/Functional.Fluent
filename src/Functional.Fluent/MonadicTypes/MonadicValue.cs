@@ -21,5 +21,19 @@ namespace Functional.Fluent.MonadicTypes
 
         public virtual Type WrappedType => typeof(T);
 
+        public override bool Equals(object obj)
+        {
+            if ((object)this == obj)
+                return true;
+
+            var other = obj as Maybe<T>;
+            if (other == null) return false;
+            
+            if (Value == null && other.Value == null) return true;
+
+            return Value != null && Value.Equals(other.Value);
+        }
+
+        public override int GetHashCode() => Value == null ? 0 : Value.GetHashCode();
     }
 }
