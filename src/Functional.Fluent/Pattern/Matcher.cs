@@ -254,4 +254,6 @@ namespace Functional.Fluent.Pattern
             return GetEnumerator();
         }
     }
+
+    
 }

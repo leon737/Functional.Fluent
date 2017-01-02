@@ -341,6 +341,16 @@ namespace FluentTests
         [Test]
         public void TestCalculateFactorial()
         {
+            int result = 0.Match()
+                .With(0, 1, _ => 1)
+                .Else(v => v*factorial(v - 1))
+                .ToFunc()(5);
+            Assert.AreEqual(120, result);
+        }
+
+        [Test]
+        public void TestCalculateFactorialSelfFunc()
+        {
             int result = factorial(5);
             Assert.AreEqual(120, result);
         }
@@ -369,6 +379,17 @@ namespace FluentTests
         {
             var list = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             var result = sum_even(list);
+            Assert.AreEqual(list.Where(x => x % 2 == 0).Sum(), result);
+        }
+
+        [Test]
+        public void TestCalculateSumEvensInListSelfFunc()
+        {
+            var list = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var result = ((IEnumerable<int>) list).Match()
+                .With(v => v%2 == 0, (head, tail) => head + sum_even(tail))
+                .With((_, tail) => sum_even(tail))
+                .Empty(() => 0).ToFunc()(list);
             Assert.AreEqual(list.Where(x => x % 2 == 0).Sum(), result);
         }
 
@@ -443,6 +464,17 @@ namespace FluentTests
         {
             var list = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             var result = sum_both(list);
+            Assert.AreEqual(25, result.Item1);
+            Assert.AreEqual(30, result.Item2);
+        }
+
+        [Test]
+        public void TestSumOddAndEvenSelfFunv()
+        {
+            var list = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var result = list.ToM().Match()
+                .With((a, b, tail) => sum_both(tail).ToM().With(v => Tuple.Create(a + v.Item1, b + v.Item2)).Value)
+                .Empty(Tuple.Create(0, 0)).ToFunc()(list);
             Assert.AreEqual(25, result.Item1);
             Assert.AreEqual(30, result.Item2);
         }

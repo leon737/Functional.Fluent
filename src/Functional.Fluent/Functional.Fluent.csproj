@@ -106,6 +106,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Result.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pattern\ExperimentalMatcherFactory.cs" />
     <Compile Include="Pattern\ListMatcher1.cs">
       <DependentUpon>ListMatcher.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -113,7 +114,9 @@
     </Compile>
     <Compile Include="Pattern\ListMatcher.cs" />
     <Compile Include="Pattern\ListMatcherContext.cs" />
+    <Compile Include="Pattern\ExperimentalMatcher.cs" />
     <Compile Include="Pattern\Matcher.cs" />
+    <Compile Include="Pattern\MatcherCompiler.cs" />
     <Compile Include="Pattern\MatcherContext.cs" />
     <Compile Include="MonadicTypes\Memo.cs" />
     <Compile Include="MonadicTypes\MemoBuilder.cs" />
