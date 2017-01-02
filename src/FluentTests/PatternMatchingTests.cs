@@ -385,6 +385,32 @@ namespace FluentTests
         }
 
         [Test]
+        public void TestNullReferencePassedToMatcher2()
+        {
+            string value = null;
+            var result = value.ToM().Match()
+                .With("one", 1)
+                .With("two", 2)
+                .With(x => x == null, 3)
+                .Else(-1)
+                .Do();
+            Assert.AreEqual(3, result);
+        }
+
+        [Test]
+        public void TestNullReferencePassedToMatcher3()
+        {
+            string value = null;
+            var result = value.ToM().Match()
+                .With("one", 1)
+                .With("two", 2)
+                .Null(3)
+                .Else(-1)
+                .Do();
+            Assert.AreEqual(3, result);
+        }
+
+        [Test]
         public void TestNullReferencePassedToTypeMatcher()
         {
             string value = null;
@@ -458,6 +484,34 @@ namespace FluentTests
                  .Do();
 
             Assert.AreEqual(2, result2);
+        }
+
+        [Test]
+        public void TestNullReferencePassedToMatcherWithLambda()
+        {
+            string value = null;
+            var result = value.ToMaybe().Match()
+                .With(v => v.Equals("one"), 1)
+                .With(v => v.Equals("two"), 2)
+                .Else(-1)
+                .Do();
+            Assert.AreEqual(-1, result);
+        }
+
+
+        [Test]
+        public void TestPartialNullRef()
+        {
+            string value = null;
+
+            var result = value.ToMaybe().Match()
+                .Partial<string, int>((a, b) => b.Length == a)
+                .With(4, "four")
+                .With(5, "five")
+                .Do();
+
+            Assert.IsNull( result);
+           
         }
 
     }

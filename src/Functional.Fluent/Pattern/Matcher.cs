@@ -158,6 +158,37 @@ namespace Functional.Fluent.Pattern
             return this;
         }
 
+
+        public Matcher<TV, TU> Null(Func<TV, TU> func)
+        {
+            Add(x => x == null, func, false);
+            return this;
+        }
+
+        public Matcher<TV, TU> Null(TU resultValue)
+        {
+            Add(x => x == null, _ => resultValue, false);
+            return this;
+        }
+
+        public Matcher<TV, TU> NullThrow<TE>() where TE : Exception, new()
+        {
+            Add(x => x == null, _ =>
+            {
+                throw new TE();
+            }, false);
+            return this;
+        }
+
+        public Matcher<TV, TU> NullThrow<TE>(TE exception) where TE : Exception
+        {
+            Add(x => x == null, _ =>
+            {
+                throw exception;
+            }, false);
+            return this;
+        }
+
         public Matcher<TV, TU> Else(Func<TV, TU> func)
         {
             Add(x => true, func, false);

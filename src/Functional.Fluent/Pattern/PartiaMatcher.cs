@@ -1,5 +1,6 @@
 ﻿using System;
 using Functional.Fluent.Extensions;
+using Functional.Fluent.MonadicTypes;
 
 namespace Functional.Fluent.Pattern
 {
@@ -7,7 +8,7 @@ namespace Functional.Fluent.Pattern
     {
         private readonly Func<T1, TV, bool> _func;
 
-        public PartiaMatcher(TV contextValue, Func<T1, TV, bool> func) : base(contextValue)
+        public PartiaMatcher(MonadicValue<TV> contextValue, Func<T1, TV, bool> func) : base(contextValue)
         {
             _func = func;
         }
