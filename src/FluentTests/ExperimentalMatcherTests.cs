@@ -1,17 +1,18 @@
-﻿using Functional.Fluent.Pattern;
+﻿using System;
+using Functional.Fluent.Pattern.Experimental;
 using NUnit.Framework;
 
 namespace FluentTests
 {
 
     [TestFixture]
-    public class ExperimentalMatcherTests
+    public class MatcherTests
     {
 
         [Test]
         public void TestMakeExpressions()
         {
-            var matcher = new ExperimentalMatcher<string, int>()
+            var matcher = new Matcher<string, int>()
                 .With("Hello", 1)
                 .With("Good", "Bye", 2);
 
@@ -23,7 +24,7 @@ namespace FluentTests
         [Test]
         public void TestMakeExpressionsCompile()
         {
-            var matcher = new ExperimentalMatcher<string, int>()
+            var matcher = new Matcher<string, int>()
                 .With("Hello", 1)
                 .With("Good", "Bye", 2);
 
@@ -38,7 +39,7 @@ namespace FluentTests
         [Test]
         public void TestMakeExpressionsCompileLambdas()
         {
-            var matcher = new ExperimentalMatcher<string, int>()
+            var matcher = new Matcher<string, int>()
                 .With(x => x == "Hello", v => v.Length * 2)
                 .With(x => x == "Good" || x == "Bye", v => v.Length);
 
@@ -52,7 +53,7 @@ namespace FluentTests
         [Test]
         public void TestMakeExpressionsElseCompile()
         {
-            var matcher = new ExperimentalMatcher<string, int>()
+            var matcher = new Matcher<string, int>()
                 .With("Hello", 1)
                 .With("Good", "Bye", 2)
                 .Null(3)
@@ -70,7 +71,7 @@ namespace FluentTests
         [Test]
         public void TestMakeExpressionsCompile2()
         {
-            var matcher = new ExperimentalMatcher<int, string>()
+            var matcher = new Matcher<int, string>()
                 .With(1, "Hello")
                 .With(2, "Goodbye");
 
@@ -83,7 +84,7 @@ namespace FluentTests
         [Test]
         public void TestMakeExpressionsCompile3()
         {
-            var matcher = new ExperimentalMatcher<int, string>()
+            var matcher = new Matcher<int, string>()
                 .With(1, "Hello")
                 .With(2, (string)null)
                 .With(3, _ => null);
@@ -93,6 +94,19 @@ namespace FluentTests
             Assert.AreEqual("Hello", func(1));
             Assert.IsNull(func(2));
             Assert.IsNull(func(3));
+        }
+
+        [Test]
+        public void TestMakeExpressionsCompileThrow()
+        {
+            var matcher = new Matcher<int, string>()
+                .With(1, "Hello")
+                .WithThrow<ApplicationException>(2);
+
+            var func = matcher.Compile();
+
+            Assert.AreEqual("Hello", func(1));
+            Assert.Throws<ApplicationException>(() => func(2));
         }
     }
 }
