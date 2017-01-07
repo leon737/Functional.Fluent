@@ -16,6 +16,6 @@
 	</dependencies>
   </metadata>
   <files>
-	<file src="lib/Functional.Fluent.dll" target="lib"/>
+	<file src="lib/net45/Functional.Fluent.dll" target="lib\net45"/>
   </files>
 </package>
