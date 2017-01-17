@@ -140,5 +140,19 @@ namespace FluentTests
             Assert.AreEqual(new DateTime(2010, 1, 1), result9.Value);
 
         }
+
+        [Test]
+        public void TestResultBuilder()
+        {
+            var result = Result.For(5).And<string>();
+            Assert.IsTrue(result.IsSucceed);
+            Assert.IsFalse(result.IsFailed);
+            Assert.AreEqual(5, result.SuccessValue);
+
+            result = Result.For<int>().And("error");
+            Assert.IsTrue(result.IsFailed);
+            Assert.IsFalse(result.IsSucceed);
+            Assert.AreEqual("error", result.ErrorValue);
+        }
     }
 }
