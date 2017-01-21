@@ -269,7 +269,7 @@ namespace FluentTests
         [Test]
         public void TestTypeMatchingMaybeFluentSyntax()
         {
-            var test1 = ((object)"string").ToM().TypeMatch()
+            var test1 = ((object)"string").TypeMatch()
                 .With(Case.Is<string>(), s => s)
                 .With(Case.Is<StringBuilder>(), s => s.ToString())
                 .Else(_ => "that's an object").Do();
@@ -313,7 +313,7 @@ namespace FluentTests
         [Test]
         public void TestTypeMatchingMaybeFluentSyntaxWithAdditionalPredicate()
         {
-            var test1 = ((object)"the long string").ToM().TypeMatch()
+            var test1 = ((object)"the long string").TypeMatch()
                 .With(Case.Is<string>(), s => s.Length > 10, s => s + "!")
                 .With(Case.Is<string>(), s => s)
                 .With(Case.Is<StringBuilder>(), s => s.ToString())
@@ -457,7 +457,7 @@ namespace FluentTests
         public void TestNullReferencePassedToTypeMatcher()
         {
             string value = null;
-            var result = value.ToM().TypeMatch()
+            var result = value.TypeMatch()
                 .With(Case.Is<string>(), "string")
                 .With(Case.Is<int>(), "integer")
                 .Else("something else")

@@ -11,7 +11,7 @@ namespace Functional.Fluent.AutoValues
     public static class AutoValue
     {
         public static AutoValue<T> Random<T>() =>
-            default(T).ToM().TypeMatch()
+            default(T).TypeMatch()
                 .With(Case.Is<int>(), _ => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueIntegerRandomGenerator()))
                 .With(Case.Is<uint>(), _ => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueUIntegerRandomGenerator()))
                 .With(Case.Is<long>(), _ => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueLongRandomGenerator()))
@@ -19,7 +19,7 @@ namespace Functional.Fluent.AutoValues
                 .Do();
 
         public static AutoValue<T> Random<T>(T minValue, T maxValue) =>
-            Tuple.Create(minValue, maxValue).ToM().TypeMatch()
+            Tuple.Create(minValue, maxValue).TypeMatch()
                 .With(Case.Is<Tuple<int, int>>(), v => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueIntegerRandomGenerator(v.Item1, v.Item2)))
                 .With(Case.Is<Tuple<uint, uint>>(), v => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueUIntegerRandomGenerator(v.Item1, v.Item2)))
                 .With(Case.Is<Tuple<long, long>>(), v => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueLongRandomGenerator(v.Item1, v.Item2)))
@@ -27,12 +27,12 @@ namespace Functional.Fluent.AutoValues
                 .Do();
 
         public static AutoValue<T> Seq<T>() =>
-            default(T).ToM().TypeMatch()
+            default(T).TypeMatch()
                 .With(Case.Is<int>(), _ => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueIntegerSequenceGenerator()))
                 .Do();
 
         public static AutoValue<T> Seq<T>(T initial, T min, T max, T step, bool loop) =>
-            Tuple.Create(initial, min, max, step, loop).ToM().TypeMatch()
+            Tuple.Create(initial, min, max, step, loop).TypeMatch()
                 .With(Case.Is<Tuple<int, int, int, int, bool>>(), v => new AutoValue<T>((IAutoValueGenerator<T>)new AutoValueIntegerSequenceGenerator(v.Item1, v.Item2, v.Item3, v.Item4, v.Item5)))
                 .Do();
     }

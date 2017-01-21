@@ -31,7 +31,7 @@ namespace Functional.Fluent
         public int GetHashCode(T obj) => _accessor(obj).Aggregate(0, (a, v) => a ^ (v?.GetHashCode() ?? 0));
 
         private Func<T, IEnumerable<object>> GetAccessor(Expression<Func<T, V>> selector) =>
-            selector.Body.ToM().TypeMatch()
+            selector.Body.TypeMatch()
            .With(Case.Is<MemberExpression>(), v => _func.Partial(new[] { v.Member }))
            .With(Case.Is<NewExpression>(), v => _func.Partial(v.Arguments.Select(z => ((MemberExpression)z).Member)))
            .Do();
