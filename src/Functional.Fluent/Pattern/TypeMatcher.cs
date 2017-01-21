@@ -21,6 +21,19 @@ namespace Functional.Fluent.Pattern
             list.Add(Tuple.Create((Expression)predicate, (Expression)whenPredicate, (Expression)func));
         }
 
+        public void Add<TZ, TE>(Expression<Func<object, TZ>> predicate, Expression<Func<TZ, bool>> whenPredicate, TE exception) where TE : Exception
+        {
+            list.Add(Tuple.Create((Expression)predicate, (Expression)whenPredicate, BuildThrowExpression(exception)));
+        }
+
+        public void Add<TZ, TE>(Expression<Func<object, TZ>> predicate, TE exception) where TE : Exception
+        {
+            list.Add(Tuple.Create((Expression)predicate, (Expression)null, BuildThrowExpression(exception)));
+        }
+
+        protected Expression BuildThrowExpression(Exception exception) => Expression.Throw(Expression.Constant(exception));
+
+
         public TU Match(object value)
         {
             foreach (var item in list)
@@ -39,21 +52,33 @@ namespace Functional.Fluent.Pattern
                     else matched = true;
                     if (matched)
                     {
-                        var expression = item.Item3 as LambdaExpression;
-                        var func = expression.Compile();
-                        return (TU)func.DynamicInvoke(value);
+                        return ExecuteExpression(item.Item3, value);
                     }
                 }
             }
 
             if (elseExpression != null)
             {
-                var expression = elseExpression as LambdaExpression;
-                var func = expression.Compile();
-                return (TU)func.DynamicInvoke(value);
+                return ExecuteExpression(elseExpression, value);
             }
 
             return default(TU);
+        }
+
+        private TU ExecuteExpression(Expression expression, object value)
+        {
+            var lambdaExpression = expression as LambdaExpression;
+            if (lambdaExpression != null)
+            {
+                var func = lambdaExpression.Compile();
+                return (TU)func.DynamicInvoke(value);
+            }
+            var unaryExpression = expression as UnaryExpression;
+            if (unaryExpression?.NodeType == ExpressionType.Throw)
+            {
+                throw (Exception)((ConstantExpression)unaryExpression.Operand).Value;
+            }
+            throw new InvalidOperationException();
         }
 
 
@@ -67,10 +92,5 @@ namespace Functional.Fluent.Pattern
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    }
-
-    public class Case
-    {
-        public static Expression<Func<object, T>> Is<T>() => _ => default(T);
     }
 }

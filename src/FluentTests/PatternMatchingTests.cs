@@ -289,6 +289,28 @@ namespace FluentTests
         }
 
         [Test]
+        public void TestTypeMatchingWithThrowExceptions()
+        {
+            var matcher = ((object)"string").TypeMatch()
+                .With(Case.Is<StringBuilder>(), s => s.ToString())
+                .WithThrow(Case.Is<string>(), new ArgumentException())
+                .Else(_ => "that's an object");
+
+            Assert.Throws<ArgumentException>(() => matcher.Do());
+        }
+
+        [Test]
+        public void TestTypeMatchingElseThrowExceptions()
+        {
+            var matcher = ((object)"string").TypeMatch()
+                .With(Case.Is<StringBuilder>(), s => s.ToString())
+                .With(Case.Is<int>(), s => s.ToString())
+                .ElseThrow<ArgumentException>();
+
+            Assert.Throws<ArgumentException>(() => matcher.Do());
+        }
+
+        [Test]
         public void TestTypeMatchingMaybeFluentSyntaxWithAdditionalPredicate()
         {
             var test1 = ((object)"the long string").ToM().TypeMatch()

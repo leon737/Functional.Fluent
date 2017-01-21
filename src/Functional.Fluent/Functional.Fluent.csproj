@@ -109,6 +109,7 @@
       <DependentUpon>Result.tt</DependentUpon>
     </Compile>
     <Compile Include="ObjectMemberAccessor.cs" />
+    <Compile Include="Pattern\Case.cs" />
     <Compile Include="Pattern\Experimental\ExperimentalMatcherFactory.cs" />
     <Compile Include="Pattern\MatcherMemberAccessor1.cs">
       <DependentUpon>MatcherMemberAccessor.tt</DependentUpon>

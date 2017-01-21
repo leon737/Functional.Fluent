@@ -25,6 +25,12 @@ namespace Functional.Fluent.Pattern
             return this;
         }
 
+        public MaybeTypeMatcher<TV, TU> WithThrow<TZ, TE>(Expression<Func<object, TZ>> predicate, TE exception) where TE : Exception
+        {
+            Add(predicate, exception);
+            return this;
+        }
+
         public MaybeTypeMatcher<TV, TU> With<TZ>(Expression<Func<object, TZ>> predicate, Expression<Func<TZ, bool>> whenPredicate, Expression<Func<TZ, TU>> func)
         {
             Add(predicate, whenPredicate, func);
@@ -37,6 +43,13 @@ namespace Functional.Fluent.Pattern
             return this;
         }
 
+        public MaybeTypeMatcher<TV, TU> With<TZ, TE>(Expression<Func<object, TZ>> predicate, Expression<Func<TZ, bool>> whenPredicate, TE exception)
+            where TE : Exception
+        {
+            Add(predicate, whenPredicate, exception);
+            return this;
+        }
+
         public MaybeTypeMatcher<TV, TU> Else(Expression<Func<TV, TU>> func)
         {
             elseExpression = func;
@@ -46,6 +59,18 @@ namespace Functional.Fluent.Pattern
         public MaybeTypeMatcher<TV, TU> Else(TU returnValue)
         {
             elseExpression = (Expression< Func<TV,TU>>)(_ => returnValue);
+            return this;
+        }
+
+        public MaybeTypeMatcher<TV, TU> ElseThrow<TE>() where TE:Exception, new()
+        {
+            elseExpression = BuildThrowExpression(new TE());
+            return this;
+        }
+
+        public MaybeTypeMatcher<TV, TU> ElseThrow<TE>(TE exception) where TE : Exception
+        {
+            elseExpression = BuildThrowExpression(exception);
             return this;
         }
 
