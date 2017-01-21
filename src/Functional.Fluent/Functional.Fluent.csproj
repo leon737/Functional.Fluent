@@ -70,6 +70,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Helpers\ObjectMemberAccessor.cs" />
     <Compile Include="Helpers\ResultBuilder.cs" />
     <Compile Include="Helpers\ResultBuilderForFailed.cs" />
     <Compile Include="Helpers\ResultBuilderForSucceeded.cs" />
@@ -78,6 +79,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="MemberAccessor.cs" />
     <Compile Include="MonadicTypes\FuncState1.cs">
       <DependentUpon>FuncState.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -106,7 +108,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Result.tt</DependentUpon>
     </Compile>
+    <Compile Include="ObjectMemberAccessor.cs" />
     <Compile Include="Pattern\Experimental\ExperimentalMatcherFactory.cs" />
+    <Compile Include="Pattern\MatcherMemberAccessor1.cs">
+      <DependentUpon>MatcherMemberAccessor.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Pattern\Matcher1.cs">
+      <DependentUpon>Matcher.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Pattern\ListMatcher1.cs">
       <DependentUpon>ListMatcher.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -142,6 +155,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Monad.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pattern\MatcherMemberAccessor.cs" />
     <Compile Include="Pattern\MaybeTypeMatcher.cs" />
     <Compile Include="Pattern\PartiaMatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -172,6 +186,14 @@
     <Content Include="MonadicTypes\Result.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Result1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Pattern\MatcherMemberAccessor.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MatcherMemberAccessor1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Pattern\Matcher.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matcher1.cs</LastGenOutput>
     </Content>
     <Content Include="Pattern\ListMatcher.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

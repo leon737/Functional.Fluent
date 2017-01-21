@@ -56,13 +56,17 @@ namespace Functional.Fluent.Extensions
 
         public static AggregateCollectionResult Or<T>(this AggregateCollectionResult result, Result<T> other) => Result.Combine(result, other);
 
-        public static Result<V> PureSuccess<T, V>(this Result<T> result, Func<T, V> func) => result.Success(v => Result.Success(func(v)));
+        public static Result<V> SuccessValue<T, V>(this Result<T> result, Func<T, V> func) => result.Success(v => Result.Success(func(v)));
 
-        public static Result<V> PureSuccess<T, V>(this Result<T> result, V value)=> result.Success(_ => Result.Success(value));
+        public static Result<V> SuccessValue<T, V>(this Result<T> result, V value)=> result.Success(_ => Result.Success(value));
 
-        public static Result<T> PureFail<T>(this Result<T> result, Func<T> func) => result.Fail(() => Result.Success(func()));
+        public static Result<T> FailValue<T>(this Result<T> result, Func<T> func) => result.Fail(() => Result.Success(func()));
 
-        public static Result<T> PureFail<T>(this Result<T> result, T value) => result.Fail(() => Result.Success(value));
+        public static Result<T> FailValue<T>(this Result<T> result, T value) => result.Fail(() => Result.Success(value));
+
+        public static Result<T> FailThrow<T>(this Result<T> result) where T:Exception, new() => result.Fail(() => { throw new T();});
+
+        public static Result<T> FailThrow<T>(this Result<T> result, T exception) where T : Exception => result.Fail(() => { throw exception; });
 
         public static Result<Unit> ToResult(this bool value) => value ? Result.Success() : Result.Fail<Unit>();
     }

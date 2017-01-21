@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Functional.Fluent.MonadicTypes;
 
 namespace Functional.Fluent.Pattern
 {
-    public class Matcher<TV, TU> : IEnumerable<TU>
+    public partial class Matcher<TV, TU> : IEnumerable<TU>
     {
         protected readonly List<Tuple<Predicate<TV>, Func<TV, TU>>>  list = new List<Tuple<Predicate<TV>, Func<TV, TU>>>();
 
@@ -56,6 +57,7 @@ namespace Functional.Fluent.Pattern
             return this;
         }
 
+        
         public Matcher<TV, TU> WithThrow<TE>(Predicate<TV> predicate) where TE : Exception, new() =>
            With(predicate, _ =>
            {
@@ -73,13 +75,13 @@ namespace Functional.Fluent.Pattern
             Add(predicate, _ => resultValue);
             return this;
         }
-
+        
         public Matcher<TV, TU> With(TV value, Func<TV, TU> func)
         {
             Add(value, func);
             return this;
         }
-
+        
         public Matcher<TV, TU> With(TV value, TU resultValue)
         {
             Add(value, _ => resultValue);
@@ -97,55 +99,7 @@ namespace Functional.Fluent.Pattern
            {
                throw new TE();
            });
-
-        public Matcher<TV, TU> With(TV value, TV value2, Func<TV, TU> func)
-        {
-            Add(new[] { value, value2 }, func);
-            return this;
-        }
-
-        public Matcher<TV, TU> With(TV value, TV value2, TU resultValue)
-        {
-            Add(new[] { value, value2 }, _ => resultValue);
-            return this;
-        }
-
-        public Matcher<TV, TU> With(TV value, TV value2, TV value3, Func<TV, TU> func)
-        {
-            Add(new[] { value, value2, value3 }, func);
-            return this;
-        }
-
-        public Matcher<TV, TU> With(TV value, TV value2, TV value3, TU resultValue)
-        {
-            Add(new[] { value, value2, value3 }, _ => resultValue);
-            return this;
-        }
-
-        public Matcher<TV, TU> With(TV value, TV value2, TV value3, TV value4, Func<TV, TU> func)
-        {
-            Add(new[] { value, value2, value3, value4 }, func);
-            return this;
-        }
-
-        public Matcher<TV, TU> With(TV value, TV value2, TV value3, TV value4, TU resultValue)
-        {
-            Add(new[] { value, value2, value3, value4 }, _ => resultValue);
-            return this;
-        }
-
-        public Matcher<TV, TU> With(TV value, TV value2, TV value3, TV value4, TV value5, Func<TV, TU> func)
-        {
-            Add(new[] { value, value2, value3, value4, value5 }, func);
-            return this;
-        }
-
-        public Matcher<TV, TU> With(TV value, TV value2, TV value3, TV value4, TV value5, TU resultValue)
-        {
-            Add(new[] { value, value2, value3, value4, value5 }, _ => resultValue);
-            return this;
-        }
-
+        
         public Matcher<TV, TU> With(IEnumerable<TV>values , Func<TV, TU> func)
         {
             Add(values, func);
@@ -158,6 +112,18 @@ namespace Functional.Fluent.Pattern
             return this;
         }
 
+        public Matcher<TV, TU> WithThrow<TE>(IEnumerable<TV> values, TE exception) where TE : Exception =>
+           With(values, _ =>
+           {
+               throw exception;
+           });
+
+        public Matcher<TV, TU> WithThrow<TE>(IEnumerable<TV> values) where TE : Exception, new() =>
+           With(values, _ =>
+           {
+               throw new TE();
+           });
+        
 
         public Matcher<TV, TU> Null(Func<TV, TU> func)
         {

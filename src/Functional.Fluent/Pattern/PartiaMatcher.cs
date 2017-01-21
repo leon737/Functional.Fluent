@@ -4,7 +4,7 @@ using Functional.Fluent.MonadicTypes;
 
 namespace Functional.Fluent.Pattern
 {
-    public class PartiaMatcher<TV, TU, T1> : Matcher<TV, TU>
+    public partial class PartiaMatcher<TV, TU, T1> : Matcher<TV, TU>
     {
         private readonly Func<T1, TV, bool> _func;
 

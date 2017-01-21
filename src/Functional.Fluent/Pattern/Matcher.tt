@@ -1,0 +1,82 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ include file="../Core.tt"  #>
+
+using System;
+using System.Linq.Expressions;
+
+namespace Functional.Fluent.Pattern
+{
+	public partial class Matcher<TV, TU>
+    {
+	
+	<# for (int i = 2; i <= 11; ++i)
+	{
+	#>
+		
+		public Matcher<TV, TU> With(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> TV value<#= j  #><# } #>, Func<TV, TU> func)
+        {
+            Add(new[] { <# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> value<#= j  #><# } #> }, func);
+            return this;
+        }
+
+        public Matcher<TV, TU> With(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> TV value<#= j  #><# } #>, TU resultValue)
+        {
+            Add(new[] {<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> value<#= j  #><# } #> }, _ => resultValue);
+            return this;
+        }
+
+        public Matcher<TV, TU> WithThrow<TE>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> TV value<#= j  #><# } #>, TE exception) where TE : Exception =>
+           With(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> value<#= j  #><# } #>, _ =>
+           {
+               throw exception;
+           });
+
+        public Matcher<TV, TU> WithThrow<TE>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> TV value<#= j  #><# } #>) where TE : Exception, new() =>
+           With(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> value<#= j  #><# } #>, _ =>
+           {
+               throw new TE();
+           });
+
+	<#
+    }
+	#>
+
+	}
+
+	public partial class MatcherContext<TV>
+	{
+	
+	<# for (int i = 2; i <= 11; ++i)
+	{
+	#>
+
+		public Matcher<TV, TU> With<TU>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> TV value<#= j  #><# } #>, Func<TV, TU> func) =>
+            new Matcher<TV, TU>(contextValue) { { new[] { <# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> value<#= j  #><# } #> }, func } };
+
+        public Matcher<TV, TU> With<TU>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> TV value<#= j  #><# } #>, TU resultValue) =>
+            With(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> value<#= j  #><# } #>, _ => resultValue);
+
+        public MatcherMemberAccessor<TV, TC, TM> Member<TC, TM>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> TV value<#= j  #><# } #>, Expression<Func<TC, TM>> expression) =>
+            Member(new[] {<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> value<#= j  #><# } #>}, expression);
+
+        public Matcher<TV, TU> WithThrow<TU, TE>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> TV value<#= j  #><# } #>) where TE : Exception, new() =>
+            With<TU>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> value<#= j  #><# } #>, _ =>
+            {
+                throw new TE();
+            });
+
+        public Matcher<TV, TU> WithThrow<TU, TE>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> TV value<#= j  #><# } #>, TE exception) where TE : Exception =>
+            With<TU>(<# for (int j = 0; j < i; ++j) { Write(j > 0 ? ", " : ""); #> value<#= j  #><# } #>, _ =>
+            {
+                throw exception;
+            });
+
+	<#
+    }
+	#>
+	
+	}
+
+}
