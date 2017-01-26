@@ -110,6 +110,6 @@ namespace FluentTests
                 Assert.IsTrue(e % 2 == 0);
             }
         }
-        
+
     }
 }

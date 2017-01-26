@@ -24,7 +24,7 @@ namespace Functional.Fluent.MonadicTypes
                 return true;
 
             var other = obj as Maybe<T>;
-            if (other == null) return false;
+            if ((object)other == null) return false;
 
             if (HasValue != other.HasValue) return false;
 
@@ -39,6 +39,40 @@ namespace Functional.Fluent.MonadicTypes
         {
             if (!HasValue || Value == null) return 0;
             return Value.GetHashCode();
+        }
+
+        public static bool operator ==(Maybe<T> lhv, Maybe<T> rhv)
+        {
+            if((object)lhv == (object)rhv)
+                return true;
+
+            if ((object)lhv == null || (object)rhv == null)
+                return false;
+
+            if (lhv.HasValue != rhv.HasValue) return false;
+
+            if (!lhv.HasValue) return true;
+
+            if (lhv.Value == null && rhv.Value == null) return true;
+
+            return lhv.Value != null && lhv.Value.Equals(rhv.Value);
+        }
+
+        public static bool operator !=(Maybe<T> lhv, Maybe<T> rhv)
+        {
+            if ((object)lhv == (object)rhv)
+                return false;
+
+            if ((object)lhv == null || (object)rhv == null)
+                return true;
+
+            if (lhv.HasValue != rhv.HasValue) return true;
+
+            if (!lhv.HasValue) return false;
+
+            if (lhv.Value == null && rhv.Value == null) return false;
+
+            return lhv.Value == null || !lhv.Value.Equals(rhv.Value);
         }
     }
 }

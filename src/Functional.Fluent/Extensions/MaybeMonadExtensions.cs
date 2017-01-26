@@ -116,6 +116,17 @@ namespace Functional.Fluent.Extensions
             ? MaybeEnumerable<TInput>.Empty
             : new MaybeEnumerableConditionalApplicator<TInput>(o, evaluator, action, true);
 
+        public static Maybe<TOutput> WithIf<TInput, TOutput>(this Maybe<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TOutput> selector, Func<TInput, TOutput> elseSelector = null) =>
+            o == null || !o.HasValue
+            ? Maybe<TOutput>.Nothing
+            : (evaluator(o.Value) ? new Maybe<TOutput>(selector(o.Value)) : (elseSelector != null ? new Maybe<TOutput>(elseSelector(o)) : Maybe<TOutput>.Nothing));
+
+        public static Maybe<TOutput> WithUnless<TInput, TOutput>(this Maybe<TInput> o, Func<TInput, bool> evaluator, Func<TInput, TOutput> selector, Func<TInput, TOutput> elseSelector = null) =>
+            o == null || !o.HasValue
+            ? Maybe<TOutput>.Nothing
+            : (!evaluator(o.Value) ? new Maybe<TOutput>(selector(o.Value)) : (elseSelector != null ? new Maybe<TOutput>(elseSelector(o)) : Maybe<TOutput>.Nothing));
+
+
         public static Maybe<TInput> IsNull<TInput>(this Maybe<TInput> o, Func<TInput> func) =>
             o == null || !o.HasValue ? new Maybe<TInput>(func()) : o;
 
@@ -147,6 +158,8 @@ namespace Functional.Fluent.Extensions
             value.IsSucceed ? new Maybe<T>(value.Value) : Maybe<T>.Nothing;
 
         public static Maybe<T> ToMaybe<T>(this T value) => new Maybe<T>(value);
+
+        public static Maybe<T> ToMaybe<T>(this T? value) where T : struct => value == null ? Maybe<T>.Nothing : new Maybe<T>(value.Value);
 
         public static MaybeEnumerable<T> ToMaybe<T>(this IEnumerable<T> value) => new MaybeEnumerable<T>(value);
 

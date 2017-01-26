@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Functional.Fluent.Extensions;
+using Functional.Fluent.MonadicTypes;
 using NUnit.Framework;
 
 namespace FluentTests
@@ -221,6 +222,117 @@ namespace FluentTests
 
             Assert.IsTrue(maybeValue.HasValue, "maybeValue.HasValue");
             Assert.IsFalse(maybeNothing.HasValue, "maybeNothing.HasValue");
+
+            var nullableIntWithValue = maybeValue.ToNullable();
+            var nullableIntWithoutValue = maybeNothing.ToNullable();
+            Assert.NotNull(nullableIntWithValue);
+            Assert.Null(nullableIntWithoutValue);
+
         }
+
+        [Test]
+        public void TestWithIfNothing()
+        {
+            var data = Maybe<int>.Nothing;
+            var result = data.WithIf(x => x > 5, x => x * 2, x => x / 2);
+            Assert.False(result.HasValue);
+        }
+
+        [Test]
+        public void TestWithIfTrue()
+        {
+            var data = 10.ToMaybe();
+            var result = data.WithIf(x => x > 5, x => (x * 2).ToString(), x => (x / 2).ToString());
+            Assert.True(result.HasValue);
+            Assert.AreEqual("20", result.Value);
+        }
+
+        [Test]
+        public void TestWithIfFalse()
+        {
+            var data = 4.ToMaybe();
+            var result = data.WithIf(x => x > 5, x => (x * 2).ToString(), x => (x / 2).ToString());
+            Assert.True(result.HasValue);
+            Assert.AreEqual("2", result.Value);
+        }
+
+        [Test]
+        public void TestWithUnlessNothing()
+        {
+            var data = Maybe<int>.Nothing;
+            var result = data.WithUnless(x => x > 5, x => x * 2, x => x / 2);
+            Assert.False(result.HasValue);
+        }
+
+        [Test]
+        public void TestWithUnlessTrue()
+        {
+            var data = 10.ToMaybe();
+            var result = data.WithUnless(x => x > 5, x => (x * 2).ToString(), x => (x / 2).ToString());
+            Assert.True(result.HasValue);
+            Assert.AreEqual("5", result.Value);
+        }
+
+        [Test]
+        public void TestWithUnlessFalse()
+        {
+            var data = 4.ToMaybe();
+            var result = data.WithUnless(x => x > 5, x => (x * 2).ToString(), x => (x / 2).ToString());
+            Assert.True(result.HasValue);
+            Assert.AreEqual("8", result.Value);
+        }
+
+        [Test]
+        public void TestEquals()
+        {
+
+            var left = Maybe<int>.Nothing;
+            var right = Maybe<int>.Nothing;
+            Assert.True(left.Equals(right));
+
+            left = 5.ToMaybe();
+            Assert.False(left.Equals(right));
+
+            right = 5.ToMaybe();
+            Assert.True(left.Equals(right));
+        }
+
+
+        [Test]
+        public void TestEqualsOperator()
+        {
+            Maybe<int> left = null;
+            Maybe<int> right = null;
+            Assert.True(left == right);
+
+            left = Maybe<int>.Nothing;
+            right = Maybe<int>.Nothing;
+            Assert.True(left == right);
+
+            left = 5.ToMaybe();
+            Assert.False(left == right);
+
+            right = 5.ToMaybe();
+            Assert.True(left == right);
+        }
+
+        [Test]
+        public void TestNotEqualsOperator()
+        {
+            Maybe<int> left = null;
+            Maybe<int> right = null;
+            Assert.False(left != right);
+
+            left = Maybe<int>.Nothing;
+            right = Maybe<int>.Nothing;
+            Assert.False(left != right);
+
+            left = 5.ToMaybe();
+            Assert.True(left != right);
+
+            right = 5.ToMaybe();
+            Assert.False(left != right);
+        }
+
     }
 }

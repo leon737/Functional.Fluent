@@ -73,6 +73,7 @@
     <Compile Include="EitherTests.cs" />
     <Compile Include="EnumerableExtensionsTests.cs" />
     <Compile Include="ExperimentalMatcherTests.cs" />
+    <Compile Include="MaybeValueTests.cs" />
     <Compile Include="MemberAccessorTests.cs" />
     <Compile Include="OutParamsHelperTests.cs" />
     <Compile Include="PatternMatchingTests.cs" />
