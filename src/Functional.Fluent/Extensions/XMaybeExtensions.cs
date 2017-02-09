@@ -16,6 +16,15 @@ namespace Functional.Fluent.Extensions
         public static Maybe<XAttribute> Attribute(this Maybe<XElement> o, string name) => 
             o.With(x => x.Attribute(name));
 
+        public static Maybe<XElement> Element(this Maybe<XElement> o, XName name) =>
+            o.With(x => x.Element(name));
+
+        public static IEnumerable<Maybe<XElement>> Elements(this Maybe<XElement> o, XName name) =>
+            o.With(x => x.Elements(name)).Lift();
+
+        public static Maybe<XAttribute> Attribute(this Maybe<XElement> o, XName name) =>
+            o.With(x => x.Attribute(name));
+
         public static string Value(this Maybe<XElement> o) => 
             o.Return(x => x.Value, string.Empty);
 
