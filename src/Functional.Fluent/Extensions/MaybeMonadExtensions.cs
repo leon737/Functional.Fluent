@@ -294,5 +294,10 @@ namespace Functional.Fluent.Extensions
             }
             return result ?? Maybe<T>.Nothing;
         }
+
+        public static Result<Maybe<T>> Twist<T>(this Maybe<Result<T>> value) => 
+            !value.HasValue
+            ? Result.Success(Maybe<T>.Nothing)
+            : (value.Value.IsSucceed ? Result.Success(new Maybe<T>(value.Value.Value)) : Result.Fail<Maybe<T>>());
     }
 }

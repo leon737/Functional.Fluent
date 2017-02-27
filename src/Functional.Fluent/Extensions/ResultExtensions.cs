@@ -69,5 +69,12 @@ namespace Functional.Fluent.Extensions
         public static Result<T> FailThrow<T>(this Result<T> result, T exception) where T : Exception => result.Fail(() => { throw exception; });
 
         public static Result<Unit> ToResult(this bool value) => value ? Result.Success() : Result.Fail<Unit>();
+
+        public static Maybe<Result<T>> Twist<T>(this Result<Maybe<T>> value) => 
+            value.IsSucceed
+            ? (value.Value.HasValue
+                ? new Maybe<Result<T>>(Result.Success(value.Value.Value))
+                : Maybe<Result<T>>.Nothing)
+            : new Maybe<Result<T>>(Result.Fail<T>());
     }
 }
