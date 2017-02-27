@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Functional.Fluent.Extensions;
+using Functional.Fluent.Helpers;
 using Functional.Fluent.MonadicTypes;
 using NUnit.Framework;
 
@@ -332,6 +333,33 @@ namespace FluentTests
 
             right = 5.ToMaybe();
             Assert.False(left != right);
+        }
+
+        [Test]
+        public void TestTwist_PositivePositive()
+        {
+            var source = new Maybe<Result<int>>(Result.Success(5));
+            var result = source.Twist().Twist();
+            Assert.True(result.HasValue, "source.HasValue");
+            Assert.True(result.Value.IsSucceed, "source.Value.IsSucceed");
+            Assert.AreEqual(source.Value.Value, result.Value.Value);
+        }
+
+        [Test]
+        public void TestTwist_PositiveNegative()
+        {
+            var source = new Maybe<Result<int>>(Result.Fail<int>());
+            var result = source.Twist().Twist();
+            Assert.True(result.HasValue, "source.HasValue");
+            Assert.True(result.Value.IsFailed, "source.Value.IsFailed");
+        }
+
+        [Test]
+        public void TestTwist_Negative()
+        {
+            var source = Maybe<Result<int>>.Nothing;
+            var result = source.Twist().Twist();
+            Assert.False(result.HasValue, "source.HasValue");
         }
 
     }

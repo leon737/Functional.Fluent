@@ -154,5 +154,32 @@ namespace FluentTests
             Assert.IsFalse(result.IsSucceed);
             Assert.AreEqual("error", result.ErrorValue);
         }
+
+        [Test]
+        public void TestTwist_PositivePositive()
+        {
+            var source = Result.Success(5.ToMaybe());
+            var result = source.Twist().Twist();
+            Assert.True(result.IsSucceed, "source.IsSucceed");
+            Assert.True(result.Value.HasValue, "source.Value.HasValue");
+            Assert.AreEqual(source.Value.Value, result.Value.Value);
+        }
+
+        [Test]
+        public void TestTwist_PositiveNegative()
+        {
+            var source = Result.Success(Maybe<int>.Nothing);
+            var result = source.Twist().Twist();
+            Assert.True(result.IsSucceed, "source.IsSucceed");
+            Assert.False(result.Value.HasValue, "source.Value.HasValue");
+        }
+
+        [Test]
+        public void TestTwist_Negative()
+        {
+            var source = Result.Fail<Maybe<int>>();
+            var result = source.Twist().Twist();
+            Assert.True(result.IsFailed, "source.IsFailed");
+        }
     }
 }
