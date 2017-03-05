@@ -80,6 +80,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="MemberAccessor.cs" />
+    <Compile Include="MonadicTypes\Bound.cs" />
     <Compile Include="MonadicTypes\FuncState1.cs">
       <DependentUpon>FuncState.tt</DependentUpon>
       <AutoGen>True</AutoGen>

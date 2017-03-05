@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="AdvancedMaybeTests.cs" />
     <Compile Include="AutoValueTests.cs" />
+    <Compile Include="BoundTests.cs" />
     <Compile Include="DisposableTests.cs" />
     <Compile Include="EitherTests.cs" />
     <Compile Include="EnumerableExtensionsTests.cs" />
