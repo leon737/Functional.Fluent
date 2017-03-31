@@ -1,4 +1,7 @@
-﻿using Functional.Fluent.Extensions;
+﻿using System;
+using Functional.Fluent.Extensions;
+using Functional.Fluent.Helpers;
+using Functional.Fluent.MonadicTypes;
 using NUnit.Framework;
 
 namespace FluentTests
@@ -22,6 +25,21 @@ namespace FluentTests
             var n = m.Map(x => x * 2, x => x + 2);
             Assert.AreEqual(12, n.Value);
             Assert.AreEqual(typeof(int), n.WrappedType);
+        }
+
+        [Test]
+        public void TestUnwrapAll()
+        {
+            var wrappedValue = new TrackValue<int>(10).ToMaybe().ToM();
+            var result = wrappedValue.UnwrapAll<int>();
+            Assert.AreEqual(10, result);
+        }
+
+        [Test]
+        public void TestUnwrapAllInvalidCast()
+        {
+            var wrappedValue = "hello";
+            Assert.Throws<InvalidCastException>(() => wrappedValue.UnwrapAll<int>());
         }
     }
 }

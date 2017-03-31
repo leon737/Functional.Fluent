@@ -53,7 +53,13 @@
     <Compile Include="AutoValues\AutoValueULongRandomGenerator.cs" />
     <Compile Include="AutoValues\IAutoValueGenerator.cs" />
     <Compile Include="Extensions\BoolExtensions.cs" />
+    <Compile Include="Extensions\MonadicValueExtensions1.cs">
+      <DependentUpon>MonadicValueExtensions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Extensions\PatternMatchingExtensions.cs" />
+    <Compile Include="Extensions\TrackValueExtensions.cs" />
     <Compile Include="Helpers\AggregateCollectionResult.cs" />
     <Compile Include="Helpers\Disposable.cs" />
     <Compile Include="Helpers\Either.cs" />
@@ -87,6 +93,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="MonadicTypes\FuncState.cs" />
+    <Content Include="Extensions\MonadicValueExtensions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MonadicValueExtensions1.cs</LastGenOutput>
+    </Content>
     <Content Include="Extensions\FuncStateExtensions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FuncStateExtensions.cs</LastGenOutput>
@@ -110,6 +120,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Result.tt</DependentUpon>
     </Compile>
+    <Compile Include="MonadicTypes\TrackValue.cs" />
     <Compile Include="ObjectMemberAccessor.cs" />
     <Compile Include="Pattern\Case.cs" />
     <Compile Include="Pattern\Experimental\ExperimentalMatcherFactory.cs" />

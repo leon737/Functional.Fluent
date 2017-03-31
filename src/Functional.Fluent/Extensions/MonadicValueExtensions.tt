@@ -1,0 +1,37 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ include file="../Core.tt"  #>
+
+using Functional.Fluent.MonadicTypes;
+
+namespace Functional.Fluent.Extensions
+{
+
+	public static partial class MonadicValueExtensions
+    {
+
+	
+
+	}
+}
+
+<#+
+
+    public string NestedMonadicValues(int c)
+    {
+		string result = "T";
+		for (int i = 0; i < c; ++i)
+			result = $"MonadicValue<{result}>";
+		return result;
+    }
+
+	public string ChainedCalls(int c, string callName)
+    {
+		string result = "";
+		for (int i = 0; i < c; ++i)
+			result += "." + callName;
+		return result;
+    }
+
+#>

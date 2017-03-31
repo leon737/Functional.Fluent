@@ -6,7 +6,7 @@ using Functional.Fluent.Pattern;
 
 namespace Functional.Fluent.Extensions
 {
-    public static class MonadicValueExtensions
+    public static partial class MonadicValueExtensions
     {
 
         public static MonadicValue<TResult> Bind<TInput, TResult>(this MonadicValue<TInput> o, Func<TInput, MonadicValue<TResult>> f) => f(o.Value);
@@ -60,5 +60,20 @@ namespace Functional.Fluent.Extensions
         public static Func<T, V> RCompose<T, U, V>(this Func<U, V> f, Func<T, U> g) => x => f(g(x));
 
         public static Func<T, V> Compose<T, U, V>(this Func<T, U> f, Func<U, V> g) => x => g(f(x));
+
+        public static T UnwrapAll<T>(this object value)
+        {
+            while (true)
+            {
+                var type = value.GetType();
+
+                if (type == typeof(T))
+                    return (T) value;
+
+                if (!type.IsGenericType || typeof(MonadicValue<>).IsAssignableFrom(type)) throw new InvalidCastException();
+
+                value = type.GetProperty(nameof(MonadicValue<object>.Value)).GetValue(value);
+            }
+        }
     }
 }
