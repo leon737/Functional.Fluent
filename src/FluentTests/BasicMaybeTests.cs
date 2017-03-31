@@ -109,19 +109,19 @@ namespace FluentTests
             var result = new MyClass {StringField = "hello"}.ToMaybe().
                 With(x => x.StringField)
                 .ApplyIf(x => x.Length > 5, x => new string(x.Reverse().ToArray()))
-                .IsNull("");
+                .Default("");
             Assert.AreEqual("hello", result.Value);
 
             result = new MyClass { StringField = "hello!" }.ToMaybe().
                 With(x => x.StringField)
                 .ApplyIf(x => x.Length > 5, x => new string(x.Reverse().ToArray()))
-                .IsNull("");
+                .Default("");
             Assert.AreEqual("!olleh", result.Value);
 
             result = new MyClass().ToMaybe().
                 With(x => x.StringField)
                 .ApplyIf(x => x.Length > 5, x => new string(x.Reverse().ToArray()))
-                .IsNull("");
+                .Default("");
             Assert.AreEqual("", result.Value);
         }
 
@@ -131,19 +131,19 @@ namespace FluentTests
             var result = new MyClass { StringField = "hello" }.ToMaybe().
                 With(x => x.StringField)
                 .ApplyUnless(x => x.Length > 5, x => new string(x.Reverse().ToArray()))
-                .IsNull("");
+                .Default("");
             Assert.AreEqual("olleh", result.Value);
 
             result = new MyClass { StringField = "hello!" }.ToMaybe().
                 With(x => x.StringField)
                 .ApplyUnless(x => x.Length > 5, x => new string(x.Reverse().ToArray()))
-                .IsNull("");
+                .Default("");
             Assert.AreEqual("hello!", result.Value);
 
             result = new MyClass().ToMaybe().
                 With(x => x.StringField)
                 .ApplyUnless(x => x.Length > 5, x => new string(x.Reverse().ToArray()))
-                .IsNull("");
+                .Default("");
             Assert.AreEqual("", result.Value);
         }
 
@@ -152,12 +152,12 @@ namespace FluentTests
         {
             var result = new MyClass { StringField = "hello" }.ToMaybe().
                 With(x => x.StringField)
-                .IsNull("default");
+                .Default("default");
             Assert.AreEqual("hello", result.Value);
 
             result = new MyClass().ToMaybe().
                 With(x => x.StringField)
-                .IsNull("default");
+                .Default("default");
             Assert.AreEqual("default", result.Value);
         }
 
@@ -166,12 +166,12 @@ namespace FluentTests
         {
             var result = new MyClass { StringField = "hello" }.ToMaybe().
                 With(x => x.StringField)
-                .IsNull(() => "default");
+                .Default(() => "default");
             Assert.AreEqual("hello", result.Value);
 
             result = new MyClass().ToMaybe().
                 With(x => x.StringField)
-                .IsNull(() => "default");
+                .Default(() => "default");
             Assert.AreEqual("default", result.Value);
         }
 
@@ -180,22 +180,22 @@ namespace FluentTests
         {
             var result = new MyClass {StringField = "hello", StringField2 = "world"}.ToMaybe()
                 .SelectOne(x => x.With(z => z.StringField), x => x.With(z => z.StringField2))
-                .IsNull("default");
+                .Default("default");
             Assert.AreEqual("hello", result.Value);
 
             result = new MyClass { StringField = "hello" }.ToMaybe()
                 .SelectOne(x => x.With(z => z.StringField), x => x.With(z => z.StringField2))
-                .IsNull("default");
+                .Default("default");
             Assert.AreEqual("hello", result.Value);
 
             result = new MyClass { StringField2 = "world" }.ToMaybe()
                 .SelectOne(x => x.With(z => z.StringField), x => x.With(z => z.StringField2))
-                .IsNull("default");
+                .Default("default");
             Assert.AreEqual("world", result.Value);
 
             result = new MyClass().ToMaybe()
                 .SelectOne(x => x.With(z => z.StringField), x => x.With(z => z.StringField2))
-                .IsNull("default");
+                .Default("default");
             Assert.AreEqual("default", result.Value);
         }
 

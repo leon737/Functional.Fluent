@@ -126,11 +126,18 @@ namespace Functional.Fluent.Extensions
             ? Maybe<TOutput>.Nothing
             : (!evaluator(o.Value) ? new Maybe<TOutput>(selector(o.Value)) : (elseSelector != null ? new Maybe<TOutput>(elseSelector(o)) : Maybe<TOutput>.Nothing));
 
-
+        [Obsolete("Use Default instead")]
         public static Maybe<TInput> IsNull<TInput>(this Maybe<TInput> o, Func<TInput> func) =>
             o == null || !o.HasValue ? new Maybe<TInput>(func()) : o;
 
+        [Obsolete("Use Default instead")]
         public static Maybe<TInput> IsNull<TInput>(this Maybe<TInput> o, TInput defaultValue) =>
+            o == null || !o.HasValue ? new Maybe<TInput>(defaultValue) : o;
+
+        public static Maybe<TInput> Default<TInput>(this Maybe<TInput> o, Func<TInput> func) =>
+           o == null || !o.HasValue ? new Maybe<TInput>(func()) : o;
+
+        public static Maybe<TInput> Default<TInput>(this Maybe<TInput> o, TInput defaultValue) =>
             o == null || !o.HasValue ? new Maybe<TInput>(defaultValue) : o;
 
         public static Maybe<TOutput> SelectOne<TInput, TOutput>(this Maybe<TInput> o, params Func<Maybe<TInput>, Maybe<TOutput>>[] selectors)
@@ -165,9 +172,9 @@ namespace Functional.Fluent.Extensions
 
         public static MaybeEnumerable<T> ToMaybe<T>(this IEnumerable<Maybe<T>> value) => new MaybeEnumerable<T>(value);
 
-        public static Maybe<T> ToMaybe<T>(this T value, T defaultValue) => new Maybe<T>(value).IsNull(defaultValue);
+        public static Maybe<T> ToMaybe<T>(this T value, T defaultValue) => new Maybe<T>(value).Default(defaultValue);
 
-        public static Maybe<T> ToMaybe<T>(this T value, Func<T> defaultValue) => new Maybe<T>(value).IsNull(defaultValue);
+        public static Maybe<T> ToMaybe<T>(this T value, Func<T> defaultValue) => new Maybe<T>(value).Default(defaultValue);
 
         public static Result<T> ToResult<T>(this Maybe<T> value)
             => value?.HasValue ?? false ? Result.Success(value.Value) : Result.Fail<T>();
