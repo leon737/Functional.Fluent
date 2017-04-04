@@ -7,6 +7,6 @@ namespace Functional.Fluent.Extensions
     {
         public static TrackValue<T> With<T>(this TrackValue<T> value, Func<T, T> func) => value == null 
             ? null 
-            : new TrackValue<T>(value.Value, func(value), value.ValueTracker, value.ValueHashCode, true);
+            : new TrackValue<T>(value.Value, func(value), value.ValueTracker, true);
     }
 }
