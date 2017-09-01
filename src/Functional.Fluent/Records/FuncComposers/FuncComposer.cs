@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Functional.Fluent.Records.Factories;
@@ -23,10 +24,18 @@ namespace Functional.Fluent.Records.FuncComposers
         {
             var state = _visitor.InitializeState(typeof(TType));
             state = ProcessType(state, typeof(TType));
-            var p = Expression.Parameter(typeof(Record<TType>));
-            var cast = Expression.Convert(p, typeof(TType));
-            var call = Expression.Invoke(state.Return(), cast);
-            var lambda = Expression.Lambda<TFunc>(call, true, p);
+            var expression = state.Return();
+            var parameters = new List<ParameterExpression>();
+            var casts = new List<Expression>();
+            for (var i = 0; i < expression.Parameters.Count; ++i)
+            {
+                var p = Expression.Parameter(typeof(Record<TType>));
+                parameters.Add(p);
+                var cast = Expression.Convert(p, typeof(TType));
+                casts.Add(cast);
+            }
+            var call = Expression.Invoke(state.Return(), casts.ToArray());
+            var lambda = Expression.Lambda<TFunc>(call, true, parameters.ToArray());
             return lambda;
         }
 

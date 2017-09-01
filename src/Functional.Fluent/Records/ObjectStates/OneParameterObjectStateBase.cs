@@ -23,6 +23,6 @@ namespace Functional.Fluent.Records.ObjectStates
 
         public ParameterExpression Target => _Target;
 
-        public Expression Return() => Expression.Lambda(_Expression, true, _Target);
+        public LambdaExpression Return() => Expression.Lambda(_Expression, true, _Target);
     }
 }

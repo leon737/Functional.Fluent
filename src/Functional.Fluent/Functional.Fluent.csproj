@@ -183,6 +183,7 @@
     </Compile>
     <Compile Include="Pattern\TypeMatcher.cs" />
     <Compile Include="Pattern\TypeMatcherContext.cs" />
+    <Compile Include="Records\Factories\EqualityFuncFactory.cs" />
     <Compile Include="Records\Factories\ToStringFuncFactory.cs" />
     <Compile Include="Records\Factories\IFuncFactory.cs" />
     <Compile Include="Records\Factories\GetHashCodeFuncFactory.cs" />
@@ -190,7 +191,9 @@
     <Compile Include="Records\FuncComposers\IFuncComposer.cs" />
     <Compile Include="Records\ObjectStates\GetHashCodeObjectState.cs" />
     <Compile Include="Records\ObjectStates\OneParameterObjectStateBase.cs" />
+    <Compile Include="Records\ObjectStates\EqualityObjectState.cs" />
     <Compile Include="Records\ObjectStates\ToStringObjectState.cs" />
+    <Compile Include="Records\ObjectVisitors\EqualityVisitor.cs" />
     <Compile Include="Records\ObjectVisitors\ToStringVisitor.cs" />
     <Compile Include="Records\ObjectVisitors\GetHashCodeVisitor.cs" />
     <Compile Include="Records\ObjectVisitors\IObjectVisitor.cs" />

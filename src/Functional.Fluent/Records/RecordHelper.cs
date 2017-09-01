@@ -16,6 +16,7 @@ namespace Functional.Fluent.Records
         {
             _GetHashCodeFunc = new FuncComposer<T, Func<Record<T>, int>>(new GetHashCodeFuncFactory()).Compose().Compile();
             _ToStringFunc = new FuncComposer<T, Func<Record<T>, string>>(new ToStringFuncFactory()).Compose().Compile();
+            _EqualityFunc = new FuncComposer<T, Func<Record<T>, Record<T>, bool>>(new EqualityFuncFactory()).Compose().Compile();
         }
 
         public static Func<Record<T>, int> ComposeGetHashCodeFunc() => _GetHashCodeFunc;

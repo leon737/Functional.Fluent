@@ -7,8 +7,6 @@ namespace Functional.Fluent.Records.ObjectStates
     {
         IObjectState Update(IObjectDataMember objectDataMember);
 
-        ParameterExpression Target { get; }
-
-        Expression Return();
+        LambdaExpression Return();
     }
 }
