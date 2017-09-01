@@ -81,6 +81,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MaybeEnumerableTests.cs" />
     <Compile Include="BasicMaybeTests.cs" />
+    <Compile Include="Records\ToStringFuncTests.cs" />
+    <Compile Include="Records\GetHashCodeFuncTests.cs" />
+    <Compile Include="Records\SimpleType.cs" />
     <Compile Include="ResultTests.cs" />
     <Compile Include="FuncsConstructorTests.cs" />
     <Compile Include="FuncStateTests.cs" />
@@ -97,6 +100,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

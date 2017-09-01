@@ -183,6 +183,24 @@
     </Compile>
     <Compile Include="Pattern\TypeMatcher.cs" />
     <Compile Include="Pattern\TypeMatcherContext.cs" />
+    <Compile Include="Records\Factories\ToStringFuncFactory.cs" />
+    <Compile Include="Records\Factories\IFuncFactory.cs" />
+    <Compile Include="Records\Factories\GetHashCodeFuncFactory.cs" />
+    <Compile Include="Records\FuncComposers\FuncComposer.cs" />
+    <Compile Include="Records\FuncComposers\IFuncComposer.cs" />
+    <Compile Include="Records\ObjectStates\GetHashCodeObjectState.cs" />
+    <Compile Include="Records\ObjectStates\OneParameterObjectStateBase.cs" />
+    <Compile Include="Records\ObjectStates\ToStringObjectState.cs" />
+    <Compile Include="Records\ObjectVisitors\ToStringVisitor.cs" />
+    <Compile Include="Records\ObjectVisitors\GetHashCodeVisitor.cs" />
+    <Compile Include="Records\ObjectVisitors\IObjectVisitor.cs" />
+    <Compile Include="Records\ObjectStates\IObjectState.cs" />
+    <Compile Include="Records\ObjectWalkers\IObjectDataMember.cs" />
+    <Compile Include="Records\ObjectWalkers\IObjectWalker.cs" />
+    <Compile Include="Records\ObjectWalkers\ObjectDataMember.cs" />
+    <Compile Include="Records\ObjectWalkers\SimpleObjectWalker.cs" />
+    <Compile Include="Records\Record.cs" />
+    <Compile Include="Records\RecordHelper.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="Extensions\XMaybeExtensions.cs" />
     <Content Include="Helpers\Funcs.tt">
