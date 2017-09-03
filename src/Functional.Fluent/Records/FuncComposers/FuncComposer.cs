@@ -34,7 +34,7 @@ namespace Functional.Fluent.Records.FuncComposers
                 var cast = Expression.Convert(p, typeof(TType));
                 casts.Add(cast);
             }
-            var call = Expression.Invoke(state.Return(), casts.ToArray());
+            var call = Expression.Invoke(expression, casts.ToArray());
             var lambda = Expression.Lambda<TFunc>(call, true, parameters.ToArray());
             return lambda;
         }
