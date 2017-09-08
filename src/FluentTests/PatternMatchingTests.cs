@@ -565,7 +565,34 @@ namespace FluentTests
                 .Do();
 
             Assert.IsNull( result);
-           
+        }
+
+        [Test]
+        public void TestMatch_When_ExceptionThrownInAction_Then_ShouldThrowSameException()
+        {
+            var m = "bird".Match()
+               .With(x => x == "fox", x => x + " can run")
+               .With(x => x == "bird", x =>
+               {
+                   throw new ApplicationException("My customized exception");
+               });
+
+            Assert.That(() => m.Do(), Throws.TypeOf<ApplicationException>().With.Message.EqualTo("My customized exception"));
+        }
+
+        [Test]
+        public void Test_TypeMatch_When_ExceptionThrownInAction_Then_ShouldThrowSameException()
+        {
+            var f = new Func<string, string>(_ =>
+            {
+                throw new ApplicationException("My customized exception");
+            });
+
+            var matcher = ((object) "string").TypeMatch()
+                .With(Case.Is<StringBuilder>(), s => s.ToString())
+                .With(Case.Is<string>(), s => f(s));
+
+            Assert.That(() => matcher.Do(), Throws.TypeOf<ApplicationException>().With.Message.EqualTo("My customized exception"));
         }
 
     }

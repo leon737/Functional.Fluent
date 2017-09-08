@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Functional.Fluent.Pattern
 {
@@ -71,7 +72,16 @@ namespace Functional.Fluent.Pattern
             if (lambdaExpression != null)
             {
                 var func = lambdaExpression.Compile();
-                return (TU)func.DynamicInvoke(value);
+                try
+                {
+                    return (TU) func.DynamicInvoke(value);
+                }
+                catch (TargetInvocationException ex)
+                {
+                    if (ex.InnerException != null)
+                        throw ex.InnerException;
+                    throw;
+                }
             }
             var unaryExpression = expression as UnaryExpression;
             if (unaryExpression?.NodeType == ExpressionType.Throw)
