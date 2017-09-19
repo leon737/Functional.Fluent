@@ -10,14 +10,16 @@ namespace Functional.Fluent.Records.ObjectWalkers
     {
         private readonly MemberInfo _memberInfo;
 
-        public ObjectDataMember(PropertyInfo propertyInfo)
+        public ObjectDataMember(PropertyInfo propertyInfo, IObjectWalker walker)
         {
             _memberInfo = propertyInfo;
+            Walker = walker;
         }
 
-        public ObjectDataMember(FieldInfo fieldInfo)
+        public ObjectDataMember(FieldInfo fieldInfo, IObjectWalker walker)
         {
             _memberInfo = fieldInfo;
+            Walker = walker;
         }
 
         public string MemberName => _memberInfo.Name;
@@ -34,5 +36,7 @@ namespace Functional.Fluent.Records.ObjectWalkers
             .With(Case.Is<FieldInfo>(), v => v.FieldType)
             .With(Case.Is<PropertyInfo>(), v => v.PropertyType)
             .Do();
+
+        public IObjectWalker Walker { get; }
     }
 }

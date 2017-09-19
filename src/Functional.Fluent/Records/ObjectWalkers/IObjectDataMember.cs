@@ -10,5 +10,7 @@ namespace Functional.Fluent.Records.ObjectWalkers
         Expression GetValueExpression(Expression target);
 
         Type MemberType { get; }
+
+        IObjectWalker Walker { get; }
     }
 }

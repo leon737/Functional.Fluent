@@ -20,8 +20,8 @@ namespace Functional.Fluent.Records.ObjectWalkers
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy;
             var result = new List<ObjectDataMember>();
-            result.AddRange(type.GetFields(flags).Select(v => new ObjectDataMember(v)));
-            result.AddRange(type.GetProperties(flags).Select(v => new ObjectDataMember(v)));
+            result.AddRange(type.GetFields(flags).Select(v => new ObjectDataMember(v, this)));
+            result.AddRange(type.GetProperties(flags).Select(v => new ObjectDataMember(v, this)));
 
             return result;
         }

@@ -70,6 +70,7 @@
     <Compile Include="Extensions\NumericExtensions.cs" />
     <Compile Include="Extensions\MemoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Helpers\ExpressionBuilder.cs" />
     <Compile Include="Helpers\Funcs.cs" />
     <Compile Include="Helpers\Funcs1.cs">
       <DependentUpon>Funcs.tt</DependentUpon>

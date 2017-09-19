@@ -26,6 +26,6 @@ namespace Functional.Fluent.Records.ObjectStates
         }
 
         private MethodInfo GetHashCodeMethodInfo(IObjectDataMember objectDataMember) => 
-            objectDataMember.MemberType.GetMethod(nameof(GetHashCode));
+            typeof(object).GetMethod(nameof(GetHashCode));
     }
 }

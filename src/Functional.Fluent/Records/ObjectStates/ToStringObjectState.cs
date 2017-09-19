@@ -1,47 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 using Functional.Fluent.Extensions;
+using Functional.Fluent.Helpers;
 using Functional.Fluent.Records.ObjectWalkers;
-using System.Linq;
+using static System.Linq.Expressions.Expression;
 
 namespace Functional.Fluent.Records.ObjectStates
 {
     internal class ToStringObjectState : OneParameterObjectStateBase
     {
-        private static readonly IEnumerable<MethodInfo> StringConcatMethods =
-            typeof(string).GetMethods().Where(x => x.Name == nameof(string.Concat));
-
+        private static readonly IEnumerable<MethodInfo> StringConcatMethods = typeof(string).GetMethods().Where(x => x.Name == nameof(string.Concat));
         private static readonly Func<MethodInfo, int, bool> Predicate = (x, n) => x.GetParameters().Length == n;
-
-        private static readonly MethodInfo StringConcat3StringsMethod = StringConcatMethods.First(Predicate.RPartial(3));
-
         private static readonly MethodInfo StringConcat2StringsMethod = StringConcatMethods.First(Predicate.RPartial(2));
+        private static readonly Type StringBuilderType = typeof(StringBuilder);
+        private static readonly Type StringType = typeof(string);
 
-        public ToStringObjectState(Type type) : base(Expression.Constant(string.Empty), Expression.Parameter(type)) { }
+        private const string Tab = "\t";
+        private const string NewLine = "\r\n";
+        private const string AppendLine = "AppendLine";
+
+        public ToStringObjectState(Type type) : base(Constant(string.Empty), Parameter(type)) { }
 
         private ToStringObjectState(Expression expression, ParameterExpression target) : base(expression, target) { }
 
         public override IObjectState Update(IObjectDataMember objectDataMember)
         {
-            Expression callExpression = Expression.Call(objectDataMember.GetValueExpression(_Target),GeToStringMethodInfo(objectDataMember));
-            var memberNameExpression = Expression.Constant(objectDataMember.MemberName + " : ");
-            var endOfLineExpression = Expression.Constant("\r\n");
+            var tabExpression = Constant(Tab);
+            var callExpression = MakeIndentExpression(Call(StringConcat2StringsMethod, tabExpression, 
+                Call(objectDataMember.GetValueExpression(_Target), GetToStringMethodInfo(objectDataMember))));
+            Expression memberNameExpression = Constant(objectDataMember.MemberName + " :");
+            var endOfLineExpression = Constant(NewLine);
+            var typeExpression = objectDataMember.Walker.CanExpand(objectDataMember.MemberType) && Nullable.GetUnderlyingType(objectDataMember.MemberType) == null
+                ? Call(StringConcat2StringsMethod, Constant($"{Tab}<{objectDataMember.MemberType.Name}>"), endOfLineExpression)
+                : null;
+
+            if (typeExpression != null)
+                memberNameExpression = Call(StringConcat2StringsMethod, memberNameExpression, typeExpression);
+
             if (Nullable.GetUnderlyingType(objectDataMember.MemberType) != null || !objectDataMember.MemberType.IsValueType)
             {
-                callExpression = Expression.Condition(Expression.NotEqual(objectDataMember.GetValueExpression(_Target),
-                    Expression.Constant(null, objectDataMember.MemberType)), callExpression, Expression.Constant("(null)"));
+                callExpression = Condition(NotEqual(objectDataMember.GetValueExpression(_Target),
+                    Constant(null, objectDataMember.MemberType)), callExpression, Constant($"{Tab}(null){NewLine}"));
             }
-            var lineExpression = Expression.Call(null, StringConcat3StringsMethod, memberNameExpression, callExpression,
-                endOfLineExpression);
-                
-
-           var concatLinesExpression = Expression.Call(StringConcat2StringsMethod, _Expression, lineExpression);
+            var lineExpression = Call(StringConcat2StringsMethod, memberNameExpression, callExpression);
+            var concatLinesExpression = Call(StringConcat2StringsMethod, _Expression, lineExpression);
             return new ToStringObjectState(concatLinesExpression, _Target);
         }
 
-        private MethodInfo GeToStringMethodInfo(IObjectDataMember objectDataMember) =>
-            objectDataMember.MemberType.GetMethods().First(x => x.Name == nameof(ToString) && !x.GetParameters().Any());
+        private MethodInfo GetToStringMethodInfo(IObjectDataMember objectDataMember) =>
+            typeof(object).GetMethods().First(x => x.Name == nameof(ToString) && !x.GetParameters().Any());
+
+        private Expression MakeIndentExpression(Expression expression)
+        {
+            var tabExpression = Constant(Tab);
+            var splitter = Call(expression,
+                StringType.GetMethod(nameof(string.Split), new[] { typeof(string[]), typeof(StringSplitOptions) }),
+                    Constant(new[] {NewLine}),
+                    Constant(StringSplitOptions.None)
+
+                );
+            var accumulator = Variable(StringBuilderType);
+            var accumulatorInit = Assign(accumulator, New(StringBuilderType));
+            var loopVar = Parameter(StringType);
+            var skipVar = Variable(typeof(bool));
+            var loopBody = Block(Call(accumulator, StringBuilderType.GetMethod(AppendLine, new[] { StringType }),
+                Condition(IsTrue(skipVar), Call(StringConcat2StringsMethod, tabExpression, loopVar), loopVar)),
+                Assign(skipVar, Constant(true)));
+            var loop = ExpressionBuilder.ForEach(splitter, loopVar, loopBody);
+            var toStringCall = Call(accumulator, StringBuilderType.GetMethod(nameof(ToString), Type.EmptyTypes));
+            var target = Label(StringType);
+            var block = Block(new [] {accumulator, skipVar},  accumulatorInit, loop, Expression.Return(target, toStringCall), Label(target, Constant(string.Empty)));
+            return block;
+        }
     }
 }
