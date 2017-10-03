@@ -10,11 +10,14 @@ namespace Functional.Fluent.Records
 
         protected readonly Func<Record<T>, string> _ToStringFunc;
 
+        protected readonly Func<Record<T>, Record<T>, T> _MergeFunc;
+
         protected Record()
         {
             _GetHashCodeFunc = RecordHelper<T>.ComposeGetHashCodeFunc();
             _EqualityFunc = RecordHelper<T>.ComposeEqualityFunc();
             _ToStringFunc = RecordHelper<T>.ComposeToStringFunc();
+            _MergeFunc = RecordHelper<T>.ComposeMergeFunc();
         }
 
         public override int GetHashCode() => _GetHashCodeFunc(this);
@@ -26,5 +29,7 @@ namespace Functional.Fluent.Records
         }
 
         public override string ToString() => _ToStringFunc(this);
+
+        public T Merge(Record<T> other) => _MergeFunc(this, other);
     }
 }

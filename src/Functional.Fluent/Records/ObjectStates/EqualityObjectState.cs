@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Reflection;
-using Functional.Fluent.Extensions;
 using Functional.Fluent.Records.ObjectWalkers;
-using System.Linq;
 
 namespace Functional.Fluent.Records.ObjectStates
 {

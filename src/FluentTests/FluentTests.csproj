@@ -81,6 +81,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MaybeEnumerableTests.cs" />
     <Compile Include="BasicMaybeTests.cs" />
+    <Compile Include="Records\MergeFuncTests.cs" />
     <Compile Include="Records\RecursiveComplexType.cs" />
     <Compile Include="Records\EqualityFuncTests.cs" />
     <Compile Include="Records\ComplexType.cs" />

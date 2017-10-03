@@ -1,13 +1,9 @@
-﻿using System;
-using Functional.Fluent.Records.ObjectVisitors;
-using Functional.Fluent.Records.ObjectWalkers;
+﻿using Functional.Fluent.Records.ObjectVisitors;
 
 namespace Functional.Fluent.Records.Factories
 {
-    internal class GetHashCodeFuncFactory : IFuncFactory
+    internal class GetHashCodeFuncFactory : BasicFuncFactoryBase
     {
-        public IObjectWalker CreateWalker() => new SimpleObjectWalker();
-
-        public IObjectVisitor CreateVisitor() => new GetHashCodeVisitor();
+        public override IObjectVisitor CreateVisitor() => new GetHashCodeVisitor();
     }
 }

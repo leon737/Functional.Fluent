@@ -1,13 +1,9 @@
-﻿using System;
-using Functional.Fluent.Records.ObjectVisitors;
-using Functional.Fluent.Records.ObjectWalkers;
+﻿using Functional.Fluent.Records.ObjectVisitors;
 
 namespace Functional.Fluent.Records.Factories
 {
-    internal class ToStringFuncFactory : IFuncFactory
+    internal class ToStringFuncFactory : BasicFuncFactoryBase
     {
-        public IObjectWalker CreateWalker() => new SimpleObjectWalker();
-
-        public IObjectVisitor CreateVisitor() => new ToStringVisitor();
+        public override IObjectVisitor CreateVisitor() => new ToStringVisitor();
     }
 }

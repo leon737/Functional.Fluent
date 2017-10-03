@@ -1,13 +1,9 @@
-﻿using System;
-using Functional.Fluent.Records.ObjectVisitors;
-using Functional.Fluent.Records.ObjectWalkers;
+﻿using Functional.Fluent.Records.ObjectVisitors;
 
 namespace Functional.Fluent.Records.Factories
 {
-    internal class EqualityFuncFactory : IFuncFactory
+    internal class EqualityFuncFactory : BasicFuncFactoryBase
     {
-        public IObjectWalker CreateWalker() => new SimpleObjectWalker();
-
-        public IObjectVisitor CreateVisitor() => new EqualityVisitor();
+        public override IObjectVisitor CreateVisitor() => new EqualityVisitor();
     }
 }
