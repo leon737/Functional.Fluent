@@ -93,6 +93,7 @@
     <Compile Include="FuncStateTests.cs" />
     <Compile Include="MonadicValueTests.cs" />
     <Compile Include="TrackValueTests.cs" />
+    <Compile Include="TupleExtensionsTests.cs" />
     <Compile Include="XMaybeTests.cs" />
   </ItemGroup>
   <ItemGroup>

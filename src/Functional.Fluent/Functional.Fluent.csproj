@@ -53,6 +53,11 @@
     <Compile Include="AutoValues\AutoValueULongRandomGenerator.cs" />
     <Compile Include="AutoValues\IAutoValueGenerator.cs" />
     <Compile Include="Extensions\BoolExtensions.cs" />
+    <Compile Include="Extensions\TupleExtensions1.cs">
+      <DependentUpon>TupleExtensions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Extensions\MonadicValueExtensions1.cs">
       <DependentUpon>MonadicValueExtensions.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -60,6 +65,7 @@
     </Compile>
     <Compile Include="Extensions\PatternMatchingExtensions.cs" />
     <Compile Include="Extensions\TrackValueExtensions.cs" />
+    <Compile Include="Extensions\TupleExtensions.cs" />
     <Compile Include="Helpers\AggregateCollectionResult.cs" />
     <Compile Include="Helpers\Disposable.cs" />
     <Compile Include="Helpers\Either.cs" />
@@ -94,6 +100,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="MonadicTypes\FuncState.cs" />
+    <Content Include="Extensions\TupleExtensions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TupleExtensions1.cs</LastGenOutput>
+    </Content>
     <Content Include="Extensions\MonadicValueExtensions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MonadicValueExtensions1.cs</LastGenOutput>

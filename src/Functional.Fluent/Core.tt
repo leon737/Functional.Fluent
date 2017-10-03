@@ -31,17 +31,19 @@
         return sb.ToString();
     }
 
-	public string ListParameters(int c)
+	public string ListParameters(int c, string optKeyword = "")
     {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i <= c; ++i)
         {
             if (i > 0)
                 sb.Append(", ");
-			sb.Append($"T{i+1} p{i+1}");
+			sb.Append($"{optKeyword} T{i+1} p{i+1}");
         }
         return sb.ToString();
     }
+
+
 
 	public string ListArguments(int c)
     {
