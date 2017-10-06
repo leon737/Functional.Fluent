@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using Functional.Fluent.MonadicTypes;
 
 namespace Functional.Fluent.Records.ObjectWalkers
 {
@@ -11,6 +13,10 @@ namespace Functional.Fluent.Records.ObjectWalkers
 
         Type MemberType { get; }
 
+        Type DeclaringType { get; }
+
         IObjectWalker Walker { get; }
+
+        Maybe<IEnumerable<T>> GetCustomAttributes<T>() where T : Attribute;
     }
 }

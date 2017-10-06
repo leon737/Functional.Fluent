@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Functional.Fluent.Records.Attributes;
 using Functional.Fluent.Records.ObjectWalkers;
 
 namespace Functional.Fluent.Records.ObjectStates
 {
-    internal class MergeObjectState : IObjectState
+    internal class MergeObjectState : ObjectStateBase
     {
         private readonly ParameterExpression _target;
 
@@ -42,7 +43,7 @@ namespace Functional.Fluent.Records.ObjectStates
             _type = type;
         }
 
-        public IObjectState Update(IObjectDataMember objectDataMember)
+        public override IObjectState UpdateImpl(IObjectDataMember objectDataMember)
         {
             var targetMember = objectDataMember.GetValueExpression(_target);
             var leftMember = objectDataMember.GetValueExpression(_left);
@@ -56,7 +57,7 @@ namespace Functional.Fluent.Records.ObjectStates
             return new MergeObjectState(_expressions, _target, _left, _right, _type);
         }
 
-        public LambdaExpression Return()
+        public override LambdaExpression Return()
         {
             var target = Expression.Label(_type);
             var label = Expression.Label(target, Expression.Constant(null, _type));
@@ -69,5 +70,7 @@ namespace Functional.Fluent.Records.ObjectStates
 
             return Expression.Lambda(block, true, _left, _right);
         }
+
+        public override Features Feature => Features.Merge;
     }
 }

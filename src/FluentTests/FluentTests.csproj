@@ -85,6 +85,7 @@
     <Compile Include="Records\RecursiveComplexType.cs" />
     <Compile Include="Records\EqualityFuncTests.cs" />
     <Compile Include="Records\ComplexType.cs" />
+    <Compile Include="Records\AttributedSimpleType.cs" />
     <Compile Include="Records\SimpleTypeWithCollection.cs" />
     <Compile Include="Records\ToStringFuncTests.cs" />
     <Compile Include="Records\GetHashCodeFuncTests.cs" />

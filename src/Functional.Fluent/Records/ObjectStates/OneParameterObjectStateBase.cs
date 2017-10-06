@@ -3,7 +3,7 @@ using Functional.Fluent.Records.ObjectWalkers;
 
 namespace Functional.Fluent.Records.ObjectStates
 {
-    internal abstract class OneParameterObjectStateBase : IObjectState
+    internal abstract class OneParameterObjectStateBase : ObjectStateBase
     {
         protected readonly Expression _Expression;
         protected readonly ParameterExpression _Target;
@@ -19,10 +19,8 @@ namespace Functional.Fluent.Records.ObjectStates
             _Target = target;
         }
 
-        public abstract IObjectState Update(IObjectDataMember objectDataMember);
-
         public ParameterExpression Target => _Target;
 
-        public LambdaExpression Return() => Expression.Lambda(_Expression, true, _Target);
+        public override LambdaExpression Return() => Expression.Lambda(_Expression, true, _Target);
     }
 }

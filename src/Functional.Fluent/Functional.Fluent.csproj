@@ -194,6 +194,16 @@
     </Compile>
     <Compile Include="Pattern\TypeMatcher.cs" />
     <Compile Include="Pattern\TypeMatcherContext.cs" />
+    <Compile Include="Records\Attributes\DisableEqualityAttribute.cs" />
+    <Compile Include="Records\Attributes\DisableGetHashCodeAttribute.cs" />
+    <Compile Include="Records\Attributes\DisableMergeAttribute.cs" />
+    <Compile Include="Records\Attributes\DisableTostringAttribute.cs" />
+    <Compile Include="Records\Attributes\EnableAttributeBase.cs" />
+    <Compile Include="Records\Attributes\EnableEqualityAttribute.cs" />
+    <Compile Include="Records\Attributes\EnableGetHashCodeAttribute.cs" />
+    <Compile Include="Records\Attributes\EnableMergeAttribute.cs" />
+    <Compile Include="Records\Attributes\EnableToStringAttribute.cs" />
+    <Compile Include="Records\Attributes\Features.cs" />
     <Compile Include="Records\Factories\BasicFuncFactoryBase.cs" />
     <Compile Include="Records\Factories\EqualityFuncFactory.cs" />
     <Compile Include="Records\Factories\MergeFuncFactory.cs" />
@@ -203,6 +213,7 @@
     <Compile Include="Records\FuncComposers\FuncComposer.cs" />
     <Compile Include="Records\FuncComposers\IFuncComposer.cs" />
     <Compile Include="Records\ObjectStates\GetHashCodeObjectState.cs" />
+    <Compile Include="Records\ObjectStates\ObjectStateBase.cs" />
     <Compile Include="Records\ObjectStates\OneParameterObjectStateBase.cs" />
     <Compile Include="Records\ObjectStates\EqualityObjectState.cs" />
     <Compile Include="Records\ObjectStates\MergeObjectState.cs" />

@@ -5,6 +5,9 @@
 
 using System;
 using Functional.Fluent.MonadicTypes;
+using System.Linq.Expressions;
+using System.Reflection;
+using Functional.Fluent.Pattern;
 
 namespace Functional.Fluent.Extensions
 {
@@ -22,6 +25,38 @@ namespace Functional.Fluent.Extensions
 		{
 		#>
 		p<#=j#> = tuple.Item<#=j#>;
+		<#
+		}
+		#>
+		
+		return tuple;
+	}
+
+	public static Tuple<<#= ListTypes(i) #>> Tie<<#= ListTypes(i) #>, TTarget>(this Tuple<<#= ListTypes(i) #>> tuple, TTarget target, <# for (int j = 1; j <= i + 1; ++j) { #> Expression<Func<TTarget, T<#=j#>>> member<#=j#> <# if (j < i + 1) {#>, <#}#> <#}#>) 
+	{
+		<# for (int j = 1; j <= i + 1; ++j)	
+		{
+		#>
+            (member<#=j#>.Body as MemberExpression).Member.TypeMatch()
+                .With(Case.Is<PropertyInfo>(), v => SetValue(target, v, tuple.Item<#=j#>))
+                .With(Case.Is<FieldInfo>(), v => SetValue(target, v, tuple.Item<#=j#>))
+                .Do();
+		<#
+		}
+		#>
+		
+		return tuple;
+	}
+
+	public static Tuple<<#= ListTypes(i) #>> Tie<<#= ListTypes(i) #>, <# for (int j = 1; j <= i + 1; ++j) { #> TTarget<#=j#> <# if (j < i + 1) {#>, <#}#>   <#}#>>(this Tuple<<#= ListTypes(i) #>> tuple, <# for (int j = 1; j <= i + 1; ++j) { #> TTarget<#=j#> target<#=j#>, Expression<Func<TTarget<#=j#>, T<#=j#>>> member<#=j#> <# if (j < i + 1) {#>, <#}#> <#}#>) 
+	{
+		<# for (int j = 1; j <= i + 1; ++j)	
+		{
+		#>
+            (member<#=j#>.Body as MemberExpression).Member.TypeMatch()
+                .With(Case.Is<PropertyInfo>(), v => SetValue(target<#=j#>, v, tuple.Item<#=j#>))
+                .With(Case.Is<FieldInfo>(), v => SetValue(target<#=j#>, v, tuple.Item<#=j#>))
+                .Do();
 		<#
 		}
 		#>

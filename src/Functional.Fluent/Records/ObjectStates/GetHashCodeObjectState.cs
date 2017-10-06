@@ -1,6 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using Functional.Fluent.Records.Attributes;
 using Functional.Fluent.Records.ObjectWalkers;
 
 namespace Functional.Fluent.Records.ObjectStates
@@ -12,7 +13,7 @@ namespace Functional.Fluent.Records.ObjectStates
 
         private GetHashCodeObjectState(Expression expression, ParameterExpression target) : base(expression, target) { }
 
-        public override IObjectState Update(IObjectDataMember objectDataMember)
+        public override IObjectState UpdateImpl(IObjectDataMember objectDataMember)
         {
             Expression callExpression = Expression.Call(objectDataMember.GetValueExpression(_Target), GetHashCodeMethodInfo(objectDataMember));
             if (Nullable.GetUnderlyingType(objectDataMember.MemberType) != null || !objectDataMember.MemberType.IsValueType)
@@ -27,5 +28,7 @@ namespace Functional.Fluent.Records.ObjectStates
 
         private MethodInfo GetHashCodeMethodInfo(IObjectDataMember objectDataMember) => 
             typeof(object).GetMethod(nameof(GetHashCode));
+
+        public override Features Feature => Features.GetHashCode;
     }
 }

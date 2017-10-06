@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Functional.Fluent.Extensions;
+using Functional.Fluent.MonadicTypes;
 using Functional.Fluent.Pattern;
 
 namespace Functional.Fluent.Records.ObjectWalkers
@@ -37,6 +40,9 @@ namespace Functional.Fluent.Records.ObjectWalkers
             .With(Case.Is<PropertyInfo>(), v => v.PropertyType)
             .Do();
 
+        public Type DeclaringType => _memberInfo.DeclaringType;
+
         public IObjectWalker Walker { get; }
+        public Maybe<IEnumerable<T>> GetCustomAttributes<T>() where T:Attribute => _memberInfo.GetCustomAttributes((typeof(T))).ToMaybeNonEmpty().With(v => v.Select(x => (T)x));
     }
 }

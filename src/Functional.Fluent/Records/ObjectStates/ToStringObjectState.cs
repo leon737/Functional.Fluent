@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using Functional.Fluent.Extensions;
 using Functional.Fluent.Helpers;
+using Functional.Fluent.Records.Attributes;
 using Functional.Fluent.Records.ObjectWalkers;
 using static System.Linq.Expressions.Expression;
 
@@ -27,7 +28,7 @@ namespace Functional.Fluent.Records.ObjectStates
 
         private ToStringObjectState(Expression expression, ParameterExpression target) : base(expression, target) { }
 
-        public override IObjectState Update(IObjectDataMember objectDataMember)
+        public override IObjectState UpdateImpl(IObjectDataMember objectDataMember)
         {
             var tabExpression = Constant(Tab);
             var callExpression = MakeIndentExpression(Call(StringConcat2StringsMethod, tabExpression, 
@@ -76,5 +77,7 @@ namespace Functional.Fluent.Records.ObjectStates
             var block = Block(new [] {accumulator, skipVar},  accumulatorInit, loop, Expression.Return(target, toStringCall), Label(target, Constant(string.Empty)));
             return block;
         }
+
+        public override Features Feature => Features.ToString;
     }
 }
