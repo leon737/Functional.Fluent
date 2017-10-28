@@ -8,6 +8,7 @@ The library supports the following:
 - [Monadic value](https://github.com/leon737/Functional.Fluent/wiki/Monadic-value)
 - [Pattern matching](https://github.com/leon737/Functional.Fluent/wiki/Pattern-matching)
 - [Record types](https://github.com/leon737/Functional.Fluent/wiki/Record-types)
+- [Enumerable extensions](https://github.com/leon737/Functional.Fluent/wiki/Enumerable-extensions)
 - [Tuple extensions](https://github.com/leon737/Functional.Fluent/wiki/Tuple-extensions)
 - [IDisposable objects `using` chaining](https://github.com/leon737/Functional.Fluent/wiki/Disposable-types'-helper)
 - [Functions currying and partial application](https://github.com/leon737/Functional.Fluent/wiki/Functions'-extensions)

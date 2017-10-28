@@ -53,6 +53,11 @@
     <Compile Include="AutoValues\AutoValueULongRandomGenerator.cs" />
     <Compile Include="AutoValues\IAutoValueGenerator.cs" />
     <Compile Include="Extensions\BoolExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions1.cs">
+      <DependentUpon>EnumerableExtensions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Extensions\TupleExtensions1.cs">
       <DependentUpon>TupleExtensions.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -100,6 +105,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="MonadicTypes\FuncState.cs" />
+    <Content Include="Extensions\EnumerableExtensions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EnumerableExtensions1.cs</LastGenOutput>
+    </Content>
     <Content Include="Extensions\TupleExtensions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TupleExtensions1.cs</LastGenOutput>

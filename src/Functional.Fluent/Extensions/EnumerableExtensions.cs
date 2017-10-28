@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace Functional.Fluent.Extensions
 {
 
-    public static class EnumerableExtensions
+    public static partial class EnumerableExtensions
     {
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
@@ -71,6 +71,11 @@ namespace Functional.Fluent.Extensions
                 Expression<Func<T, V>> selector) =>
             collection.Except(other, new PropertyEqualityComparer<T, V>(selector));
 
+
+        public static IEnumerable<Tuple<T1, T2>> CrossJoin<T1, T2>(this IEnumerable<T1> collection, IEnumerable<T2> otherCollection) => collection.SelectMany(v1 => otherCollection.Select(v2 => Tuple.Create(v1, v2)));
+
+        public static IEnumerable<Tuple<T1, T2, T3>> CrossJoin<T1, T2, T3>(this IEnumerable<Tuple<T1, T2>> collection, IEnumerable<T3> otherCollection) =>
+            collection.SelectMany(v1 => otherCollection.Select(v2 => Tuple.Create(v1.Item1, v1.Item2, v2)));
 
         public enum PredicateCombination
         {

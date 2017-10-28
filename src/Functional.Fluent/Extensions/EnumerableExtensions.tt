@@ -1,0 +1,27 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ include file="../Core.tt"  #>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Functional.Fluent.Extensions
+{
+
+	public static partial class EnumerableExtensions 
+    {
+
+	<# for (int i = 2; i <= 5; ++i) {	#>
+
+	   public static IEnumerable<Tuple<<#= ListTypes(i +1)#>>> CrossJoin<<#= ListTypes(i +1)#>>(this IEnumerable<Tuple<<#= ListTypes(i)#>>> collection, IEnumerable<T<#=i+2#>> otherCollection) => 
+            collection.SelectMany(v1 => otherCollection.Select(v2 => Tuple.Create(<# for(int j = 1; j < i + 2; ++j) { #> v1.Item<#=j#>, <# } #> v2)));
+
+
+	<# } #>
+
+
+	}
+
+}

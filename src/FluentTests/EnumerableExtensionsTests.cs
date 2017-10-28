@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Functional.Fluent.Extensions;
 using NUnit.Framework;
@@ -95,6 +96,42 @@ namespace FluentTests
         {
             List<int> list = null;
             var result = list.Where(EnumerableExtensions.PredicateCombination.AndAlso, x => x > 0, x => x%2 == 0).ToList();
+        }
+
+        [Test]
+        public void TestCrossJoinTwoLists()
+        {
+            var list1 = new[] {1, 2, 3};
+            var list2 = new[] { "A", "B" };
+
+            var result = list1.CrossJoin(list2).ToList();
+
+            Assert.AreEqual(6, result.Count);
+
+            Assert.AreEqual(Tuple.Create(1, "A"), result.ElementAt(0));
+            Assert.AreEqual(Tuple.Create(1, "B"), result.ElementAt(1));
+            Assert.AreEqual(Tuple.Create(2, "A"), result.ElementAt(2));
+            Assert.AreEqual(Tuple.Create(2, "B"), result.ElementAt(3));
+            Assert.AreEqual(Tuple.Create(3, "A"), result.ElementAt(4));
+            Assert.AreEqual(Tuple.Create(3, "B"), result.ElementAt(5));
+        }
+
+        [Test]
+        public void TestCrossJoinListOfTupleAndList()
+        {
+            var list1 = new[] {Tuple.Create(1, 1.0), Tuple.Create(2, 2.0), Tuple.Create(3, 3.0)};
+            var list2 = new[] { "A", "B" };
+
+            var result = list1.CrossJoin(list2).ToList();
+
+            Assert.AreEqual(6, result.Count);
+
+            Assert.AreEqual(Tuple.Create(1, 1.0, "A"), result.ElementAt(0));
+            Assert.AreEqual(Tuple.Create(1, 1.0, "B"), result.ElementAt(1));
+            Assert.AreEqual(Tuple.Create(2, 2.0, "A"), result.ElementAt(2));
+            Assert.AreEqual(Tuple.Create(2, 2.0, "B"), result.ElementAt(3));
+            Assert.AreEqual(Tuple.Create(3, 3.0, "A"), result.ElementAt(4));
+            Assert.AreEqual(Tuple.Create(3, 3.0, "B"), result.ElementAt(5));
         }
     }
 }
