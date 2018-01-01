@@ -119,3 +119,4 @@ TestResults/
 *.nupkg
 
 Version.cs
+.vs
